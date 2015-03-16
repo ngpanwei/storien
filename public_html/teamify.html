@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="assets/css/site.css">
+	<link rel="stylesheet" href="assets/css/error.css">
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.storageapi.min.js"></script>
+	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script src="scripts/plugin/jquery.validate.min.js"></script>
+    <script src="teamify.js"></script>
+    <title>团队化</title>
+</head>
+<body>
+<div data-role="page" id="pgTeamHome" data-title="Sign In">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>团队</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+  
+  </div>
+</div>
+<div data-role="page" id="pgSignIn" data-title="Sign In">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>登入</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+      <div data-role='content' id="response"></div>
+    <form id="signInForm" class="ui-body ui-body-a ui-corner-all">
+        <label class='error' id='message'></label>
+        <div data-role='fieldcontain'>
+          <label for="email">邮箱:</label>
+          <input name="email" id="email" value="" type="text"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="password">密码:</label>
+          <input name="password" id="password" value="" type="password"></input>
+        </div>
+	    <button type="submit" data-theme="a" name="submit" 
+	            value="signin">登入</button>
+      </form>
+	        <div class="ui-block-a">
+	          <a id='register' href="#pgRegister" data-role="button">注册</a></div>
+	        <div class="ui-block-b">
+	          <a id='forget' href="#pgForgetPassword" data-role="button">修复密码</a></div>
+    </div>
+</div>
+<div data-role="page" data-title="Teamify" id="pgRegister">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>注册团成员</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+      <div data-role='content' id="response"></div>
+      <form id="registrationForm" class="ui-body ui-body-a ui-corner-all">
+        <label>让我们彼此认识</label>
+        <label class='error' id='message'></label>
+        <div data-role='fieldcontain'>
+          <label for="teamname">团队名称（请管理员提供）</label>
+          <input name="teamname" id="teamname" value="" type="text"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="username">个人名称</label>
+          <input name="username" id="username" value="" type="text"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="email">邮箱</label>
+          <input name="email" id="email" value="" type="text"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="password">密码</label>
+          <input name="password" id="password" value="" type="password"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="cpassword">确认密码:</label>
+          <input name="cpassword" id="cpassword" value="" type="password"></input>
+        </div>
+      <button type="submit" data-theme="a" name="submit" 
+            value="submit-value">提交</button>
+    </form>
+  </div>
+</div>
+<div data-role="page" id="pgForgetPassword" data-title="Reset Password">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>忘记密码</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+      <div data-role='content' id="response"></div>
+    <form id="resetPasswordForm" class="ui-body ui-body-a ui-corner-all">
+        <div data-role='fieldcontain'>
+          <label for="email">邮箱:</label>
+          <input name="email" id="email" value="" type="text"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="password">新密码:</label>
+          <input name="password" id="password" value="" type="password"></input>
+        </div>
+        <div data-role='fieldcontain'>
+          <label for="confirmPassword">确认新密码:</label>
+          <input name="confirmPassword" id="cpassword" value="" type="password"></input>
+        </div>        
+      <button type="submit" data-theme="a" name="submit" 
+            value="submit-value">修复密码</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
