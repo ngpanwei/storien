@@ -64,15 +64,16 @@ class SignInHandler {
 	}
 	function process() {
 		$user = $this->getUserbyEmail() ;
+		$vo = new ResultVO() ;
 		if($user==null) {
-			$vo = new ResultVO() ;
+			
 			$vo->resultCode = "failed" ;
 			$vo->message = $this->email . "未曾被注册" ;
 			echo json_encode($vo);
 			return ;	
 		}
 		if($user->getProperty("password")!=$this->password) {
-			$vo = new ResultVO() ;
+			// $vo = new ResultVO() ;
 			$vo->resultCode = "failed" ;
 			$vo->message = "密码不正确" ;
 			echo json_encode($vo);
