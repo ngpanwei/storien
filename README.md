@@ -1,2 +1,2 @@
 # storien
-storien是一个故事话和游戏化应用和API平台。
+storien是一个故事化和游戏化应用和API平台。
