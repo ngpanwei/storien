@@ -79,7 +79,7 @@ class SignInHandler {
 		}
 		$guid = $user->getProperty("guid") ;
 		$vo->resultCode = "success" ;
-		$vo->message = "注册成功！" ;
+		$vo->message = "登录成功！" ;
 		$vo->data = $user->getVO() ;
 		setcookie('userId', $guid, time() + (86400 * 30), "/");
 		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");

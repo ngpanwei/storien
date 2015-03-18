@@ -43,7 +43,8 @@ var signInService = {
 				password : password ,
 			}
 		}).done(function(result) {
-			registerService.afterRegistration(result) ;
+			// registerService.afterRegistration(result) ;
+			signInService.afterSignIn(result);
 		});		
 		return false ;
 	},
@@ -133,11 +134,11 @@ var resetPasswordService = {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
-            		resetPasswordService.submitResetPassword(form) ;
+            	resetPasswordService.submitResetPassword(form) ;
             },
         }); 
     },
-	submitResetPassword : function() {
+	submitResetPassword : function(form) {
 		email = $(form).find("#email").val() ;
 		password = $(form).find("#password").val() ;
 		cpassword = $(form).find("#cpassword").val() ;
@@ -151,7 +152,7 @@ var resetPasswordService = {
 				cpassword : cpassword , 
 			}
 		}).done(function(result) {
-			resetPasswordService.afterRegistration(result) ;
+			resetPasswordService.afterResetPassword(result) ;
 		});
 	    	return false ;
 	},

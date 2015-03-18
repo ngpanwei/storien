@@ -26,6 +26,7 @@ require_once("TeamifyAPI.php");
 require_once("../util/Logger.php");
 require_once("../util/Exception.php");
 require_once("../util/ValueObject.php");
+require_once("../util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
 /**
@@ -44,11 +45,12 @@ class ResetPasswordHandler
 	public function __construct(){
 		$this->vo = new ResultVO() ;
 		$this->userDb = new UserDb() ;
+		$this->xmlDirDb = new XMLDirDb() ;
 	}
 
 	/**
 	 * 处理表单
-	 * @return [type] [description]
+	 * @return 
 	 */
 	public function processForm(){
 		if($this->getFormData()==false) {
@@ -59,47 +61,6 @@ class ResetPasswordHandler
 		}
 		
 		$this->process() ;
-	}
-
-	/**
-	 * 通过邮箱获取用户
-	 * @return obj
-	 */
-	public function getUserbyEmail() {
-		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($this->email) ;
-		return $user ;
-	}
-
-	/**
-	 * 完成过程
-	 * @return [type] [description]
-	 */
-	public function process() {
-		$user = $this->getUserbyEmail() ;
-		
-		if(empty($user)) {			
-			$this->vo->resultCode = "failed" ;
-			$this->vo->message = $this->email . "未曾被注册" ;
-			echo json_encode($this->vo);
-			return ;	
-		}
-
-		if($user->getProperty("password")!=$this->password) {
-			$this->vo->resultCode = "failed" ;
-			$this->vo->message = "密码不正确" ;
-			echo json_encode($this->vo);
-			return ;
-		}
-
-		$guid = $user->getProperty("guid") ;		
-		$password = $user->setProperty("password","cpassword") ;	//更新密码
-		$this->vo->resultCode = "success" ;
-		$this->vo->message = "修改密码成功！" ;
-		$this->vo->data = $user->getVO() ;
-		setcookie('userId', $guid, time() + (86400 * 30), "/");
-		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
-		echo json_encode($this->vo);
 	}
 
 	/**
@@ -130,16 +91,75 @@ class ResetPasswordHandler
 		return true ;
 	}
 
+	/**
+	 * 通过邮箱获取用户
+	 * @return obj
+	 */
+	public function getUserbyEmail() {
+		$this->userDb->loadAll() ;
+		$user = $this->userDb->getUserByEmail($this->email) ;
+		return $user ;
+	}
+
+	/**
+	 * 处理过程
+	 * @return [type] [description]
+	 */
+	public function process() {
+		$user = $this->getUserbyEmail() ;
+		// var_dump($user);
+		if(empty($user)) {			
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = $this->email . "未曾被注册" ;
+			echo json_encode($this->vo);
+			return ;	
+		}
+
+		// if($user->getProperty("password")!=$this->password) {
+		// 	$this->vo->resultCode = "failed" ;
+		// 	$this->vo->message = "密码不正确" ;
+		// 	echo json_encode($this->vo);
+		// 	return ;
+		// }
+
+		if($this->password != $this->cpassword){
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "两次输入密码不一致" ;
+			echo json_encode($this->vo);
+			return ;
+		}
+
+		$guid = $user->getProperty("guid") ;
+		echo $guid;
+
+		$this->xmlDirDb->loadAll();
+		$xmlFile = $this->xmlDirDb->getFileByGuid($guid);
+		echo "<pre>";
+		print_r($xmlFile);
+
+		$new_password = $xmlFile->setKeyValues("password",$this->cpassword);
+		var_dump($new_password);die;
+		// echo $this->cpassword;die;
+		$new_password = $this->user->setRecord("password",$this->cpassword) ;	//更新密码
+		var_dump($new_password);die;
+		$this->vo->resultCode = "success" ;
+		$this->vo->message = "修改密码成功！" ;
+		$this->vo->data = $user->getVO() ;
+		setcookie('userId', $guid, time() + (86400 * 30), "/");
+		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
+		echo json_encode($this->vo);
+	}	
+
 }
 
 // 类实例化
-// $handler = new ResetPasswordHandler() ;
-// $handler->processForm() ;
+$handler = new ResetPasswordHandler() ;
+$handler->processForm() ;
 
-$vo = new ResultVO() ;
-var_dump($_POST);
-$vo->resultCode = "failed" ;
-$vo->message = "The forget password form you submit is incomplete" ;
-echo json_encode($vo);
+// $vo = new ResultVO() ;
+// var_dump($_POST);
+// $vo->resultCode = "failed" ;
+// $vo->message = "The forget password form you submit is incomplete" ;
+// echo json_encode($vo);
 
 ?>
