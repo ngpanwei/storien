@@ -91,6 +91,10 @@ var registerService = {
                     minlength: 8,
                     equalTo:"#password"
                 },
+                photo: {
+                    required: true,
+                    accept: "image/*"
+                },
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
@@ -106,6 +110,7 @@ var registerService = {
 		email = $(form).find("#email").val() ;
 		password = $(form).find("#password").val() ;
 		cpassword = $(form).find("#cpassword").val() ;
+		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
 			url: "app/teamify/Register.php" ,
@@ -116,6 +121,7 @@ var registerService = {
 				email : email , 
 				password : password , 
 				cpassword : cpassword , 
+				photo : photo , 
 			} ,
 			error: function (xhr, ajaxOptions, thrownError) {
 		        alert(xhr.status + "  " + thrownError);
