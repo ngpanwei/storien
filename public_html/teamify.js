@@ -7,6 +7,17 @@ var teamifyModel = {
 		return true ;
 	},	
 } ; // end of teamifyModel
+
+var validatorService = {
+	initialize: function(){
+		jQuery.validator.setDefaults({
+		  debug: true,
+		  success: "valid"
+		});
+	}
+};
+//end of validatorService
+
 var teamService = {		
 } ; // end of signInService 
 var signInService = {
@@ -17,10 +28,12 @@ var signInService = {
         $( id ).validate({
             rules: {
                 email: {
-                    required: true
+                    required: true,
+                    email: true
                 },
                 password: {
-                    required: true
+                    required: true,
+                    minlength: 8
                 },
             },
             errorPlacement: function(error, element) {
@@ -162,6 +175,7 @@ var resetPasswordService = {
 } ; // end of forget password service 
 var teamifyController = {
 	initialize : function() {
+		validatorService.initialize();
 		signInService.initialize("#signInForm") ;
 		registerService.initialize("#registrationForm") ;
 		resetPasswordService.initialize("#resetPasswordForm") ;
