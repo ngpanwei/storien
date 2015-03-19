@@ -138,13 +138,17 @@ var resetPasswordService = {
         $(formId).validate({
             rules: {
                 email: {
-                    required: true
+                    required: true,
+                    email:true
                 },
                 password: {
-                    required: true
+                    required: true,
+                    minlength: 8,
                 },
                 cpassword: {
-                    required: true
+                    required: true,
+                    minlength: 8,
+                    equalTo:"#password"
                 },
             },
             errorPlacement: function(error, element) {
