@@ -1,11 +1,17 @@
 var teamDb = $.localStorage ;
 var teamifyModel = {
+	// using https://github.com/julien-maurel/jQuery-Storage-API
 	isLoggedIn : function() {
 		if(teamDb.isSet("teamify.userId")==false) {
 			return false ;
 		}
 		return true ;
 	},	
+	setuserId : function(id) {
+		alert("team Model 1") ;
+		teamDb.set("teamify.userId",id) ;
+		alert("team Model 2") ;
+	}
 } ; // end of teamifyModel
 
 var validatorService = {
@@ -89,11 +95,11 @@ var registerService = {
                 cpassword: {
                     required: true,
                     minlength: 8,
-                    equalTo:"#password"
+//                    equalTo:"#password"
                 },
                 photo: {
-                    required: true,
-                    accept: "image/*"
+//                    required: true,
+//                    accept: "image/*"
                 },
             },
             errorPlacement: function(error, element) {
@@ -110,6 +116,11 @@ var registerService = {
 		email = $(form).find("#email").val() ;
 		password = $(form).find("#password").val() ;
 		cpassword = $(form).find("#cpassword").val() ;
+		alert("submiting.") ;
+		// @todo 这里弹出一个 popup dialog
+		// 成功之后关闭popup
+		$("popupDialog").popup("open") ;
+		alert("submiting.") ;
 		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
@@ -132,8 +143,9 @@ var registerService = {
 	    	return false ;
 	},
 	afterRegistration : function(result) {
-		alert(result.message);
-		alert(result.data.username) ;
+		teamifyController.registrationSuccessful(result.data) ;
+//		alert(result.message);
+//		alert(result.data.username) ;
 	},		
 } ; // end of registerService 
 var resetPasswordService = {
@@ -201,6 +213,12 @@ var teamifyController = {
 			window.location.hash = "pgSignIn";
 		}
 	},	
+	registrationSuccessful : function(data) {
+		alert("userid "+data.guid) ;
+// @todo 请让 teamifyModel.setUserId(data.guid) 正常运作。
+//		teamifyModel.setUserId(data.guid) ;
+		window.location.hash = "pgTeamHome";
+	},
 } ; // end of teamifyController 
 $(document).ready(function() {
 	teamifyController.initialize() ;
