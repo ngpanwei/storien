@@ -116,11 +116,9 @@ var registerService = {
 		email = $(form).find("#email").val() ;
 		password = $(form).find("#password").val() ;
 		cpassword = $(form).find("#cpassword").val() ;
-		alert("submiting.") ;
 		// @todo 这里弹出一个 popup dialog
 		// 成功之后关闭popup
 		$("popupDialog").popup("open") ;
-		alert("submiting.") ;
 		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
@@ -143,6 +141,11 @@ var registerService = {
 	    	return false ;
 	},
 	afterRegistration : function(result) {
+		if(result.resultCode=="failed") {
+			// @todo 现实在 ＃popupDialog， 然后用户点关闭。
+			alert("failed "+result.message) ;
+			return ;
+		}
 		teamifyController.registrationSuccessful(result.data) ;
 //		alert(result.message);
 //		alert(result.data.username) ;
