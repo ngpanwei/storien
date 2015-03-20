@@ -118,7 +118,7 @@ var registerService = {
 		cpassword = $(form).find("#cpassword").val() ;
 		// @todo 这里弹出一个 popup dialog
 		// 成功之后关闭popup
-		$("popupDialog").popup("open") ;
+		$("#popupDialog").popup("open") ;
 		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
