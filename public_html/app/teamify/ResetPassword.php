@@ -145,8 +145,8 @@ class ResetPasswordHandler
 		$this->vo->resultCode = "success" ;
 		$this->vo->message = "修改密码成功！" ;
 		$this->vo->data = $user->getVO() ;
-		setcookie('userId', $guid, time() + (86400 * 30), "/");
-		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
+// 		setcookie('userId', $guid, time() + (86400 * 30), "/");
+// 		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
 		echo json_encode($this->vo);
 	}	
 

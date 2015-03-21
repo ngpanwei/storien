@@ -7,10 +7,12 @@ var teamifyModel = {
 		}
 		return true ;
 	},	
-	setuserId : function(id) {
-		alert("team Model 1") ;
-		teamDb.set("teamify.userId",id) ;
-		alert("team Model 2") ;
+	logOut : function() {
+		teamDb.remove("teamify.userId") ;
+	},
+	setUserId : function(userVO) {
+		teamDb.set("teamify.userId",userVO.guid) ;
+		teamDb.set("teamify.username",userVO.username) ;
 	}
 } ; // end of teamifyModel
 
@@ -46,7 +48,15 @@ jQuery.extend(jQuery.validator.messages, {
 	min: jQuery.validator.format("请输入一个最小为{0} 的值")
 });
 
-var teamService = {		
+var teamService = {
+	initialize : function() {
+		$("#logout").click(function() {
+			alert("logout") ;
+		});
+	},
+	signOut : function() {
+		teamifyModel.logOut() ;
+	},
 } ; // end of signInService 
 var signInService = {
 	initialize : function(formId) {
@@ -140,8 +150,8 @@ var registerService = {
 		cpassword = $(form).find("#cpassword").val() ;
 		// @todo 这里弹出一个 popup dialog
 		// 成功之后关闭popup
-		$("#popupDialog").popup("open") ;
-		photo = $(form).find("#photo").val() ;
+		$("#registerDialog").popup("open") ;
+//		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
 			url: "app/teamify/Register.php" ,
@@ -152,7 +162,6 @@ var registerService = {
 				email : email , 
 				password : password , 
 				cpassword : cpassword , 
-				photo : photo , 
 			} ,
 			error: function (xhr, ajaxOptions, thrownError) {
 		        alert(xhr.status + "  " + thrownError);
@@ -164,13 +173,11 @@ var registerService = {
 	},
 	afterRegistration : function(result) {
 		if(result.resultCode=="failed") {
-			// @todo 现实在 ＃popupDialog， 然后用户点关闭。
-			alert("failed "+result.message) ;
+			$("#registerTitle").text("不好意思，注册没法完成") ;
+			$("#registerText").text(result.message) ;
 			return ;
 		}
 		teamifyController.registrationSuccessful(result.data) ;
-//		alert(result.message);
-//		alert(result.data.username) ;
 	},		
 } ; // end of registerService 
 var resetPasswordService = {
@@ -231,6 +238,7 @@ var teamifyController = {
 		signInService.initialize("#signInForm") ;
 		registerService.initialize("#registrationForm") ;
 		resetPasswordService.initialize("#resetPasswordForm") ;
+		teamService.initialize() ;
 	},
 	start : function() {
 		if(teamifyModel.isLoggedIn()==true) {
@@ -239,10 +247,8 @@ var teamifyController = {
 			window.location.hash = "pgSignIn";
 		}
 	},	
-	registrationSuccessful : function(data) {
-		alert("userid "+data.guid) ;
-// @todo 请让 teamifyModel.setUserId(data.guid) 正常运作。
-//		teamifyModel.setUserId(data.guid) ;
+	registrationSuccessful : function(userVO) {
+		teamifyModel.setUserId(userVO) ;
 		window.location.hash = "pgTeamHome";
 	},
 } ; // end of teamifyController 

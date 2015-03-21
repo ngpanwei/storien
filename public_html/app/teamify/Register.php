@@ -23,6 +23,7 @@
  *  SOFTWARE.
  */
 require_once("TeamifyAPI.php");
+require_once("TeamifyMailer.php");
 require_once("../util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
 
@@ -103,13 +104,15 @@ class RegistrationHandler {
 			return ;	
 		}
 		$user = $this->registerNewUser() ;
-		$guid = $user->getProperty("guid") ;
+		$userVO = $user->getVO() ;
+		$mailerAPI = new MailerAPI() ;
+		$mailerAPI->sendRegistrationConfirmationEmail($userVO) ;
+		
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "注册成功！" ;
-		$vo->data = $user->getVO() ;
-		setcookie('userId', $guid, time() + (86400 * 30), "/");
-		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
+		$vo->data = $userVO ;
+
 		echo json_encode($vo);		
 	}
 }

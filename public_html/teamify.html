@@ -24,9 +24,9 @@
 	        <img src="./_assets/member-photo.png" width='150' height='150'/>
 	        <h2 id='username'>Me</h2>
 	        </a></li>
-	    <li><a id='changePassword'>Change Password</a></li>
-	    <li><a id='settings'>Settings</a></li>
-	    <li><a id='logout' class='ui-btn ui-btn-b' >Logout</a></li>
+	    <li><a id='changePassword'>更新密码</a></li>
+	    <li><a id='settings'>设置</a></li>
+	    <li><a id='logout' class='ui-btn ui-btn-b' >注消</a></li>
 	</ul> 
   </div>
 </div>
@@ -84,24 +84,30 @@
           <label for="cpassword">确认密码:</label>
           <input name="cpassword" id="cpassword" value="" type="password"></input>
         </div>
-        <div data-role='fieldcontain'>
-          <label for="photo">上传图像:</label>
-          <input name="photo" id="photo" value="" type="file" accept="image/*" />
-        </div>
       <button type="submit" data-theme="a" name="submit" 
             value="submit-value">提交</button>
        <button type="reset" data-theme="a" name="reset" 
        		value="reset-value">重置</button>
     </form>
   </div>
-  <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+  <div data-role="popup" id="registerDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="a">
-    <h1>请等候</h1>
+    <h1 id="registerTitle">注册</h1>
     </div>
     <div role="main" class="ui-content">
-        <h3 class="ui-title">Are you sure you want to delete this page?</h3>
+        <h3 class="ui-title" id="registerText">正在注册中，请稍后。。。</h3>
+        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b" 
+        		data-rel="back" data-transition="flow">关闭</a>
     </div>
 </div>
+<div data-role="page" data-title="Teamify" id="pgConfirmation">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>注册确认</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+  谢谢确认。
+	<a id='registerConfirmation' data-role="button">确认</a></div>
+  </div>
 </div>
 <div data-role="page" id="pgForgetPassword" data-title="Reset Password">
   <div data-role="header" data-position="fixed" data-theme="a">
