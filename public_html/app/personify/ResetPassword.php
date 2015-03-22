@@ -22,7 +22,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("TeamifyAPI.php");
+require_once("PersonifyAPI.php");
 require_once("../util/Logger.php");
 require_once("../util/Exception.php");
 require_once("../util/ValueObject.php");
