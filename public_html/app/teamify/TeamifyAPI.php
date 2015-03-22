@@ -29,13 +29,11 @@ require_once("../util/Guid.php");
 
 Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 
-class UserVO {
+class TeamVO {
 	var $guid ;
-	var $username ;
-	var $email ;
-	var $teams ;
+	var $teamname ;
 }
-class User {
+class Team {
 	var $xmlFileDb ;
 	public function __construct($xmlFileDb) {
 		$this->xmlFileDb = $xmlFileDb ;
@@ -67,7 +65,7 @@ class User {
 		return $vo ;
 	}
 }
-class UserDb {
+class TeamDb {
 	var $dir ;
 	var $db ;
 	public function __construct() {

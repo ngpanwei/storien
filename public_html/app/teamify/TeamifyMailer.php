@@ -27,7 +27,7 @@ require_once (dirname(dirname(__FILE__))."/util/Exception.php");
 require_once (dirname(dirname(__FILE__))."/util/Mailer.php");
 
 
-class MailerAPI {
+class TeamMailer {
 	var $mailer;
 	public function __construct() {
 		$this->mailer = new PHPMailer();
