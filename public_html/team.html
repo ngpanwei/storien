@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="assets/css/site.css">
+	<link rel="stylesheet" href="assets/css/error.css">
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.storageapi.min.js"></script>
+	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+  <script src="scripts/plugin/jquery.validate.min.js"></script>
+  <script src="scripts/plugin/localization/messages_zh.min.js"></script>
+  <script src="teamify.js"></script>
+    <title>团队列表</title>
+</head>
+<body>
+<div data-role="page" id="pgTeam" data-title="Team List">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>团队列表</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+      <div data-role='content' id="response"></div>
+      <ul data-role="listview">
+        <li><a href="#">Acura</a></li>
+        <li><a href="#">Audi</a></li>
+        <li><a href="#">BMW</a></li>
+        <li><a href="#">Cadillac</a></li>
+        <li><a href="#">Ferrari</a></li>
+      </ul>
+  
+    <div class="ui-block-a">
+      <a id='register' href="#pgAddTeam" data-role="button">添加团队</a>
+    </div>	        
+    </div>
+</div>
+<div data-role="page" data-title="Add Team" id="pgAddTeam">
+  <div data-role="header" data-position="fixed" data-theme="a">
+    <h1>添加团队</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+      <div data-role='content' id="response"></div>
+      <form id="addTeamForm" class="ui-body ui-body-a ui-corner-all">
+        <label>添加团队</label>
+        <label class='error' id='message'></label>
+        <div data-role='fieldcontain'>
+          <label for="teamname">团队名称</label>
+          <input name="teamname" id="teamname" value="" type="text"></input>
+        </div>
+      <button type="submit" data-theme="a" name="submit" 
+            value="submit-value">生成URL链接</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

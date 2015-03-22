@@ -15,124 +15,42 @@
     <title>团队化</title>
 </head>
 <body>
-<div data-role="page" id="pgTeamHome" data-title="Sign In">
+<div data-role="page" id="pgTeamHome" data-title="Team Home">
   <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>团队</h1>
+    <h1>团队名称</h1>
   </div>
   <div data-role="main" class="ui-content">
-	<ul data-role="listview">
-	    <li><a id='user'>
-	        <img src="./_assets/member-photo.png" width='150' height='150'/>
-	        <h2 id='username'>Me</h2>
-	        </a></li>
-	    <li><a id='changePassword'>更新密码</a></li>
-	    <li><a id='settings'>设置</a></li>
-	    <li><a id='logout' class='ui-btn ui-btn-b' >注消</a></li>
-	</ul> 
+	   <!-- 此处显示动态或成员排行榜 -->
+     <!-- 动态列表 -->
+     <div data-role='content' id="response"></div>
+      <ul data-role="listview" id="pgDynamic">
+        <li><a href="#">Acura</a></li>
+        <li><a href="#">Audi</a></li>
+        <li><a href="#">BMW</a></li>
+        <li><a href="#">Cadillac</a></li>
+        <li><a href="#">Ferrari</a></li>
+      </ul>
+
+      <!-- 成员排行榜 -->  
+      <ul data-role="listview" id="pgMember" data-count-theme="b" data-inset="true" style="display: none;">
+        <li><a href="#"><img src="../_assets/img/album-bb.jpg">Inbox <span class="ui-li-count">12</span></a></li>
+        <li><a href="#"><img src="../_assets/img/album-hc.jpg">Outbox <span class="ui-li-count">0</span></a></li>
+        <li><a href="#"><img src="../_assets/img/album-p.jpg">Drafts <span class="ui-li-count">4</span></a></li>
+        <li><a href="#"><img src="../_assets/img/album-p.jpg">Sent <span class="ui-li-count">328</span></a></li>
+        <li><a href="#"><img src="../_assets/img/album-p.jpg">Trash <span class="ui-li-count">62</span></a></li>
+      </ul>    
+
   </div>
-</div>
-<div data-role="page" id="pgSignIn" data-title="Sign In">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>登入</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-      <div data-role='content' id="response"></div>
-    <form id="signInForm" class="ui-body ui-body-a ui-corner-all">
-        <label class='error' id='message'></label>
-        <div data-role='fieldcontain'>
-          <label for="email">邮箱:</label>
-          <input name="email" id="email" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="password">密码:</label>
-          <input name="password" id="password" value="" type="password"></input>
-        </div>
-	    <button type="submit" data-theme="a" name="submit" 
-	            value="signin">登入</button>
-      </form>
-	        <div class="ui-block-a">
-	          <a id='register' href="#pgRegister" data-role="button">注册</a></div>
-	        <div class="ui-block-b">
-	          <a id='forget' href="#pgForgetPassword" data-role="button">修复密码</a></div>
+
+  <div data-role="footer">
+    <div class="ui-block-a">
+        <a id='dynamic' href="#" data-role="button">动态</a>
     </div>
-</div>
-<div data-role="page" data-title="Teamify" id="pgRegister">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>注册团成员</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-      <div data-role='content' id="response"></div>
-      <form id="registrationForm" class="ui-body ui-body-a ui-corner-all">
-        <label>让我们彼此认识</label>
-        <label class='error' id='message'></label>
-        <div data-role='fieldcontain'>
-          <label for="teamname">团队名称（请管理员提供）</label>
-          <input name="teamname" id="teamname" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="username">个人名称</label>
-          <input name="username" id="username" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="email">邮箱</label>
-          <input name="email" id="email" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="password">密码</label>
-          <input name="password" id="password" value="" type="password"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="cpassword">确认密码:</label>
-          <input name="cpassword" id="cpassword" value="" type="password"></input>
-        </div>
-      <button type="submit" data-theme="a" name="submit" 
-            value="submit-value">提交</button>
-       <button type="reset" data-theme="a" name="reset" 
-       		value="reset-value">重置</button>
-    </form>
-  </div>
-  <div data-role="popup" id="registerDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-    <div data-role="header" data-theme="a">
-    <h1 id="registerTitle">注册</h1>
+    <div class="ui-block-b">
+        <a id='member' href="#" data-role="button">成员</a>
     </div>
-    <div role="main" class="ui-content">
-        <h3 class="ui-title" id="registerText">正在注册中，请稍后。。。</h3>
-        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b" 
-        		data-rel="back" data-transition="flow">关闭</a>
-    </div>
-</div>
-<div data-role="page" data-title="Teamify" id="pgConfirmation">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>注册确认</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  谢谢确认。
-	<a id='registerConfirmation' data-role="button">确认</a></div>
   </div>
 </div>
-<div data-role="page" id="pgForgetPassword" data-title="Reset Password">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>忘记密码</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-      <div data-role='content' id="response"></div>
-    <form id="resetPasswordForm" class="ui-body ui-body-a ui-corner-all">
-        <div data-role='fieldcontain'>
-          <label for="email">邮箱:</label>
-          <input name="email" id="email" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="password">新密码:</label>
-          <input name="password" id="password" value="" type="password"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="confirmPassword">确认新密码:</label>
-          <input name="confirmPassword" id="cpassword" value="" type="password"></input>
-        </div>        
-      <button type="submit" data-theme="a" name="submit" 
-            value="submit-value">修复密码</button>
-    </form>
-  </div>
-</div>
+
 </body>
 </html>
