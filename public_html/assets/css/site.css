@@ -1,20 +1,3 @@
-body {
-    background: url(../wall/wallpaper.jpg);
-    background-repeat:repeat-y;
-    background-position:center center;
-    background-attachment:scroll;
-    background-size:100% 100%;
-}
-.ui-page {
-    background: transparent;
-}
-.ui-content{
-    background: transparent;
-}
-​.ui-page .ui-content .ui-listview .ui-li-desc {
-    white-space : normal;
-}​
-
 ul li h2 p {
     white-space: pre !important;           /* CSS 2.0 */
     white-space: pre-wrap !important;      /* CSS 2.1 */

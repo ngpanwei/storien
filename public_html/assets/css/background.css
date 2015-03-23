@@ -1,0 +1,16 @@
+body {
+    background: url(../banner/storien-banner.png);
+    background-repeat:repeat-y;
+    background-position:center center;
+    background-attachment:scroll;
+    background-size:100% 100%;
+}
+.ui-page {
+    background: transparent;
+}
+.ui-content{
+    background: transparent;
+}
+​.ui-page .ui-content .ui-listview .ui-li-desc {
+    white-space : normal;
+}​

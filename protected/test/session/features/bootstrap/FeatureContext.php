@@ -9,7 +9,6 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-// require_once ("../../../public_html/php/session/SessionAPI.php");
 
 /**
  * Features context.

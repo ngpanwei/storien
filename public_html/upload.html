@@ -11,14 +11,11 @@
 	<script src="scripts/plugin/jquery.validate.min.js"></script>
 	<!-- <script src="upload.js"></script> -->
 </head>
-
 <body>
-
 <div data-role="page" id="pgUpload" date-title="Upload Image">
 	<div data-role="header" data-position="fixed" data-theme="a">
 		<h1>演示PHP上传文件</h1>
 	</div><!-- /header -->
-
 	<div data-role="content" class="ui-content">
 		<form action="app/teamify/upload.php" method="post" id="uploadForm" class="ui-body ui-body-a ui-corner-all" enctype="multipart/form-data" data-ajax="false">
 		<label for="file">文件名称</label>
@@ -28,14 +25,7 @@
 		<button type="submit" data-theme="a" name="submit" 
 	            value="upload">上传</button>
 		</form>
-	</div><!-- /content -->
-
-	<div data-role="footer">
-		<h4>存到uploads文件夹</h4>
-	</div><!-- /footer -->
-
-</div><!-- /page -->
-</body>
-
+	</div>
+</div>
 </body>
 </html>

@@ -1,71 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.5.min.css">
-	<link rel="stylesheet" href="assets/css/site.css">
-	<link rel="stylesheet" href="assets/css/error.css">
-	<script src="scripts/jquery.min.js"></script>
-	<script src="scripts/jquery.storageapi.min.js"></script>
-	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
-    <script src="scripts/plugin/jquery.validate.min.js"></script>
-    <script src="scripts/plugin/jquery.metadata.js"></script>
-    <script src="scripts/plugin/localization/messages_zh.min.js"></script>
-    <script src="personify.js"></script>
-    <title>团队化</title>
-</head>
-<body>
-<div data-role="page" id="pgAddStory" data-title="记录经历">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>记录经历</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  </div>
-</div>
-<div data-role="page" id="pgSignifyStory" data-title="象征经历">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>象征经历</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  </div>
-</div>
-<div data-role="page" id="pgTakePoll" data-title="意见调查">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>意见调查</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  </div>
-</div>
-<div data-role="page" id="pgPersonHome" data-title="个人设置">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>个人活动</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-	<ul data-role="listview" id="personActivity">
-	    <li><a id='activityTemp'>
-	        <img src="./_assets/member-photo.png" width='150' height='150'/>
-	        <h2 id='username'>Me</h2>
-	        </a></li>
-	</ul>
-  </div>
-</div>
-<div data-role="page" id="pgPersonSettings" data-title="个人设置">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>个人设置</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-	<ul data-role="listview">
-	    <li><a id='user'>
-	        <img src="./_assets/member-photo.png" width='150' height='150'/>
-	        <h2 id='username'>Me</h2>
-	        </a></li>
-	    <li><a id='changePassword'>更新密码</a></li>
-	    <li><a id='settings'>设置</a></li>
-	    <li><a id='logout' class='ui-btn ui-btn-b' >注消</a></li>
-	</ul> 
-  </div>
-</div>
 <div data-role="page" id="pgSignIn" data-title="Sign In">
   <div data-role="header" data-position="fixed" data-theme="a">
     <h1>登入</h1>
@@ -189,5 +121,4 @@
     </form>
   </div>
 </div>
-</body>
-</html>
+
