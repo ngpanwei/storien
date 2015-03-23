@@ -1,0 +1,20 @@
+/app/personify/Register.php::34-->register
+/app/personify/Register.php::86-->processForm
+/app/personify/Register.php::58-->getFormData
+/app/personify/Register.php::44-->validateFormData
+/app/personify/Register.php::97-->process
+/app/personify/Register.php::70-->getUserbyEmail
+/app/personify/Register.php::77-->registerNewUser
+/app/util/XMLFileDb.php::137-->teams
+/app/personify/PersonifyMailer.php::59-->sendRegistrationConfirmationEmail
+/app/personify/PersonifyMailer.php::79-->Registration Succeeded.
+/app/personify/Register.php::34-->register
+/app/personify/Register.php::86-->processForm
+/app/personify/Register.php::58-->getFormData
+/app/personify/Register.php::44-->validateFormData
+/app/personify/Register.php::97-->process
+/app/personify/Register.php::70-->getUserbyEmail
+/app/personify/Register.php::77-->registerNewUser
+/app/util/XMLFileDb.php::137-->teams
+/app/personify/PersonifyMailer.php::59-->sendRegistrationConfirmationEmail
+/app/personify/PersonifyMailer.php::79-->Registration Succeeded.
