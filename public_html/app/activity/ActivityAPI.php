@@ -24,6 +24,10 @@
  */
 require_once("../util/Logger.php");
 require_once("../util/Exception.php");
+require_once("../util/XMLFileDb.php");
+require_once("../util/Guid.php");
+
+Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 
 class ActivityClassVO {
 	var $name ; // name of activity class name
@@ -38,13 +42,82 @@ class ActivityVO {
 	var $point ; // points awarded for conducting the activity
 }
 
-class ActivityManager {
-	public function createInitialActivities($userGuid) {
-		// return a list of activities for a new member
-		// determine if picture uploaded
-		// determine if personal details filled
-		// read a piece of text
-		// take a simple test
-		// ask user to write a story
+class Activity {
+	var $xmlFileDb ;
+	public function __construct($xmlFileDb) {
+		$this->xmlFileDb = $xmlFileDb ;
+	}
+	public function setRecord($key,$keyValues) {
+	    $this->xmlFileDb->set($key,$keyValues) ;
+	}
+	public function get($key) {
+		return $this->xmlFileDb->get($key) ;
+	}
+	public function setList($key,$values) {
+		$this->xmlFileDb->setList($key,$values) ;
+	}
+	public function setProperty($key,$value) {
+	    $this->xmlFileDb->setRoot($key,$value) ;
+	}
+	public function getProperty($key) {
+		return $this->xmlFileDb->getRoot($key) ;
+	}
+	public function flush() {
+		$this->xmlFileDb->flush() ;
+	}
+	public function getVO() {
+		$vo = new ActivityVO ;
+		$vo->guid = $this->getProperty("guid") ;
+		$vo->name = $this->getProperty("name") ;
+		return $vo ;
 	}
 }
+
+class ActivityDb {
+	var $dir ;
+	var $db ;
+	var $userId ;
+	public function __construct($userId) {
+		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/activities" ;
+		$this->db = new XMLDirDb($this->dir) ;
+	}
+	public function init() {
+		
+	}
+	public function loadAll() {
+		$this->db->loadAll("activityName") ;
+	}
+	public function getActivityByName($name) {
+		$fileDb = $this->db->getFileDbByKey($name) ;
+		if($fileDb==null) {
+			return null ;
+		}
+		return new Activity($fileDb) ;
+	}
+	public function getActivityById($guid) { // by guid
+		$fileDb = $this->db->getFileByGuid($guid) ;
+		if($fileDb==null) {
+			return null ;
+		}
+		return new Activity($fileDb) ;
+	}
+	public function createActivity($name) {
+		$fileDb = $this->db->createFileDb("activityName",$name) ;
+		return new Activity($fileDb) ;
+	}
+}
+
+Logger::log(__FILE__,__LINE__,"Activity") ;
+// $teamDb = new TeamDb() ;
+// Logger::log(__FILE__,__LINE__,"Teamify") ;
+// $teamDb->loadAll() ;
+// $team = $teamDb->getTeamByName("storien1") ;
+// if($team==null) {
+//  	Logger::log(__FILE__,__LINE__,"create new team") ;
+//   	$team = $teamDb->createTeam("storien1") ;	
+//   	$team->flush() ;
+// } else {
+//  	Logger::log(__FILE__,__LINE__,"existing team") ;
+// }
+// Logger::log(__FILE__,__LINE__,"Teamify") ;
+?>
