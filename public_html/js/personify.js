@@ -241,8 +241,4 @@ var personifyController = {
 		window.location.hash = "pgPersonHome";
 	},
 } ; // end of personifyController 
-$(document).ready(function() {
-	personifyController.initialize() ;
-	personifyController.start() ;
-}) ;
 
