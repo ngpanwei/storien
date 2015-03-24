@@ -4,7 +4,6 @@
   </div>
   <div data-role="main" class="ui-content">
   </div>
-<!-- footer -->  
 </div>
 <div data-role="page" id="pgSignifyStory" data-title="象征经历">
   <div data-role="header" data-position="fixed" data-theme="a">
@@ -12,7 +11,6 @@
   </div>
   <div data-role="main" class="ui-content">
   </div>
-<!-- footer -->  
 </div>
 <div data-role="page" id="pgTakePoll" data-title="意见调查">
   <div data-role="header" data-position="fixed" data-theme="a">
@@ -20,7 +18,6 @@
   </div>
   <div data-role="main" class="ui-content">
   </div>
-<!-- /footer -->  
 </div>
 <div data-role="page" id="pgPersonHome" data-title="个人设置">
   <div data-role="header" data-position="fixed" data-theme="a">

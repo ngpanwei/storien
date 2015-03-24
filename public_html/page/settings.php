@@ -13,4 +13,5 @@
 	    <li><a id='logout' class='ui-btn ui-btn-b' >注消</a></li>
 	</ul> 
   </div>
+<!-- footer -->  
 </div>
