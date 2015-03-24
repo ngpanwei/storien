@@ -118,7 +118,6 @@ class XMLFileDb {
 		$rootElement->set($key, $value) ;
 	}
 	public function setRecord($elementId,$keyValues) {
-		Logger::log(__FILE__,__LINE__,$elementId) ;
 		$element = $this->get($elementId) ;
 		if($element==null) {
 			$domElement = $this->xmlDoc->createElement("div","") ;
@@ -134,7 +133,6 @@ class XMLFileDb {
 		return $rootElement->getElementById($elementId) ;
 	}
 	public function setList($elementId,$arrayValue) {
-		Logger::log(__FILE__,__LINE__,$elementId) ;
 		$element = $this->get($elementId) ;
 		if($element==null) {
 			$domElement = $this->xmlDoc->createElement("div","") ;

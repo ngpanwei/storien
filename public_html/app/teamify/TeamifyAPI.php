@@ -33,6 +33,7 @@ class TeamVO {
 	var $guid ;
 	var $teamname ;
 }
+
 class Team {
 	var $xmlFileDb ;
 	public function __construct($xmlFileDb) {
@@ -57,54 +58,54 @@ class Team {
 		$this->xmlFileDb->flush() ;
 	}
 	public function getVO() {
-		$vo = new UserVO ;
+		$vo = new TeamVO ;
 		$vo->guid = $this->getProperty("guid") ;
-		$vo->username = $this->getProperty("username") ;
-		$vo->email = $this->getProperty("email") ;
-		$vo->teams = $this->xmlFileDb->getList("teams") ;
+		$vo->teamname = $this->getProperty("teamname") ;
 		return $vo ;
 	}
 }
+
 class TeamDb {
 	var $dir ;
 	var $db ;
 	public function __construct() {
-		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/users" ;
+		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/teams" ;
 		$this->db = new XMLDirDb($this->dir) ;
 	}
 	public function loadAll() {
-		$this->db->loadAll("email") ;
+		$this->db->loadAll("teamname") ;
 	}
-	public function getUserByEmail($email) {
-		$fileDb = $this->db->getFileDbByKey($email) ;
+	public function getTeamByName($name) {
+		$fileDb = $this->db->getFileDbByKey($name) ;
 		if($fileDb==null) {
 			return null ;
 		}
-		return new User($fileDb) ;
+		return new Team($fileDb) ;
 	}
-	public function getUserById($guid) { // by guid
+	public function getTeamById($guid) { // by guid
 		$fileDb = $this->db->getFileByGuid($guid) ;
 		if($fileDb==null) {
 			return null ;
 		}
-		return new User($fileDb) ;
+		return new Team($fileDb) ;
 	}
-	public function createUser($email) {
-		$fileDb = $this->db->createFileDb("email",$email) ;
-		return new User($fileDb) ;
+	public function createTeam($name) {
+		$fileDb = $this->db->createFileDb("teamname",$name) ;
+		return new Team($fileDb) ;
 	}
 }
 
 // Logger::log(__FILE__,__LINE__,"Teamify") ;
-// $userDb = new UserDb() ;
+// $teamDb = new TeamDb() ;
 // Logger::log(__FILE__,__LINE__,"Teamify") ;
-// $userDb->loadAll() ;
-// $user = $userDb->getUserByEmail("panwei@storien.com") ;
-// if($user==null) {
-// 	Logger::log(__FILE__,__LINE__,"create new user") ;
-// 	$user = $userDb->createUser("panwei@storien.com") ;	
+// $teamDb->loadAll() ;
+// $team = $teamDb->getTeamByName("storien1") ;
+// if($team==null) {
+//  	Logger::log(__FILE__,__LINE__,"create new team") ;
+//   	$team = $teamDb->createTeam("storien1") ;	
+//   	$team->flush() ;
 // } else {
-// 	Logger::log(__FILE__,__LINE__,"existing user") ;
+//  	Logger::log(__FILE__,__LINE__,"existing team") ;
 // }
 // Logger::log(__FILE__,__LINE__,"Teamify") ;
 ?>
