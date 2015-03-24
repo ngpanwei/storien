@@ -84,6 +84,9 @@ class XMLFileDb {
 		$this->filename = $filename ;
 		$this->xmlDoc = null ;
 	}
+	public function setFilename($filename) {
+		$this->filename = $filename ;
+	}
 	public function load() {
 		if(file_exists($this->filename)==false) {
 			$this->xmlDoc = new DOMDocument('1.0', 'utf-8');

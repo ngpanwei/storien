@@ -77,12 +77,15 @@ class ActivityDb {
 	var $dir ;
 	var $db ;
 	var $userId ;
+	var $format ;
 	public function __construct($userId) {
-		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/activities" ;
+		$this->format = 'Y-m-d-H-i-s' ;
+		$this->userId = $userId ;
+		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/activities/" . $userId ;
 		$this->db = new XMLDirDb($this->dir) ;
 	}
 	public function init() {
-		
+		mkdir($this->dir) ;
 	}
 	public function loadAll() {
 		$this->db->loadAll("activityName") ;
@@ -103,14 +106,24 @@ class ActivityDb {
 	}
 	public function createActivity($name) {
 		$fileDb = $this->db->createFileDb("activityName",$name) ;
+		$dateStr = date($this->format) ;
+		$filename = $this->dir . "/" . $dateStr . ".xml" ;
+		$fileDb->setFilename($filename) ;
+		$fileDb->setRoot("date",$dateStr) ;
 		return new Activity($fileDb) ;
 	}
 }
 
 Logger::log(__FILE__,__LINE__,"Activity") ;
-// $teamDb = new TeamDb() ;
-// Logger::log(__FILE__,__LINE__,"Teamify") ;
-// $teamDb->loadAll() ;
+$activityDb = new ActivityDb("550e6bb6d4a2c") ;
+Logger::log(__FILE__,__LINE__,"Activity") ;
+$activityDb->init() ;
+Logger::log(__FILE__,__LINE__,"Activity") ;
+$activity = $activityDb->createActivity("reading") ;
+Logger::log(__FILE__,__LINE__,"Activity") ;
+$activity->flush() ;
+Logger::log(__FILE__,__LINE__,"Activity") ;
+
 // $team = $teamDb->getTeamByName("storien1") ;
 // if($team==null) {
 //  	Logger::log(__FILE__,__LINE__,"create new team") ;
