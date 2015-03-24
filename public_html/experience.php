@@ -22,8 +22,17 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+require_once("./app/util/Logger.php");
+$footer = file_get_contents('./page/footer.php'); 
+function file_inject($filename) {
+	global $footer ;
+	$footerTag = "<!-- footer -->" ;
+	$content = file_get_contents($filename); 
+	$content = str_replace($footerTag,$footer,$content) ;
+	return $content;
+}
 echo file_get_contents('./page/head.php'); 
-echo file_get_contents('./page/body.php');
+echo file_inject('./page/body.php');
 echo file_get_contents('./page/registration.php');
 echo file_get_contents('./page/settings.php');
 echo file_get_contents('./page/end.php');
