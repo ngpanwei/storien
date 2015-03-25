@@ -109,7 +109,8 @@ class ActivityDb {
 		$dateStr = date($this->format) ;
 		$filename = $this->dir . "/" . $dateStr . ".xml" ;
 		$fileDb->setFilename($filename) ;
-		$fileDb->setRoot("date",$dateStr) ;
+		$fileDb->setRoot("creation",$dateStr) ;
+		$fileDb->setRoot("score","0") ;
 		return new Activity($fileDb) ;
 	}
 }
