@@ -3,6 +3,8 @@
   *  file: upload.php  文件上传类Upload
   *  本类的实例对象用于处理上传文件，可以上传一个文件，也可同时处理多个文件上传
   */
+ 
+ require_once("../util/ValueObject.php");
   class Upload {  
     private $path = "./uploads";              //上传文件保存的路径
     private $allowtype = array('jpg','gif','png');  //设置限制上传文件的类型
@@ -16,6 +18,11 @@
     private $newFileName;                   //新文件名
     private $errorNum = 0;                  //错误号
     private $errorMess="";                //错误报告消息
+    private $vo;
+
+    public function __construct(){
+    	$this->vo = new ResultVO() ;
+    }
     
     /**
      * 用于设置成员属性（$path, $allowtype,$maxsize, $israndname）
@@ -43,6 +50,11 @@
       /* 检查文件路径是滞合法 */
       if( !$this->checkFilePath() ) {       
         $this->errorMess = $this->getError();
+
+        $this->vo->resultCode = "failed" ;
+		$this->vo->message = $this->errorMess ;
+		echo json_encode($this->vo);
+
         return false;
       }
       /* 将文件上传的信息取出赋给变量 */
@@ -88,6 +100,11 @@
           $this->newFileName = $fileNames;
         }
         $this->errorMess = $errors;
+
+        $this->vo->resultCode = "failed" ;
+		$this->vo->message = $this->errorMess ;
+		echo json_encode($this->vo);
+
         return $return;
       /*上传单个文件处理方法*/
       } else {
@@ -99,6 +116,10 @@
             $this->setNewFileName(); 
             /* 上传文件   返回0为成功， 小于0都为错误 */
             if($this->copyFile()){ 
+              	$this->vo->resultCode = "success" ;
+				$this->vo->message = "上传图像成功" ;
+				echo json_encode($this->vo);
+
               return true;
             }else{
               $return=false;
@@ -112,6 +133,10 @@
         //如果$return为false, 则出错，将错误信息保存在属性errorMess中
         if(!$return)
           $this->errorMess=$this->getError();   
+
+      	  $this->vo->resultCode = "failed" ;
+		  $this->vo->message = $this->errorMess ;
+		  echo json_encode($this->vo);
 
         return $return;
       }
@@ -137,7 +162,7 @@
     
     /* 设置上传出错信息 */
     private function getError() {
-      $str = "上传文件<font color='red'>{$this->originName}</font>时出错 : ";
+      $str = "上传文件{$this->originName}时出错 : ";
       switch ($this->errorNum) {
         case 4: $str .= "没有文件被上传"; break;
         case 3: $str .= "文件只有部分被上传"; break;
@@ -150,7 +175,7 @@
         case -5: $str .= "必须指定上传文件的路径"; break;
         default: $str .= "未知错误";
       }
-      return $str.'<br>';
+      return $str;
     }
 
     /* 设置和$_FILES有关的内容 */
@@ -196,6 +221,11 @@
         $this->setOption('errorNum', -2);
         return false;
       }else{
+      	//判断文件是否为空
+	  	if(empty($_FILES['file']['tmp_name'])){
+	  		$this->setOption('errorNum', 4);
+	    	return false;
+	  	}
         return true;
       }
     }
@@ -239,20 +269,25 @@
   }
 
 $up = new Upload;                                //实例化文件上传对象
-  echo '<pre>';
-  //可以通过set方法设置上传的属性，设置多个属性set方法可以单独调用，也可以连贯操作一起调用多个
+
+//可以通过set方法设置上传的属性，设置多个属性set方法可以单独调用，也可以连贯操作一起调用多个
   $up -> set('path', './../../uploads/')             //可以自己设置上传文件保存的路径      
       -> set('maxsize', 10000000)                  //可以自己限制上传文件的大小(字节),默认约1M
       -> set('allowtype', array('gif', 'jpg', 'png' , 'jpeg'))  //可以自己限制上传文件的类型
-      -> set('israndname', false);             //可以使用原文件名，不让系统命名    
+      -> set('israndname', false);             //可以使用原文件名，不让系统命名  
+
+$up->upload("file");
+
+  // echo '<pre>';
+    
   
-  /* 调用$up对象的upload()方法上传文件, myfile是表单的名称，上传成功返回true,否则为false   */
-  if( $up->upload('file') ) {  
-    //如果上传多个文件，下面方法返回是数组，存放所有上传后的文件名。单文件上传则直接返回文件名称
-    print_r($up->getFileName());       
-  }else{
-    //如果上传多个文件时，下面方法返回是数组，多条出错信息。单文件上传出错则直接返回一条错误报告
-    print_r($up->getErrorMsg());
-  }
+  // /* 调用$up对象的upload()方法上传文件, myfile是表单的名称，上传成功返回true,否则为false   */
+  // if( $up->upload("file") ) {  
+  //   //如果上传多个文件，下面方法返回是数组，存放所有上传后的文件名。单文件上传则直接返回文件名称
+  //   print_r($up->getFileName());       
+  // }else{
+  //   //如果上传多个文件时，下面方法返回是数组，多条出错信息。单文件上传出错则直接返回一条错误报告
+  //   print_r($up->getErrorMsg());
+  // }
   
-  echo '</pre>';
+  // echo '</pre>';
