@@ -35,14 +35,41 @@ class FeatureContext extends BehatContext {
 		$this->intention['event'] = $event ;
 		$controller = new ActivityController() ;
 		$user = $controller->getUserByEmail($email) ;
-		$controller->handleUserEvent($user, $event) ;
+		$this->intention['userGuid'] = $user->getProperty("guid") ;
+		$this->intention['activities'] = $controller->handleUserEvent($user, $event) ;
 	}	
+	protected function getActivityVO($activityTitle) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityList = $this->intention['activities'] ;
+		foreach($activityList as $activity) {
+			if($activity->title==$activityTitle) {
+				return $activity;
+			}
+		}
+		return null ;
+	}
 	/**
 	 * @When /^用户查看活动 "([^"]*)"$/
 	 */
-	public function userViewsActivity($activityName)
-	{
-		$this->intention['activityName'] = $activityName ;
+	public function userViewsActivity($activityTitle) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityVO = $this->getActivityVO($activityTitle) ;
+		if($activityVO==null) {
+			throw new TestException("cannot find activity") ;
+		}
+		$creation = $activityVO->creation ;
+		$userGuid = $this->intention['userGuid'] ;
+		Logger::log(__FILE__,__LINE__,$creation) ;
+		$controller = new ActivityController() ;
+		$activityDAO = $controller->getActivityByCreation($userGuid,$creation) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$title = $activityDAO->getProperty("title") ;
+		if($title!=$activityTitle) {
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+			throw new TestException("cannot find activity with title") ;
+		}
+		$this->intention['activity'] = $activityDAO ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 	}
     /**
      * @When /^用户完成 "([^"]*)" 活动$/

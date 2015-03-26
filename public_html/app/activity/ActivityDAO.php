@@ -67,7 +67,10 @@ class Activity {
 	public function getVO() {
 		$vo = new ActivityVO ;
 		$vo->guid = $this->getProperty("guid") ;
-		$vo->name = $this->getProperty("title") ;
+		$vo->title = $this->getProperty("title") ;
+		$vo->creation = $this->getProperty("creation") ;
+		$vo->path = $this->getProperty("path") ;
+		$vo->kind = $this->getProperty("kind") ;
 		return $vo ;
 	}
 }
@@ -89,20 +92,19 @@ class ActivityDb {
 	}
 	public function loadAll() {
 		$this->db->loadAll("title") ;
-	}
-	public function getActivityByName($name) {
-		$fileDb = $this->db->getFileDbByKey($name) ;
-		if($fileDb==null) {
-			return null ;
+	}	
+	public function getActivityByCreation($creation) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$filename = $this->dir . "/" . $creation . ".xml" ;
+		$fileDb = new XMLFileDb($filename) ;
+		$fileDb->load() ;
+		$activity = new Activity($fileDb) ;
+		$activityCreation = $activity->getProperty("creation") ;
+		if($activityCreation!=$creation) {
+			throw new Exception("cannot find activity") ;
 		}
-		return new Activity($fileDb) ;
-	}
-	public function getActivityById($guid) { // by guid
-		$fileDb = $this->db->getFileByGuid($guid) ;
-		if($fileDb==null) {
-			return null ;
-		}
-		return new Activity($fileDb) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		return $activity;
 	}
 	public function createActivity($name) {
 		$fileDb = $this->db->createFileDb("title",$name) ;
@@ -113,19 +115,5 @@ class ActivityDb {
 		return new Activity($fileDb) ;
 	}
 }
-
-// Logger::log(__FILE__,__LINE__,"Activity") ;
-// $activityDb = new ActivityDb("550e6bb6d4a2c") ;
-// Logger::log(__FILE__,__LINE__,"Activity") ;
-// $activityDb->init() ;
-// Logger::log(__FILE__,__LINE__,"Activity") ;
-// $activity = $activityDb->createActivity("reading") ;
-// $activity->setProperty("score","0") ;
-// $activity->setProperty("activityClass","content") ;
-// $activity->setProperty("activityContent","agile/basics/introduction.xml") ;
-// Logger::log(__FILE__,__LINE__,"Activity") ;
-// $activity->flush() ;
-// Logger::log(__FILE__,__LINE__,"Activity") ;
-
 
 ?>
