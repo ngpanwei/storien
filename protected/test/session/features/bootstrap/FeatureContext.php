@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
+Logger::log(__FILE__,__LINE__,"registration") ;
 require_once ("../../../public_html/app/personify/Register.php");
 
 Logger::log(__FILE__,__LINE__,"registration") ;
@@ -27,7 +28,13 @@ class FeatureContext extends BehatContext {
 	public function __construct(array $parameters) {
 		$this->intention = array ();
 	}
-   
+	/**
+	 * @Given /^团队 "([^"]*)"$/
+	 */
+	public function teamContext($teamname)
+	{
+		$this->intention ['teamname'] = $teamname;
+	}   
     	/**
     	 * @Given /^用户名 "([^"]*)" 邮箱 "([^"]*)"$/
     	 */
@@ -54,8 +61,18 @@ class FeatureContext extends BehatContext {
 	public function registrationResult($result)
 	{
 		$handler = new RegistrationHandler() ;
+		$handler->teamname = $this->intention ['teamname'] ;
 		$handler->username = $this->intention ['username'] ;
-		$user = $handler->process() ;
+		$handler->email = $this->intention ['email'] ;
+		$handler->password = $this->intention ['password'] ;
+		$handler->cpassword = $this->intention ['cpassword'] ;
+		$vo = $handler->handle() ;
+		if($vo==null) {
+			throw new Exception("no result") ;
+		}
+		if($vo->resultCode!=$result) {
+			throw new Exception("registration should ".$result) ;
+		}
 	}
 	
     /**
@@ -63,5 +80,6 @@ class FeatureContext extends BehatContext {
      */
 	public function signInResult($result)
 	{
+		throw new Exception("Not implemented") ;
 	}
 }

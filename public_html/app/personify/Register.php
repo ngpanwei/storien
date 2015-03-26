@@ -94,14 +94,17 @@ class RegistrationHandler {
 		$this->process() ;
 	}
 	function process() {
+		$vo = handle() ;
+		echo json_encode($vo);
+	}
+	function handle() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$user = $this->getUserbyEmail() ;
 		if($user!=null) {
 			$vo = new ResultVO() ;
 			$vo->resultCode = "failed" ;
 			$vo->message = $this->email . "已经被注册了" ;
-			echo json_encode($vo);
-			return ;	
+			return $vo;	
 		}
 		$user = $this->registerNewUser() ;
 		$userVO = $user->getVO() ;
@@ -112,8 +115,7 @@ class RegistrationHandler {
 		$vo->resultCode = "success" ;
 		$vo->message = "注册成功！" ;
 		$vo->data = $userVO ;
-
-		echo json_encode($vo);		
+		return $vo;
 	}
 }
 
