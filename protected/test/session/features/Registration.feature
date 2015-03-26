@@ -6,12 +6,14 @@ Background:
 	
 Scenario: 注册新用户
 	Given 用户名 "阿花" 邮箱 "testx@storien.com"
-	When 用户 提供 密码 "12345678" 和 确认密码 "12345678"
+	When 用户 提供 密码 "12345678" 
+	When 用户 提供 确认密码 "12345678"
 	Then  注册结果 "成功" 
 
 Scenario: 已有用户注册
 	Given 用户名 "阿猫" 邮箱 "testy@storien.com"
-	When 用户 提供 密码 "12345678" 和 确认密码 "12345678"
+	When 用户 提供 密码 "12345678" 
+	When 用户 提供 确认密码 "12345678"
 	Then  注册结果 "失败" 
 
 Scenario: 已有用户登入
