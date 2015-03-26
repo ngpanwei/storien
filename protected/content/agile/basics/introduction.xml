@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div title="介绍" class="learn">
+   <div id="content">
+    敏捷开发是一种以人为核心、迭代、循序渐进的开发方法。
+    在敏捷开发中，软件项目的构建被切分成多个子项目，
+    各个子项目的成果都经过测试，具备集成和可运行的特征。
+    换言之，就是把一个大项目分为多个相互联系，
+    但也可独立运行的小项目，并分别完成，
+    在此过程中软件一直处于可使用状态。
+   </div>
+   <div id="check1" class="check">
+     <div id="0" class="question">敏捷比传统好</div>
+     <div id="1" class="correct">对</div>
+     <div id="2" class="wrong">不对</div>
+   </div>
+</div>
