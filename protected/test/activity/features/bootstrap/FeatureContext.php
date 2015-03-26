@@ -59,7 +59,6 @@ class FeatureContext extends BehatContext {
 		}
 		$creation = $activityVO->creation ;
 		$userGuid = $this->intention['userGuid'] ;
-		Logger::log(__FILE__,__LINE__,$creation) ;
 		$controller = new ActivityController() ;
 		$activityDAO = $controller->getActivityByCreation($userGuid,$creation) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
@@ -69,20 +68,34 @@ class FeatureContext extends BehatContext {
 			throw new TestException("cannot find activity with title") ;
 		}
 		$this->intention['activity'] = $activityDAO ;
+		$this->intention['activityCreation'] = $activityDAO->getProperty("creation") ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 	}
     /**
-     * @When /^用户完成 "([^"]*)" 活动$/
+     * @When /^用户把 "([^"]*)" 活动 "([^"]*)"$/
      */
-    public function completeActivity($activityName)
+    public function completeActivity($activityName,$status)
     {
-        throw new PendingException();
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    		$activityDAO = $this->intention['activity'] ;
+    		$activityDAO->setProperty("status",$status) ;
+    		$activityDAO->flush() ;
     }
     /**
-     * @Then /^"([^"]*)" 已完成$/
+     * @Then /^"([^"]*)" 活动状态是  "([^"]*)"$/
      */
-    public function activityIsCompleted($activityName)
+    public function activityIsCompleted($activityName, $status)
     {
-    	    throw new PendingException();
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    		$creation = $this->intention['activityCreation'] ;
+		$userGuid = $this->intention['userGuid'] ;
+    		Logger::log(__FILE__,__LINE__,$creation) ;
+		$controller = new ActivityController() ;
+		$activityDAO = $controller->getActivityByCreation($userGuid, $creation) ;
+		$actualStatus = $activityDAO->getProperty("status") ;
+		if($status!=$actualStatus) {
+			throw new TestException("actual status is ".$actualStatus) ;
+		}
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
     }    	
 }

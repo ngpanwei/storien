@@ -6,6 +6,6 @@ Feature: 个人活动
 Scenario: 建立活动
 	Given 用户 "panwei@storien.com" 刚 "register"
 	When 用户查看活动 "欢迎"
-	When 用户完成 "欢迎" 活动
-	Then "欢迎" 已完成
+	When 用户把 "欢迎" 活动 "done"
+	Then "欢迎" 活动状态是  "done"
 
