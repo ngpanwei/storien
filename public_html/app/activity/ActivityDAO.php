@@ -22,10 +22,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("../util/Logger.php");
-require_once("../util/Exception.php");
-require_once("../util/XMLFileDb.php");
-require_once("../util/Guid.php");
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
+require_once(dirname(dirname(__FILE__))."/util/Exception.php");
+require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
+require_once(dirname(dirname(__FILE__))."/util/Guid.php");
 
 Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 
