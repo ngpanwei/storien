@@ -22,14 +22,15 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once(dirname(dirname(__FILE__))."/app/activity/ActivityDAO.php");
-require_once(dirname(dirname(__FILE__))."/app/personufy/PersonifyAPI.php");
+require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
+require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
+require_once(dirname(dirname(__FILE__))."/personify/PersonifyAPI.php");
 
 class ActivityController {
 	public function getUserByEmail($email) {
 		$userDb = new UserDb() ;
 		$userDb->loadAll() ;
-		$user = $userDb->getUserByEmail($this->email) ;
+		$user = $userDb->getUserByEmail($email) ;
 		return $user ;
 	}
 	public function handleEvent($email,$event) {
@@ -37,6 +38,32 @@ class ActivityController {
 		handleUserEvent($user,$event) ;
 	}
 	public function handleUserEvent($user,$event) {
-		
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+ 		$userId = $user->getProperty("guid") ;
+ 		$activityDb = new ActivityDb($userId) ;
+ 		$activityDb->init() ;
+		$contentList = $this->generateContentList($event) ;
+ 		foreach($contentList as $content) {
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+ 			$title = $content->getProperty("title") ;
+ 			$kind = $content->getProperty("kind") ;
+  			$xml = $content->getContentXML() ;
+ 			$activity = $activityDb->createActivity($title) ;
+ 			$activity->setProperty("path",$content->contentName) ;
+ 			$activity->flush() ;
+ 			Logger::log(__FILE__,__LINE__,$xml) ;
+ 		}
+	}
+	public function generateContentList($event) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$contentList = array() ;
+		$content = new ContentDAO("engage/registration/welcome.xml") ; 
+		$content->load() ;
+		$title = $content->getProperty("title") ;
+		if(strlen($title)<1) {
+			throw new SystemException("Cannot find content") ;
+		}
+		array_push($contentList,$content) ;
+		return $contentList ;
 	}
 }

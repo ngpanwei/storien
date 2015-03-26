@@ -93,6 +93,7 @@ class XMLFileDb {
 			$this->xmlRoot = $this->xmlDoc->createElement("div","") ;
 			$this->xmlDoc->appendChild($this->xmlRoot);
 		} else {
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 			$this->xmlDoc = new DOMDocument();
 			$this->xmlDoc->load($this->filename);
 			$elementList = $this->xmlDoc->getElementsByTagName("div") ;
@@ -174,6 +175,14 @@ class XMLDirDb {
 	public function __construct($dir) {
 		$this->dirDb = array() ;
 		$this->dir = $dir ;
+	}
+	public function deleteAll() {
+		$files = scandir($this->dir);
+		foreach($files as $filename) {
+			if(strpos($filename,'.xml')!==false) {
+				unlink($this->dir."/".$filename) ;
+			}
+		}
 	}
 	public function loadAll($key) {
 		$files = scandir($this->dir);

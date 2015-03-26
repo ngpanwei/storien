@@ -35,10 +35,10 @@ class ActivityClassVO {
 }
 
 class ActivityVO {
-	var $name  ; // name of activity to display on person's activity list
-	var $creation  ; // date when activity was created
-	var $class ; // class of activity, which achieved results in a medal
-	var $content ; // path to find the content of this activity
+	var $itle     ; // name of activity to display on person's activity list
+	var $creation ; // date when activity was created
+	var $kind     ; // kind of activity, which achieved results in a medal
+	var $path  ; // path to find the content of this activity
 }
 
 class Activity {
@@ -67,7 +67,7 @@ class Activity {
 	public function getVO() {
 		$vo = new ActivityVO ;
 		$vo->guid = $this->getProperty("guid") ;
-		$vo->name = $this->getProperty("name") ;
+		$vo->name = $this->getProperty("title") ;
 		return $vo ;
 	}
 }
@@ -85,9 +85,10 @@ class ActivityDb {
 	}
 	public function init() {
 		mkdir($this->dir) ;
+		$this->db->deleteAll() ;
 	}
 	public function loadAll() {
-		$this->db->loadAll("activityName") ;
+		$this->db->loadAll("title") ;
 	}
 	public function getActivityByName($name) {
 		$fileDb = $this->db->getFileDbByKey($name) ;
@@ -104,7 +105,7 @@ class ActivityDb {
 		return new Activity($fileDb) ;
 	}
 	public function createActivity($name) {
-		$fileDb = $this->db->createFileDb("activityName",$name) ;
+		$fileDb = $this->db->createFileDb("title",$name) ;
 		$dateStr = date($this->format) ;
 		$filename = $this->dir . "/" . $dateStr . ".xml" ;
 		$fileDb->setFilename($filename) ;
@@ -113,26 +114,18 @@ class ActivityDb {
 	}
 }
 
-Logger::log(__FILE__,__LINE__,"Activity") ;
-$activityDb = new ActivityDb("550e6bb6d4a2c") ;
-Logger::log(__FILE__,__LINE__,"Activity") ;
-$activityDb->init() ;
-Logger::log(__FILE__,__LINE__,"Activity") ;
-$activity = $activityDb->createActivity("reading") ;
-$activity->setProperty("score","0") ;
-$activity->setProperty("activityClass","content") ;
-$activity->setProperty("activityContent","agile/basics/introduction.xml") ;
-Logger::log(__FILE__,__LINE__,"Activity") ;
-$activity->flush() ;
-Logger::log(__FILE__,__LINE__,"Activity") ;
+// Logger::log(__FILE__,__LINE__,"Activity") ;
+// $activityDb = new ActivityDb("550e6bb6d4a2c") ;
+// Logger::log(__FILE__,__LINE__,"Activity") ;
+// $activityDb->init() ;
+// Logger::log(__FILE__,__LINE__,"Activity") ;
+// $activity = $activityDb->createActivity("reading") ;
+// $activity->setProperty("score","0") ;
+// $activity->setProperty("activityClass","content") ;
+// $activity->setProperty("activityContent","agile/basics/introduction.xml") ;
+// Logger::log(__FILE__,__LINE__,"Activity") ;
+// $activity->flush() ;
+// Logger::log(__FILE__,__LINE__,"Activity") ;
 
-// $team = $teamDb->getTeamByName("storien1") ;
-// if($team==null) {
-//  	Logger::log(__FILE__,__LINE__,"create new team") ;
-//   	$team = $teamDb->createTeam("storien1") ;	
-//   	$team->flush() ;
-// } else {
-//  	Logger::log(__FILE__,__LINE__,"existing team") ;
-// }
-// Logger::log(__FILE__,__LINE__,"Teamify") ;
+
 ?>

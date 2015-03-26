@@ -9,9 +9,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-Logger::log(__FILE__,__LINE__,"activity") ;
 require_once ("../../../public_html/app/activity/ActivityController.php");
-Logger::log(__FILE__,__LINE__,"activity") ;
 /**
  * Features context.
  */
@@ -27,7 +25,6 @@ class FeatureContext extends BehatContext {
 	 */
 	public function __construct(array $parameters) {
 		$this->intention = array ();
-		$this->controller = new ActivityController() ;
 	}
 	/**
 	 * @Given /^用户 "([^"]*)" 刚 "([^"]*)"$/
@@ -36,6 +33,9 @@ class FeatureContext extends BehatContext {
 	{
 		$this->intention['email'] = $email ;
 		$this->intention['event'] = $event ;
+		$controller = new ActivityController() ;
+		$user = $controller->getUserByEmail($email) ;
+		$controller->handleUserEvent($user, $event) ;
 	}	
 	/**
 	 * @When /^用户查看活动 "([^"]*)"$/
