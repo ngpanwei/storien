@@ -24,7 +24,7 @@
  */
 require_once("PersonifyAPI.php");
 require_once("PersonifyMailer.php");
-require_once("../util/ValueObject.php");
+require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;

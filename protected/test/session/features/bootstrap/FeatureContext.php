@@ -9,8 +9,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-Logger::log(__FILE__,__LINE__,"registration") ;
-require_once ("../../../public_html/app/personify/PersonifyAPI.php");
+require_once ("../../../public_html/app/personify/Register.php");
 
 Logger::log(__FILE__,__LINE__,"registration") ;
 /**
@@ -19,7 +18,6 @@ Logger::log(__FILE__,__LINE__,"registration") ;
 
 class FeatureContext extends BehatContext {
 	var $intention ;
-	var $sessionAPI ;
 	/**
 	 * Initializes context.
 	 * Every scenario gets it's own context object.
@@ -28,7 +26,6 @@ class FeatureContext extends BehatContext {
 	 */
 	public function __construct(array $parameters) {
 		$this->intention = array ();
-// 		$this->sessionAPI = new SessionAPI() ;
 	}
    
     	/**
@@ -56,7 +53,9 @@ class FeatureContext extends BehatContext {
 	 */
 	public function registrationResult($result)
 	{
-		throw new PendingException();
+		$handler = new RegistrationHandler() ;
+		$handler->username = $this->intention ['username'] ;
+		$user = $handler->process() ;
 	}
 	
     /**
