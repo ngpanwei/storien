@@ -36,10 +36,9 @@ class ActivityClassVO {
 
 class ActivityVO {
 	var $name  ; // name of activity to display on person's activity list
-	var $page  ; // page link or hash to conduct the activity
-	var $creationDate  ; // date when activity was created
+	var $creation  ; // date when activity was created
 	var $class ; // class of activity, which achieved results in a medal
-	var $point ; // points awarded for conducting the activity
+	var $content ; // path to find the content of this activity
 }
 
 class Activity {
@@ -110,7 +109,6 @@ class ActivityDb {
 		$filename = $this->dir . "/" . $dateStr . ".xml" ;
 		$fileDb->setFilename($filename) ;
 		$fileDb->setRoot("creation",$dateStr) ;
-		$fileDb->setRoot("score","0") ;
 		return new Activity($fileDb) ;
 	}
 }
@@ -121,6 +119,9 @@ Logger::log(__FILE__,__LINE__,"Activity") ;
 $activityDb->init() ;
 Logger::log(__FILE__,__LINE__,"Activity") ;
 $activity = $activityDb->createActivity("reading") ;
+$activity->setProperty("score","0") ;
+$activity->setProperty("activityClass","content") ;
+$activity->setProperty("activityContent","agile/basics/introduction.xml") ;
 Logger::log(__FILE__,__LINE__,"Activity") ;
 $activity->flush() ;
 Logger::log(__FILE__,__LINE__,"Activity") ;

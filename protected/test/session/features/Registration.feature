@@ -1,36 +1,21 @@
-Feature: Registration
-
+Feature: 用户注册和管理
 
 Background:
-	Given users :
-	| username | email       | password |
-	| abc      | abc@abc.com | 145d8    |
-	| def      | xyc@def.com | hufuu    |
-	Given non-existent users :
-	| email    |
-	| a@a      |
+	系统没有 用户 "testx@storien.com"
+	系统有 用户名 "阿猫" 邮箱 "testy@storien.com" 密码 "12345678" 
+	
+Scenario: 注册新用户
+	Given 用户名 "阿花" 邮箱 "testx@storien.com"
+	When 用户 提供 密码 "12345678" 和 确认密码 "12345678"
+	Then  注册结果 "成功" 
 
-@done
-Scenario: Register new user
-	Given user "黄" with email "a@a"
-	When user gives password "tfyitff"
-	Then registration "succeeds" with code "0"
+Scenario: 已有用户注册
+	Given 用户名 "阿猫" 邮箱 "testy@storien.com"
+	When 用户 提供 密码 "12345678" 和 确认密码 "12345678"
+	Then  注册结果 "失败" 
 
-@wip
-Scenario: Confirm registration
-	Given user "黄" with email "abc@abc.com"
-	Then registration confirmation "succeeds" with code "0"
-
-@done
-Scenario: Sign In as existing user
-	Given user "abc" with email "abc@abc.com"
-	When user gives password "145d8"
-	Then sign in "succeeds" with code "0"
-
-@done
-Scenario: Change password of existing user
-	Given user "test" with email "abc@abc.com"
-	And user has old password "145d8"
-	And user gives password "tfyitff"
-	Then password change "succeeds" with code "0"
+Scenario: 已有用户登入
+	Given 用户名 "阿猫" 邮箱 "testy@storien.com"
+	When 用户 提供 密码 "12345678"
+	Then 登入 "成功" 
 
