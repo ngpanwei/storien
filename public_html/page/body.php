@@ -1,20 +1,6 @@
-<div data-role="page" id="pgAddStory" data-title="记录经历">
+<div data-role="page" id="pgActivity" data-title="活动">
   <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>记录经历</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  </div>
-</div>
-<div data-role="page" id="pgSignifyStory" data-title="象征经历">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>象征经历</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-  </div>
-</div>
-<div data-role="page" id="pgTakePoll" data-title="意见调查">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>意见调查</h1>
+    <h1>活动</h1>
   </div>
   <div data-role="main" class="ui-content">
   </div>

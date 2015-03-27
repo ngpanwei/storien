@@ -22,7 +22,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("PersonifyAPI.php");
+require_once("UserDAO.php");
 require_once("PersonifyMailer.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
@@ -91,10 +91,13 @@ class RegistrationHandler {
 			echo json_encode($vo);
 			return ;
 		}
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->process() ;
 	}
 	function process() {
-		$vo = handle() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$vo = $this->handle() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		echo json_encode($vo);
 	}
 	function handle() {

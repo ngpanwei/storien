@@ -67,7 +67,8 @@ class Logger {
 		}
 	}
 	public static function __file($message) {
-		$line = $message . PHP_EOL ;
+		$format = 'Y-m-d-H-i-s' ;
+		$line = "[" . date($format) . "][" . $_SERVER['REMOTE_ADDR'] . "][" . $message . "]" . PHP_EOL ;
 		file_put_contents(self::$filename, $line, FILE_APPEND | LOCK_EX);
 	}
 	public static function __web($message) {

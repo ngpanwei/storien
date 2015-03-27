@@ -30,13 +30,12 @@ var validatorService = {
 var personService = {
 	initialize : function() {
 		$("#logout").click(function() {
-			// @todo 为何不能用 this.signOut() ?
 			personService.signOut() ;
 		});
 	},
 	signOut : function() {
 		personifyModel.logOut() ;
-		personifyController.start() ;
+		appController.start() ;
 	},
 } ; // end of signInService 
 var signInService = {
@@ -69,7 +68,7 @@ var signInService = {
 		$("#signinDialog").popup("open") ;
 		$.ajax({
 			type: "POST",
-			url: "app/personify/SignIn.php" ,
+			url: "app/user/SignIn.php" ,
 			dataType : "json",
 			data: { 
 				email : email , 
@@ -87,7 +86,7 @@ var signInService = {
 			$("#signinText").text(result.message) ;
 			return ;
 		}
-		personifyController.signinSuccessful(result.data) ;
+		appController.signinSuccessful(result.data) ;
 	},
 } ; // end of signInService 
 var registerService = {
@@ -139,7 +138,7 @@ var registerService = {
 //		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
-			url: "app/personify/Register.php" ,
+			url: "app/user/Register.php" ,
 			dataType : "json",
 			data: { 
 				teamname : teamname , 
@@ -149,7 +148,8 @@ var registerService = {
 				cpassword : cpassword , 
 			} ,
 			error: function (xhr, ajaxOptions, thrownError) {
-		        alert(xhr.status + "  " + thrownError);
+				$("#registerTitle").text("不好意思，系统有些毛病，请在试试") ;
+				$("#registerText").text(xhr.status + "  " + thrownError);
 		    }			
 		}).done(function(result) {
 			registerService.afterRegistration(result) ;
@@ -162,7 +162,7 @@ var registerService = {
 			$("#registerText").text(result.message) ;
 			return ;
 		}
-		personifyController.registrationSuccessful(result.data) ;
+		appController.registrationSuccessful(result.data) ;
 	},		
 } ; // end of registerService 
 var resetPasswordService = {
@@ -198,9 +198,9 @@ var resetPasswordService = {
 		email = $(form).find("#email").val() ;
 		password = $(form).find("#password").val() ;
 		cpassword = $(form).find("#cpassword").val() ;
-    	$.ajax({
+        $.ajax({
 			type: "POST",
-			url: "app/personify/ResetPassword.php" ,
+			url: "app/user/ResetPassword.php" ,
 			dataType : "json",
 			data: { 
 				email : email , 
@@ -216,29 +216,5 @@ var resetPasswordService = {
 		alert(data.message);
 	},
 } ; // end of forget password service 
-var personifyController = {
-	initialize : function() {
-		//debug，只验证不提交表单
-		// validatorService.initialize();
-		signInService.initialize("#signInForm") ;
-		registerService.initialize("#registrationForm") ;
-		resetPasswordService.initialize("#resetPasswordForm") ;
-		personService.initialize() ;
-	},
-	start : function() {
-		if(personifyModel.isLoggedIn()==true) {
-			window.location.hash = "pgPersonHome";
-		} else {
-			window.location.hash = "pgSignIn";
-		}
-	},	
-	registrationSuccessful : function(userVO) {
-		personifyModel.setUserId(userVO) ;
-		window.location.hash = "pgPersonHome";
-	},
-	signinSuccessful : function(userVO) {
-		personifyModel.setUserId(userVO) ;
-		window.location.hash = "pgPersonHome";
-	},
-} ; // end of personifyController 
+
 

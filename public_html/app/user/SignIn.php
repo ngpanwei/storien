@@ -22,9 +22,13 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("PersonifyAPI.php");
-require_once("../util/ValueObject.php");
+require_once("UserDAO.php");
+require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
+
+Logger::enable(true) ;
+Logger::setFilename(dirname(__FILE__)."/log.txt") ;
+Logger::setMode("file") ;
 
 class SignInHandler {
 	var $email ;

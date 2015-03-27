@@ -1,4 +1,4 @@
-<div data-role="page" id="pgSignIn" data-title="Sign In">
+<div data-role="page" id="pgSignIn" data-title="登入">
   <div data-role="header" data-position="fixed" data-theme="a">
     <h1>登入</h1>
   </div>
@@ -33,7 +33,7 @@
         data-rel="back" data-transition="flow">关闭</a>
 </div>
 </div>
-<div data-role="page" data-title="Teamify" id="pgConfirmation">
+<div data-role="page" data-title="注册确认" id="pgConfirmation">
   <div data-role="header" data-position="fixed" data-theme="a">
     <h1>登录确认</h1>
   </div>
@@ -43,7 +43,7 @@
   </div>
 
 </div>
-<div data-role="page" data-title="Teamify" id="pgRegister">
+<div data-role="page" data-title="注册" id="pgRegister">
   <div data-role="header" data-position="fixed" data-theme="a">
     <h1>注册团成员</h1>
   </div>

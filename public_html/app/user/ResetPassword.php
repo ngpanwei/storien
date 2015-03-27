@@ -22,11 +22,11 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("PersonifyAPI.php");
-require_once("../util/Logger.php");
-require_once("../util/Exception.php");
-require_once("../util/ValueObject.php");
-require_once("../util/XMLFileDb.php");
+require_once("UserDAO.php");
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
+require_once(dirname(dirname(__FILE__))."/util/Exception.php");
+require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
+require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
 /**
