@@ -12,7 +12,7 @@
     <script src="scripts/plugin/jquery.validate.min.js"></script>
     <script src="scripts/plugin/jquery.metadata.js"></script>
     <script src="scripts/plugin/localization/messages_zh.min.js"></script>
-    <script src="js/personify.js"></script>
+    <script src="js/user.js"></script>
     <script src="js/init.js"></script>
     <title>团队化</title>
 </head>
