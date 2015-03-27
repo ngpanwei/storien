@@ -9,7 +9,9 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
+Logger::log(__FILE__,__LINE__,"activity.feature") ;
 require_once ("../../../public_html/app/activity/ActivityController.php");
+Logger::log(__FILE__,__LINE__,"activity.feature") ;
 /**
  * Features context.
  */
@@ -48,6 +50,17 @@ class FeatureContext extends BehatContext {
 		}
 		return null ;
 	}
+    /**
+     * @When /^用户刷新活动列表$/
+     */
+    public function userRefreshActivityList() {
+    		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userGuid = $this->intention['userGuid'] ;
+    		Logger::log(__FILE__,__LINE__,$userGuid) ;
+		$controller = new ActivityController() ;
+		$activityVOList = $controller->getActivityVOList($userGuid) ;
+    		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    }
 	/**
 	 * @When /^用户查看活动 "([^"]*)"$/
 	 */

@@ -6,6 +6,7 @@ var appController = {
 		registerService.initialize("#registrationForm") ;
 		resetPasswordService.initialize("#resetPasswordForm") ;
 		personService.initialize() ;
+		SyncService.initialize() ;
 	},
 	registrationSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;

@@ -34,6 +34,7 @@ class UserVO {
 	var $username ;
 	var $email ;
 	var $teams ;
+	var $creation;
 }
 class User {
 	var $xmlFileDb ;
@@ -64,13 +65,16 @@ class User {
 		$vo->username = $this->getProperty("username") ;
 		$vo->email = $this->getProperty("email") ;
 		$vo->teams = $this->xmlFileDb->getList("teams") ;
+		$vo->email = $this->getProperty("creation") ;
 		return $vo ;
 	}
 }
 class UserDb {
 	var $dir ;
 	var $db ;
+	var $format ;
 	public function __construct() {
+		$this->format = 'Y-m-d-H-i-s' ;
 		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/users" ;
 		$this->db = new XMLDirDb($this->dir) ;
 	}
@@ -93,6 +97,8 @@ class UserDb {
 	}
 	public function createUser($email) {
 		$fileDb = $this->db->createFileDb("email",$email) ;
+		$dateStr = date($this->format) ;
+		$fileDb->setRoot("creation", $dateStr) ;
 		return new User($fileDb) ;
 	}
 }

@@ -2,17 +2,18 @@ var personDb = $.localStorage ;
 var personifyModel = {
 	// using https://github.com/julien-maurel/jQuery-Storage-API
 	isLoggedIn : function() {
-		if(personDb.isSet("personify.userId")==false) {
+		if(personDb.isSet("user.userId")==false) {
 			return false ;
 		}
 		return true ;
 	},	
 	logOut : function() {
-		personDb.remove("personify.userId") ;
+		personDb.remove("user.userId") ;
 	},
 	setUserId : function(userVO) {
-		personDb.set("personify.userId",userVO.guid) ;
-		personDb.set("personify.username",userVO.username) ;
+		personDb.set("user.userId",userVO.guid) ;
+		personDb.set("user.username",userVO.username) ;
+		personDb.set("user.creation",userVO.creation) ;
 	}
 } ; // end of personifyModel
 

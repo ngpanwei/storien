@@ -35,7 +35,7 @@ class ActivityClassVO {
 }
 
 class ActivityVO {
-	var $itle     ; // name of activity to display on person's activity list
+	var $title     ; // name of activity to display on person's activity list
 	var $creation ; // date when activity was created
 	var $kind     ; // kind of activity, which achieved results in a medal
 	var $path  ; // path to find the content of this activity
@@ -91,7 +91,7 @@ class ActivityDb {
 		$this->db->deleteAll() ;
 	}
 	public function loadAll() {
-		$this->db->loadAll("title") ;
+		$this->db->loadAll("creation") ;
 	}	
 	public function getActivityByCreation($creation) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
@@ -113,6 +113,18 @@ class ActivityDb {
 		$fileDb->setFilename($filename) ;
 		$fileDb->setRoot("creation",$dateStr) ;
 		return new Activity($fileDb) ;
+	}
+	public function getAllActivities() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$fileDbArray = $this->db->getAllFiles() ;
+		$ActivityVOList = array() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		foreach($fileDbArray as $fileDb) {
+			$activityDAO = new Activity($fileDb) ;
+			$activityVO = $activityDAO->getVO() ;
+			array_push($ActivityVOList,$activityVO) ;
+		}
+		return $ActivityVOList ;
 	}
 }
 

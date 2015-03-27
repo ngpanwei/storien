@@ -22,9 +22,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
-require_once(dirname(dirname(__FILE__))."/personify/PersonifyAPI.php");
+require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
 
 class ActivityController {
 	public function getUserByEmail($email) {
@@ -39,6 +40,9 @@ class ActivityController {
 	}
 	public function handleUserEvent($user,$event) {
 		$activityList = array() ;
+		if($event!="register") {
+            return $activityList ;
+		}
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$userId = $user->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
@@ -82,5 +86,14 @@ class ActivityController {
 			throw new Exception("Cannot find activity") ;
 		}
 		return $activityDAO ;
+	}
+	public function getActivityVOList($userGuid) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityDb = new ActivityDb($userGuid) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityDb->loadAll() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityVOList = $activityDb->getAllActivities() ;
+		return $activityVOList;
 	}
 }

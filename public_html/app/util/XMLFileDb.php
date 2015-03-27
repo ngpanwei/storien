@@ -215,6 +215,15 @@ class XMLDirDb {
 		$this->dirDb[$keyValue] = $xmlDb ;
 		return $xmlDb ;
 	}
+	public function getAllFiles() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$fileDbArray = array() ;
+		foreach($this->dirDb as $key => $fileDb) {
+			Logger::log(__FILE__,__LINE__,$key) ;
+			array_push($fileDbArray,$fileDb) ;
+		}
+		return $fileDbArray;
+	}
 }
 
 // try {

@@ -9,3 +9,8 @@ Scenario: 建立活动
 	When 用户把 "欢迎" 活动 "done"
 	Then "欢迎" 活动状态是  "done"
 
+Scenario: 刷新活动列表
+	Given 用户 "panwei@storien.com" 刚 "signin"
+	When 用户刷新活动列表
+
+

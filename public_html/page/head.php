@@ -13,6 +13,7 @@
     <script src="scripts/plugin/jquery.metadata.js"></script>
     <script src="scripts/plugin/localization/messages_zh.min.js"></script>
     <script src="js/user.js"></script>
+    <script src="js/activity.js"></script>
     <script src="js/init.js"></script>
     <title>storien</title>
 </head>
