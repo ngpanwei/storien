@@ -59,7 +59,7 @@ class FeatureContext extends BehatContext {
     		Logger::log(__FILE__,__LINE__,$userGuid) ;
 		$controller = new ActivityController() ;
 		$activityVOList = $controller->getActivityVOList($userGuid) ;
-    		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    		Logger::log(__FILE__,__LINE__,$userGuid) ;
     }
 	/**
 	 * @When /^用户查看活动 "([^"]*)"$/

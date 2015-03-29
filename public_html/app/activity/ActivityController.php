@@ -52,14 +52,17 @@ class ActivityController {
 			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  			$title = $content->getProperty("title") ;
  			$kind = $content->getProperty("kind") ;
-  			$xml = $content->getContentXML() ;
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+ 			$xml = $content->getContentXML() ;
+			Logger::log(__FILE__,__LINE__,$xml) ;
+			$text = $content->getContentText() ;
+			Logger::log(__FILE__,__LINE__,$text) ;
  			$activity = $activityDb->createActivity($title) ;
   			$activity->setProperty("path",$content->contentName) ;
   			$activity->setProperty("kind",$kind) ;
+  			$activity->setProperty("text",$text) ;
   			$activityVO = $activity->getVO() ;
  			$activity->flush() ;
- 			Logger::log(__FILE__,__LINE__,$xml) ;
- 			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;
 	}
@@ -78,9 +81,7 @@ class ActivityController {
 	public function getActivityByCreation($userGuid,$creation) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$activityDb = new ActivityDb($userGuid) ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$activityDAO = $activityDb->getActivityByCreation($creation) ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($activityDAO==null) {
 			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 			throw new Exception("Cannot find activity") ;
@@ -90,9 +91,7 @@ class ActivityController {
 	public function getActivityVOList($userGuid) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityDb = new ActivityDb($userGuid) ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityDb->loadAll() ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityVOList = $activityDb->getAllActivities() ;
 		return $activityVOList;
 	}

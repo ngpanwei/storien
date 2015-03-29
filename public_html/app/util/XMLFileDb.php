@@ -61,6 +61,10 @@ class XMLNode {
 			if($Id==$elementId) {
 				return new XMLNode($domElement) ;
 			}
+			$tempNode = new XMLNode($domElement) ;
+			$node = $tempNode->getElementById($Id) ;
+			if($node!=null)
+				return $node;
 		}
 		return null ;
 	}
@@ -93,7 +97,6 @@ class XMLFileDb {
 			$this->xmlRoot = $this->xmlDoc->createElement("div","") ;
 			$this->xmlDoc->appendChild($this->xmlRoot);
 		} else {
-			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 			$this->xmlDoc = new DOMDocument();
 			$this->xmlDoc->load($this->filename);
 			$elementList = $this->xmlDoc->getElementsByTagName("div") ;
@@ -216,10 +219,8 @@ class XMLDirDb {
 		return $xmlDb ;
 	}
 	public function getAllFiles() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$fileDbArray = array() ;
 		foreach($this->dirDb as $key => $fileDb) {
-			Logger::log(__FILE__,__LINE__,$key) ;
 			array_push($fileDbArray,$fileDb) ;
 		}
 		return $fileDbArray;

@@ -30,7 +30,6 @@ class ContentDAO {
 	var $contentName ;
 	var $xmlFileDb ;
 	public function __construct($contentName) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->contentName = $contentName ;
 	}
 	public function load() {
@@ -46,11 +45,32 @@ class ContentDAO {
 		return $this->xmlFileDb->getRoot($key) ;
 	}
 	public function getContentXML() {
-		$element = $this->xmlFileDb->xmlDoc->getElementById("content") ;
-		$content = $this->xmlFileDb->xmlDoc->saveXML($element) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$node = $this->xmlFileDb->get("content") ;
+		$content = $this->xmlFileDb->xmlDoc->saveXML($node->xmlElement) ;
+		Logger::log(__FILE__,__LINE__,$content) ;
 		$index = strpos($content,PHP_EOL) ;
 		$content = substr($content,$index) ;
 		return $content ;
+	}
+	public function getContentText() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$node = $this->xmlFileDb->get("content") ;
+		return $this->getTextFromNode($node->xmlElement) ;
+	}
+	public function getTextFromNode($Node, $Text = "") {
+		if($Node==null)
+			return $Text;
+		Logger::log(__FILE__,__LINE__,trim($Node->textContent)) ;
+		$txt = trim($Node->textContent) ;
+		$txt = str_replace(array("\n","\r",PHP_EOL)," ",$txt) ;
+		$Text = $Text.$txt." ";
+		foreach($Node->childNodes as $childNode) {
+			if($Node==$childNode)
+				continue ;
+			$Text = $this->getTextFromNode($childNode, $Text);
+		}
+		return $Text;
 	}
 	
 }

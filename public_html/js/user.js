@@ -11,6 +11,7 @@ var personifyModel = {
 		personDb.remove("user.userId") ;
 	},
 	setUserId : function(userVO) {
+		alert("guid:"+userVO.guid) ;
 		personDb.set("user.userId",userVO.guid) ;
 		personDb.set("user.username",userVO.username) ;
 		personDb.set("user.creation",userVO.creation) ;

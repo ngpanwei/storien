@@ -39,6 +39,7 @@ class ActivityVO {
 	var $creation ; // date when activity was created
 	var $kind     ; // kind of activity, which achieved results in a medal
 	var $path  ; // path to find the content of this activity
+	var $text ; // text
 }
 
 class Activity {
@@ -71,6 +72,7 @@ class Activity {
 		$vo->creation = $this->getProperty("creation") ;
 		$vo->path = $this->getProperty("path") ;
 		$vo->kind = $this->getProperty("kind") ;
+		$vo->text = $this->getProperty("text") ;
 		return $vo ;
 	}
 }
