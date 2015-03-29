@@ -34,7 +34,6 @@ class ContentDAO {
 	}
 	public function load() {
 		$filename = $this->getContentRoot() . "/" . $this->contentName ;
-		Logger::log(__FILE__,__LINE__,$filename) ;
 		$this->xmlFileDb = new XMLFileDb($filename) ;
 		$this->xmlFileDb->load() ;
 	}
@@ -45,23 +44,20 @@ class ContentDAO {
 		return $this->xmlFileDb->getRoot($key) ;
 	}
 	public function getContentXML() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$node = $this->xmlFileDb->get("content") ;
 		$content = $this->xmlFileDb->xmlDoc->saveXML($node->xmlElement) ;
-		Logger::log(__FILE__,__LINE__,$content) ;
 		$index = strpos($content,PHP_EOL) ;
 		$content = substr($content,$index) ;
 		return $content ;
 	}
 	public function getContentText() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$node = $this->xmlFileDb->get("content") ;
 		return $this->getTextFromNode($node->xmlElement) ;
 	}
+	// @todo this function needs more thought.
 	public function getTextFromNode($Node, $Text = "") {
 		if($Node==null)
 			return $Text;
-		Logger::log(__FILE__,__LINE__,trim($Node->textContent)) ;
 		$txt = trim($Node->textContent) ;
 		$txt = str_replace(array("\n","\r",PHP_EOL)," ",$txt) ;
 		$Text = $Text.$txt." ";

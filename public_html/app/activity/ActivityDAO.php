@@ -103,7 +103,7 @@ class ActivityDb {
 		$activity = new Activity($fileDb) ;
 		$activityCreation = $activity->getProperty("creation") ;
 		if($activityCreation!=$creation) {
-			throw new Exception("cannot find activity") ;
+			throw new Exception("cannot find activity ".$creation) ;
 		}
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		return $activity;

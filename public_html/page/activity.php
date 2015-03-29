@@ -5,11 +5,4 @@
   <div data-role="main" class="ui-content" id="activityContent">
   <!-- activity -->
   </div>
-  <div data-role="footer" data-position="fixed" data-theme="b">
-    <div data-role="navbar">
-      <ul>
-        <li><a id="activitySubmit" data-prefetch="true" >提交</a></li>
-      </ul>
-    </div>
-  </div>
 </div>

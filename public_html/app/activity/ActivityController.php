@@ -36,33 +36,30 @@ class ActivityController {
 	}
 	public function handleEvent($email,$event) {
 		$user = getUserByEmail($email) ;
-		handleUserEvent($user,$event) ;
+		return handleUserEvent($user,$event) ;
 	}
 	public function handleUserEvent($user,$event) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityList = array() ;
 		if($event!="register") {
             return $activityList ;
 		}
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$userId = $user->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
 		$contentList = $this->generateContentList($event) ;
  		foreach($contentList as $content) {
-			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  			$title = $content->getProperty("title") ;
  			$kind = $content->getProperty("kind") ;
-			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  			$xml = $content->getContentXML() ;
-			Logger::log(__FILE__,__LINE__,$xml) ;
 			$text = $content->getContentText() ;
-			Logger::log(__FILE__,__LINE__,$text) ;
  			$activity = $activityDb->createActivity($title) ;
   			$activity->setProperty("path",$content->contentName) ;
   			$activity->setProperty("kind",$kind) ;
   			$activity->setProperty("text",$text) ;
   			$activityVO = $activity->getVO() ;
  			$activity->flush() ;
+ 			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;
 	}
@@ -84,7 +81,7 @@ class ActivityController {
  		$activityDAO = $activityDb->getActivityByCreation($creation) ;
 		if($activityDAO==null) {
 			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-			throw new Exception("Cannot find activity") ;
+			throw new Exception("Cannot find activity ".$creation) ;
 		}
 		return $activityDAO ;
 	}

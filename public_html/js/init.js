@@ -6,15 +6,17 @@ var appController = {
 		registerService.initialize("#registrationForm") ;
 		resetPasswordService.initialize("#resetPasswordForm") ;
 		personService.initialize() ;
-		SyncService.initialize() ;
+		syncService.initialize() ;
 	},
 	registrationSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		window.location.hash = "pgPersonHome";
+		activityListService.syncActivityList()  ;
 	},
 	signinSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		window.location.hash = "pgPersonHome";
+		activityListService.syncActivityList()  ;
 	},
 	start : function() {
 		if(personifyModel.isLoggedIn()==true) {
