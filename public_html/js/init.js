@@ -21,6 +21,7 @@ var appController = {
 	start : function() {
 		if(personifyModel.isLoggedIn()==true) {
 			window.location.hash = "pgPersonHome";
+			activityListService.refreshActivityList() ;
 		} else {
 			window.location.hash = "pgSignIn";
 		}			
