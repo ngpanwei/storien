@@ -68,6 +68,7 @@ var activityListService = {
 		$.ajax({
 			type: "POST",
 			url: "app/content/FetchContent.php" ,
+//			dataType : "html",
 			data: {
 				userGuid : activityModel.getUserGuid() ,
 				activity : activity , 

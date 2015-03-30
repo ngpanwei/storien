@@ -26,7 +26,6 @@
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-
 require_once(dirname(dirname(__FILE__))."/activity/ActivityController.php");
 
 Logger::enable(true) ;
@@ -76,16 +75,15 @@ class FetchContentHandler {
 	}
 	function process($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$vo = $this->handle($request) ;
-		$json = json_encode($vo);
-		Logger::log(__FILE__,__LINE__,$json) ;
-		echo json_encode($vo);
+		$response = $this->handle($request) ;
+		echo $response;
 	}
 	function handle($request) {
 		$userGuid = $request->userGuid ;
-		$activity = $request->activity ;
+		$activityVO = $request->activity ;
 		Logger::log(__FILE__,__LINE__,$userGuid) ;
 		Logger::log(__FILE__,__LINE__,$activity->path) ;
+		return 	"Hello World";
 	}
 }
 
