@@ -80,10 +80,21 @@ class FetchContentHandler {
 	}
 	function handle($request) {
 		$userGuid = $request->userGuid ;
-		$activityVO = $request->activity ;
+		$activityDetail = $request->activity ;
+		$creation = $activityDetail['creation'] ;
 		Logger::log(__FILE__,__LINE__,$userGuid) ;
-		Logger::log(__FILE__,__LINE__,$activity->path) ;
-		return 	"Hello World";
+		Logger::log(__FILE__,__LINE__,$creation) ;
+		$controller = new ActivityController() ;
+		$activityDAO = $controller->getActivityByCreation($userGuid,$creation) ;
+		if($activityDAO==null) {
+			throw new Exception("Cannot find find activity") ;
+		}
+		$activityVO = $activityDAO->getVO() ;
+		$contentDAO = new ContentDAO($activityVO->path) ; 
+		$contentDAO->load() ;
+		$html = $contentDAO->getContentXML() ;
+		Logger::log(__FILE__,__LINE__,$userGuid) ;
+		return 	$html ;
 	}
 }
 

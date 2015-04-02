@@ -46,7 +46,7 @@ class ContentDAO {
 	public function getContentXML() {
 		$node = $this->xmlFileDb->get("content") ;
 		$content = $this->xmlFileDb->xmlDoc->saveXML($node->xmlElement) ;
-		$index = strpos($content,PHP_EOL) ;
+// 		$index = strpos($content,PHP_EOL) ;
 		$content = substr($content,$index) ;
 		return $content ;
 	}

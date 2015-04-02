@@ -1,14 +1,14 @@
-var activityDb = $.localStorage ;
+var appDb = $.localStorage ;
 var activityModel = {
 	getUserGuid : function() {
-		return activityDb.get("user.userId") ;
+		return appDb.get("user.userId") ;
 	},
 	getLastUpdate : function() {
-		if(activityDb.isSet("activity.lastUpdate")!=false) {
-			return activityDb.get("activity.lastUpdate") ;
+		if(appDb.isSet("activity.lastUpdate")!=false) {
+			return appDb.get("activity.lastUpdate") ;
 		}
-		if(activityDb.isSet("user.creation")!=false) {
-			return activityDb.get("user.creation") ;
+		if(appDb.isSet("user.creation")!=false) {
+			return appDb.get("user.creation") ;
 		}
 		return "unknown" ;
 	} ,
@@ -16,10 +16,10 @@ var activityModel = {
 		if(newActivityList==null) {
 			alert("activities not defined") ;
 		}
-		activityDb.set("activity.activities",newActivityList) ;
+		appDb.set("activity.activities",newActivityList) ;
 	},
 	getActivityList : function() {
-		return activityDb.get("activity.activities") ;
+		return appDb.get("activity.activities") ;
 	},
 	getActivityByCreation : function(creation) {
 		activityList = this.getActivityList() ;
@@ -29,7 +29,13 @@ var activityModel = {
 				return activity;
 		}
 		return null;
-	}
+	},
+	getCurrentActivity : function() {
+		return appDb.get("activity.currentActivity") ;
+	},
+	setCurrentActivity : function(activity) {
+		return appDb.set("activity.currentActivity",activity) ;
+	},
 } ;
 var syncService = {
 	initialize : function() {
@@ -40,6 +46,17 @@ var syncService = {
 	sync : function() {
 		activityListService.syncActivityList() ;
 	},
+};
+var activityService = {
+	initialize : function(content) {
+		$("#activityContent").empty() ;
+		$("#activityContent").append(content) ;
+		activity = activityModel.getCurrentActivity() ;
+		eval("activityService.initialize"+activity.kind+"();") ;
+	},
+	initializeInfo : function() {
+		alert("initializeInfo") ;
+	}
 };
 var activityListService = {
 	initialize : function() {
@@ -61,6 +78,7 @@ var activityListService = {
 	activityItemClick : function(element) {
 		creation = $(element).attr("activity-creation") ;
 		activity = activityModel.getActivityByCreation(creation) ;
+		activityModel.setCurrentActivity(activity) ;
 		window.location.hash = "pgActivity" ;
 		this.fetchContent(activity) ;
 	},
@@ -68,13 +86,15 @@ var activityListService = {
 		$.ajax({
 			type: "POST",
 			url: "app/content/FetchContent.php" ,
-//			dataType : "html",
 			data: {
 				userGuid : activityModel.getUserGuid() ,
 				activity : activity , 
 			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr + thrownError) ; 
+			},
 		}).done(function(result) {
-			alert(result) ;
+			activityService.initialize(result) ;
 		});
 	},
 	refreshActivityList : function() {
@@ -82,7 +102,7 @@ var activityListService = {
 		newActivityList = activityModel.getActivityList() ;
 		for(i=0;i<newActivityList.length;i++) {
 			activity = newActivityList[i] ;
-			this.addActivityItem(activity,i) ;
+			this.addActivityItem(activity,i);
 		}		
 	},
 	syncActivityList : function() {
@@ -106,8 +126,4 @@ var activityListService = {
 			activityListService.refreshActivityList() ;
 		});		
 	},
-} ;
-var activityService = {
-	initialize : function() {
-	}
 } ;
