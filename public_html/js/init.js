@@ -5,6 +5,7 @@ var appController = {
 		signInService.initialize("#signInForm") ;
 		registerService.initialize("#registrationForm") ;
 		resetPasswordService.initialize("#resetPasswordForm") ;
+		uploadService.initialize("#uploadForm");
 		personService.initialize() ;
 		syncService.initialize() ;
 	},

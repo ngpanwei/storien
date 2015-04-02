@@ -1,3 +1,9 @@
+<script src="js/upload.js"></script>
+<style>
+	.progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+	.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+	.percent { position:absolute; display:inline-block; top:3px; left:48%; }
+</style>
 <div data-role="page" id="pgUpload" date-title="Upload Image">
 	<div data-role="header" data-position="fixed" data-theme="a">
 		<h1>演示PHP上传文件</h1>

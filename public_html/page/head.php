@@ -10,11 +10,13 @@
 	<script src="scripts/jquery.storageapi.min.js"></script>
 	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     <script src="scripts/plugin/jquery.validate.min.js"></script>
+    <script src="scripts/plugin/jquery.form.min.js"></script>
     <script src="scripts/plugin/jquery.metadata.js"></script>
     <script src="scripts/plugin/localization/messages_zh.min.js"></script>
     <script src="js/user.js"></script>
     <script src="js/activity.js"></script>
-    <script src="js/init.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/init.js"></script>    
     <title>storien</title>
 </head>
 <body>
