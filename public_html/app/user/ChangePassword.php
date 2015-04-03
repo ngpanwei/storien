@@ -29,16 +29,13 @@ require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
-/**
-* 忘记密码
-* @author xucheng
-* @version 2015.03.17
-*/
-class ResetPasswordHandler
+Logger::enable(true) ;
+Logger::setFilename(dirname(__FILE__)."/log.txt") ;
+Logger::setMode("file") ;
+
+class ChangePasswordHandler
 {
 	public $email ;
-	public $password ;
-	public $cpassword; 
 	public $vo;
 	public $userDb;
 
@@ -72,8 +69,6 @@ class ResetPasswordHandler
 			return false ;
 		}
 		$this->email     = $_POST["email"] ;
-		$this->password  = $_POST["password"] ;
-		$this->cpassword  = $_POST["cpassword"] ;
 		return true ;
 	}
 
@@ -83,10 +78,6 @@ class ResetPasswordHandler
 	 */
 	public function validateFormData() {
 		if(isset($_POST["email"])==false)
-			return false ;
-		if(isset($_POST["password"])==false)
-			return false ;
-		if(isset($_POST["cpassword"])==false)
 			return false ;
 		return true ;
 	}
@@ -106,60 +97,21 @@ class ResetPasswordHandler
 	 * @return [type] [description]
 	 */
 	public function process() {
-		$user = $this->getUserbyEmail() ;
-		// var_dump($user);
-		if(empty($user)) {			
+		$userDAO = $this->getUserbyEmail() ;
+		if(empty($userDAO)) {			
 			$this->vo->resultCode = "failed" ;
 			$this->vo->message = $this->email . "未曾被注册" ;
 			echo json_encode($this->vo);
 			return ;	
 		}
-
-		// if($user->getProperty("password")!=$this->password) {
-		// 	$this->vo->resultCode = "failed" ;
-		// 	$this->vo->message = "密码不正确" ;
-		// 	echo json_encode($this->vo);
-		// 	return ;
-		// }
-
-		if($this->password != $this->cpassword){
-			$this->vo->resultCode = "failed" ;
-			$this->vo->message = "两次输入密码不一致" ;
-			echo json_encode($this->vo);
-			return ;
-		}
-
-		$guid = $user->getProperty("guid") ;
-		echo $guid;
-
-		$this->xmlDirDb->loadAll();
-		$xmlFile = $this->xmlDirDb->getFileByGuid($guid);
-		echo "<pre>";
-		print_r($xmlFile);
-
-		$new_password = $xmlFile->setKeyValues("password",$this->cpassword);
-		var_dump($new_password);die;
-		// echo $this->cpassword;die;
-		$new_password = $this->user->setRecord("password",$this->cpassword) ;	//更新密码
-		var_dump($new_password);die;
 		$this->vo->resultCode = "success" ;
-		$this->vo->message = "修改密码成功！" ;
-		$this->vo->data = $user->getVO() ;
-// 		setcookie('userId', $guid, time() + (86400 * 30), "/");
-// 		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
+		$this->vo->message = "密码已经寄到你的邮箱" ;
+		$this->vo->data = null ;
 		echo json_encode($this->vo);
 	}	
-
 }
 
-// 类实例化
-$handler = new ResetPasswordHandler() ;
+$handler = new ChangePasswordHandler() ;
 $handler->processForm() ;
-
-// $vo = new ResultVO() ;
-// var_dump($_POST);
-// $vo->resultCode = "failed" ;
-// $vo->message = "The forget password form you submit is incomplete" ;
-// echo json_encode($vo);
 
 ?>

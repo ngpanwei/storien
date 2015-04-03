@@ -97,28 +97,5 @@
 	<a id='registerConfirmation' data-role="button">确认</a></div>
   </div>
 </div>
-<div data-role="page" id="pgForgetPassword" data-title="Reset Password">
-  <div data-role="header" data-position="fixed" data-theme="a">
-    <h1>忘记密码</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-      <div data-role='content' id="response"></div>
-    <form id="resetPasswordForm" class="ui-body ui-body-a ui-corner-all">
-        <div data-role='fieldcontain'>
-          <label for="email">邮箱:</label>
-          <input name="email" id="email" value="" type="text"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="password">新密码:</label>
-          <input name="password" id="password" value="" type="password"></input>
-        </div>
-        <div data-role='fieldcontain'>
-          <label for="confirmPassword">确认新密码:</label>
-          <input name="confirmPassword" id="cpassword" value="" type="password"></input>
-        </div>        
-      <button type="submit" data-theme="a" name="submit" 
-            value="submit-value">修复密码</button>
-    </form>
-  </div>
-</div>
+
 

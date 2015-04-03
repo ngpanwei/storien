@@ -4,7 +4,10 @@ var appController = {
 		// validatorService.initialize();
 		signInService.initialize("#signInForm") ;
 		registerService.initialize("#registrationForm") ;
-		resetPasswordService.initialize("#resetPasswordForm") ;
+		forgetPasswordService.initialize("#forgetPasswordForm") ;
+		changeUsernameService.initialize() ;
+		changePasswordService.initialize() ;
+		changeEmailService.initialize() ;
 		uploadService.initialize("#uploadForm");
 		personService.initialize() ;
 		syncService.initialize() ;

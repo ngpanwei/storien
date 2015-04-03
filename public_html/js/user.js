@@ -10,6 +10,9 @@ var personifyModel = {
 	logOut : function() {
 		personDb.remove("user.userId") ;
 	},
+	getUserId : function() {
+		return personDb.get("user.userId") ;
+	},
 	setUserId : function(userVO) {
 		personDb.set("user.detail",userVO) ;
 		// @deprecrated - will use userVO from henceforth
@@ -181,50 +184,41 @@ var registerService = {
 		appController.registrationSuccessful(result.data) ;
 	},		
 } ; // end of registerService 
-var resetPasswordService = {
+var forgetPasswordService = {
 	initialize : function(formId) {
-        this.validateResetPassword(formId) ;
+        this.validateForgetPassword(formId) ;
 	},
-	validateResetPassword : function(formId) {
+	validateForgetPassword : function(formId) {
         $(formId).validate({
             rules: {
                 email: {
                     required: true,
                     email:true
                 },
-                password: {
-                    required: true,
-                    minlength: 8,
-                },
-                cpassword: {
-                    required: true,
-                    minlength: 8,
-                    equalTo:"#password"
-                },
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
-            	resetPasswordService.submitResetPassword(form) ;
+            		forgetPasswordService.submitResetPassword(form) ;
             },
         }); 
     },
 	submitResetPassword : function(form) {
 		email = $(form).find("#email").val() ;
-		password = $(form).find("#password").val() ;
-		cpassword = $(form).find("#cpassword").val() ;
+		alert(email) ;
         $.ajax({
 			type: "POST",
-			url: "app/user/ResetPassword.php" ,
+			url: "app/user/forgetPassword.php" ,
 			dataType : "json",
 			data: { 
 				email : email , 
-				password : password , 
-				cpassword : cpassword , 
-			}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.responseText) ;
+		    }			
 		}).done(function(result) {
-			resetPasswordService.afterResetPassword(result) ;
+			forgetPasswordService.afterResetPassword(result) ;
 		});
 	    	return false ;
 	},
