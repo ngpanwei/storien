@@ -11,17 +11,20 @@ var appController = {
 	},
 	registrationSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
+		userInfoService.refresh() ;
 		window.location.hash = "pgPersonHome";
 		activityListService.syncActivityList()  ;
 	},
 	signinSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
+		userInfoService.refresh() ;
 		window.location.hash = "pgPersonHome";
 		activityListService.syncActivityList()  ;
 	},
 	start : function() {
 		if(personifyModel.isLoggedIn()==true) {
 			window.location.hash = "pgPersonHome";
+			userInfoService.refresh() ;
 			activityListService.refreshActivityList() ;
 		} else {
 			window.location.hash = "pgSignIn";

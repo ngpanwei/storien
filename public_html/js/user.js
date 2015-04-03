@@ -11,13 +11,26 @@ var personifyModel = {
 		personDb.remove("user.userId") ;
 	},
 	setUserId : function(userVO) {
-		alert("guid:"+userVO.guid) ;
+		personDb.set("user.detail",userVO) ;
+		// @deprecrated - will use userVO from henceforth
 		personDb.set("user.userId",userVO.guid) ;
 		personDb.set("user.username",userVO.username) ;
 		personDb.set("user.creation",userVO.creation) ;
 	}
 } ; // end of personifyModel
 
+var userInfoService = {
+	refresh: function() {
+		userVO = personDb.get("user.detail") ;
+		if(userVO==null) {
+			return ;
+		}
+		$("#settingUsername").text(userVO.username) ;
+		$("#settingUserIcon").attr("src","./"+userVO.photoPath) ;
+		$("#settingUserPhoto").attr("src","./"+userVO.photoPath) ;
+	}
+		
+};
 //debug，只验证不提交表单
 var validatorService = {
 	initialize: function(){
@@ -82,7 +95,6 @@ var signInService = {
 		return false ;
 	},
 	afterSignIn : function(result) {
-		 // alert(result.message);
 		if(result.resultCode=="failed") {
 			$("#signinTitle").text("不好意思，登录没法完成") ;
 			$("#signinText").text(result.message) ;

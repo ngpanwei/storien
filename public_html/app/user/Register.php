@@ -23,7 +23,9 @@
  *  SOFTWARE.
  */
 require_once("UserDAO.php");
+require_once("UserPhoto.php");
 require_once("PersonifyMailer.php");
+require_once(dirname(dirname(__FILE__))."/activity/ActivityController.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
 
@@ -32,12 +34,16 @@ Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
 Logger::log(__FILE__,__LINE__,"register") ;
-class RegistrationHandler {
+
+class RegistrationRequest {
 	var $teamname ;
 	var $username ;
 	var $email ;
 	var $password ;
 	var $cpassword ;
+}
+
+class RegistrationHandler {
 	public function __construct() {
 	}
 	function validateFormData() {
@@ -57,34 +63,35 @@ class RegistrationHandler {
 	function getFormData() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($this->validateFormData()==false) {
-			return false ;
+			return null ;
 		}
-		$this->teamname  = $_POST["teamname"] ;
-		$this->username  = $_POST["username"] ;
-		$this->email     = $_POST["email"] ;
-		$this->password  = $_POST["password"] ;
-		$this->cpassword = $_POST["cpassword"] ;
-		return true ;
+		$request = new RegistrationRequest() ;
+		$request->teamname  = $_POST["teamname"] ;
+		$request->username  = $_POST["username"] ;
+		$request->email     = $_POST["email"] ;
+		$request->password  = $_POST["password"] ;
+		$request->cpassword = $_POST["cpassword"] ;
+		return $request ;
 	}
-	function getUserbyEmail() {
+	function getUserbyEmail($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->userDb = new UserDb() ;
 		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($this->email) ;
+		$user = $this->userDb->getUserByEmail($request->email) ;
 		return $user ;
 	}
-	function registerNewUser() {
+	function registerNewUser($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$user = $this->userDb->createUser($this->email) ;
-		$user->setProperty("username", $this->username) ;
-		$user->setProperty("password", $this->password) ;
-		$user->setList("teams",array($this->teamname)) ;
-		$user->flush() ;
-		return $user ;
+		$userDAO = $this->userDb->createUser($request->email) ;
+		$userDAO->setProperty("username", $request->username) ;
+		$userDAO->setProperty("password", $request->password) ;
+		$userDAO->setList("teams",array($request->teamname)) ;
+		return $userDAO ;
 	}
 	function processForm() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		if($this->getFormData()==false) {
+		$request = $this->getFormData() ;
+		if($request==null) {
 			$vo = new ResultVO() ;
 			$vo->resultCode = "failed" ;
 			$vo->message = "提交的讯息不完整" ;
@@ -92,27 +99,36 @@ class RegistrationHandler {
 			return ;
 		}
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$this->process() ;
+		$this->process($request) ;
 	}
-	function process() {
+	function process($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$vo = $this->handle() ;
+		$vo = $this->handle($request) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		echo json_encode($vo);
 	}
-	function handle() {
+	function handle($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$user = $this->getUserbyEmail() ;
-		if($user!=null) {
+		$userDAO = $this->getUserbyEmail($request) ;
+		if($userDAO!=null) {
 			$vo = new ResultVO() ;
 			$vo->resultCode = "failed" ;
 			$vo->message = $this->email . "已经被注册了" ;
 			return $vo;	
 		}
-		$user = $this->registerNewUser() ;
-		$userVO = $user->getVO() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userDAO = $this->registerNewUser($request) ;
+		$userVO = $userDAO->getVO() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userPhoto = new UserPhoto() ;
+		$userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityController = new ActivityController() ;
+		$activityController->handleUserEvent($userDAO, "register") ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailerAPI = new MailerAPI() ;
 		$mailerAPI->sendRegistrationConfirmationEmail($userVO) ;
+		$userDAO->flush() ;
 		
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;

@@ -41,8 +41,22 @@ class MailerAPI {
 	function GetAbsoluteURLFolder()
 	{
 		$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-		$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname(dirname(dirname($_SERVER['REQUEST_URI'])));
+		$scriptFolder .= $this->getHost() . dirname(dirname(dirname($this->getURI())));
 		return $scriptFolder;
+	}
+	protected function getURI() {
+		try {
+			return $_SERVER['REQUEST_URI'] ;
+		} catch (Exception $e) {
+			return "localhost" ;
+		}
+	}
+	protected function getHost() {
+		try {
+			return $_SERVER['HTTP_HOST'] ;
+		} catch (Exception $e) {
+			return "localhost" ;
+		}
 	}	
 	public function sendTestMail() {
 		$mailer = getMailer() ;
@@ -60,10 +74,9 @@ class MailerAPI {
 		$mailer = $this->getMailer() ;
 		$mailer->AddAddress($userObject->email);
 		$mailer->Subject = "谢谢! 点击链接姐能够完成邮箱确认了" ;
-		$username = $userobject->username ;
-		$confirmCode = $userObject->verification ;
+		$username = $userObject->username ;
 		$confirmUrl = $this->GetAbsoluteURLFolder().'/teamify.html#pgConfirmation?code='.$userObject->guid;
-		
+		$body = "" ;
 		$body .= "你好， $username," . PHP_EOL . PHP_EOL ;
 		$body .= "感谢的支持. 只剩下一个步骤就注册完成了." . PHP_EOL ;
 		$body .= "请点击此链接 $confirmUrl ". PHP_EOL ;

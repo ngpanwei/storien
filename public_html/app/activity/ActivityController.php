@@ -38,13 +38,13 @@ class ActivityController {
 		$user = getUserByEmail($email) ;
 		return handleUserEvent($user,$event) ;
 	}
-	public function handleUserEvent($user,$event) {
+	public function handleUserEvent($userDAO,$event) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityList = array() ;
 		if($event!="register") {
             return $activityList ;
 		}
- 		$userId = $user->getProperty("guid") ;
+ 		$userId = $userDAO->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
 		$contentList = $this->generateContentList($event) ;

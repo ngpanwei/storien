@@ -36,6 +36,7 @@ class UserVO {
 	var $teams ;
 	var $creation;
 }
+
 class User {
 	var $xmlFileDb ;
 	public function __construct($xmlFileDb) {
@@ -65,7 +66,7 @@ class User {
 		$vo->username = $this->getProperty("username") ;
 		$vo->email = $this->getProperty("email") ;
 		$vo->teams = $this->xmlFileDb->getList("teams") ;
-		$vo->email = $this->getProperty("creation") ;
+		$vo->creation = $this->getProperty("creation") ;
 		return $vo ;
 	}
 }
@@ -82,7 +83,9 @@ class UserDb {
 		$this->db->loadAll("email") ;
 	}
 	public function getUserByEmail($email) {
+		Logger::log(__FILE__,__LINE__,$email) ;
 		$fileDb = $this->db->getFileDbByKey($email) ;
+		Logger::log(__FILE__,__LINE__,$email) ;
 		if($fileDb==null) {
 			return null ;
 		}
@@ -96,6 +99,7 @@ class UserDb {
 		return new User($fileDb) ;
 	}
 	public function createUser($email) {
+		Logger::log(__FILE__,__LINE__,$email) ;
 		$fileDb = $this->db->createFileDb("email",$email) ;
 		$dateStr = date($this->format) ;
 		$fileDb->setRoot("creation", $dateStr) ;

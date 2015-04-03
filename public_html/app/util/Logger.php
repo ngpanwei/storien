@@ -68,8 +68,17 @@ class Logger {
 	}
 	public static function __file($message) {
 		$format = 'Y-m-d-H-i-s' ;
-		$line = "[" . date($format) . "][" . $_SERVER['REMOTE_ADDR'] . "][" . $message . "]" . PHP_EOL ;
+		$line = "[" . date($format) . "][" . self::remoteAddr() . "][" . $message . "]" . PHP_EOL ;
 		file_put_contents(self::$filename, $line, FILE_APPEND | LOCK_EX);
+	}
+	protected static function remoteAddr() {
+		$str = "" ;
+		try {
+			$str = $_SERVER['REMOTE_ADDR'] ;
+		} catch(Exception $e) {
+			$str = "local" ;
+		}
+		return $str ;
 	}
 	public static function __web($message) {
 		echo "<p>" . $message . "</p> " . PHP_EOL ;

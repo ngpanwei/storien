@@ -9,7 +9,9 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-require_once ("../../../public_html/app/personify/Register.php");
+require_once ("../../../public_html/app/user/Register.php");
+Logger::setMode("console") ;
+
 /**
  * Features context.
  */
@@ -57,26 +59,33 @@ class FeatureContext extends BehatContext {
 	 */
 	public function registrationResult($result)
 	{
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$request = new RegistrationRequest() ;
+		$request->teamname  = $this->intention ['teamname'] ;
+		$request->username  = $this->intention ['username'] ;
+		$request->email     = $this->intention ['email'] ;
+		$request->password  = $this->intention ['password'] ;
+		$request->cpassword = $this->intention ['cpassword'] ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$handler = new RegistrationHandler() ;
-		$handler->teamname  = $this->intention ['teamname'] ;
-		$handler->username  = $this->intention ['username'] ;
-		$handler->email     = $this->intention ['email'] ;
-		$handler->password  = $this->intention ['password'] ;
-		$handler->cpassword = $this->intention ['cpassword'] ;
-		$vo = $handler->handle() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$vo = $handler->handle($request) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($vo==null) {
 			throw new Exception("no result") ;
 		}
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($vo->resultCode!=$result) {
-			throw new Exception("registration should ".$result) ;
+			throw new Exception("registration should be ".$result) ;
 		}
+		var_dump($vo) ;
 	}
 	
     /**
      * @Then /^登入 "([^"]*)"$/
      */
-	public function signInResult($result)
-	{
+	public function signInResult($result) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		throw new Exception("Not implemented") ;
 	}
 }

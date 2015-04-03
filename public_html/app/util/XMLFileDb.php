@@ -199,8 +199,14 @@ class XMLDirDb {
 		}
 	}
 	public function getFileDbByKey($keyValue) {
-		$xmlDb = $this->dirDb[$keyValue] ;
-		return $xmlDb; 
+		Logger::log(__FILE__,__LINE__,$keyValue) ;
+		try {
+			$xmlDb = $this->dirDb[$keyValue] ;
+			return $xmlDb;
+		} catch (Exception $e) {
+			Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+			return null ;
+		}
 	}
 	public function getFileByGuid($guid) {
 		$filename = $this->dir . "/" . $guid . ".xml" ;
