@@ -26,8 +26,9 @@ var userInfoService = {
 			return ;
 		}
 		$("#settingUsername").text(userVO.username) ;
-		$("#settingUserIcon").attr("src","./"+userVO.photoPath) ;
-		$("#settingUserPhoto").attr("src","./"+userVO.photoPath) ;
+		d = new Date(); str = d.getTime() ;
+		$("#settingUserIcon").attr("src","./"+userVO.photoPath+"?"+str) ;
+		$("#settingUserPhoto").attr("src","./"+userVO.photoPath+"?"+str) ;
 	}
 		
 };
