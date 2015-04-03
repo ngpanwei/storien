@@ -23,6 +23,7 @@
  *  SOFTWARE.
  */
 require_once("UserDAO.php");
+require_once("UserPhoto.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
 
@@ -30,9 +31,11 @@ Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
-class SignInHandler {
+class SignInRequest {
 	var $email ;
 	var $password ;
+}
+class SignInHandler {
 	public function __construct() {
 	}
 	function validateFormData() {
@@ -44,49 +47,54 @@ class SignInHandler {
 	}
 	function getFormData() {
 		if($this->validateFormData()==false) {
-			return false ;
+			return null ;
 		}
-		$this->email     = $_POST["email"] ;
-		$this->password  = $_POST["password"] ;
-		return true ;
+		$request = new SignInRequest() ;
+		$request->email     = $_POST["email"] ;
+		$request->password  = $_POST["password"] ;
+		return $request ;
 	}
 	function processForm() {
-		if($this->getFormData()==false) {
+		$request = $this->getFormData() ;
+		if($request==null) {
 			$vo = new ResultVO() ;
 			$vo->resultCode = "failed" ;
 			$vo->message = "提交的讯息不完整" ;
 			echo json_encode($vo);
 			return ;
 		}
-		$this->process() ;
+		$this->process($request) ;
 	}	
-	function getUserbyEmail() {
+	function getUserbyEmail($request) {
 		$this->userDb = new UserDb() ;
 		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($this->email) ;
+		$user = $this->userDb->getUserByEmail($request->email) ;
 		return $user ;
 	}
-	function process() {
-		$user = $this->getUserbyEmail() ;
+	function process($request) {
+		$userDAO = $this->getUserbyEmail($request) ;
 		$vo = new ResultVO() ;
-		if($user==null) {
+		if($userDAO==null) {
 			$vo->resultCode = "failed" ;
 			$vo->message = $this->email . "未曾被注册" ;
 			echo json_encode($vo);
 			return ;	
 		}
-		if($user->getProperty("password")!=$this->password) {
+		if($userDAO->getProperty("password")!=$request->password) {
 			$vo->resultCode = "failed" ;
 			$vo->message = "密码不正确" ;
 			echo json_encode($vo);
 			return ;
 		}
-		$guid = $user->getProperty("guid") ;
+		$guid = $userDAO->getProperty("guid") ;
+		$userVO = $userDAO->getVO() ;
+		$userPhoto = new UserPhoto() ;
+		$userPhoto->getPhotoPath($userDAO,$userVO) ;
 		$vo->resultCode = "success" ;
 		$vo->message = "登录成功！" ;
-		$vo->data = $user->getVO() ;
-		setcookie('userId', $guid, time() + (86400 * 30), "/");
-		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
+		$vo->data = $userVO ;
+// 		setcookie('userId', $guid, time() + (86400 * 30), "/");
+// 		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
 		echo json_encode($vo);
 	}
 }

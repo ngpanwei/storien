@@ -104,8 +104,9 @@ class RegistrationHandler {
 	function process($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$vo = $this->handle($request) ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		echo json_encode($vo);
+		$json = json_encode($vo) ;
+		Logger::log(__FILE__,__LINE__,$json) ;
+		echo $json;
 	}
 	function handle($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;

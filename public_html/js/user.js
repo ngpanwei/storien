@@ -163,6 +163,7 @@ var registerService = {
 				cpassword : cpassword , 
 			} ,
 			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.responseText) ;
 				$("#registerTitle").text("不好意思，系统有些毛病，请在试试") ;
 				$("#registerText").text(xhr.status + "  " + thrownError);
 		    }			

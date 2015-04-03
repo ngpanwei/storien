@@ -26,6 +26,15 @@ require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 
+function is_iterable($var) {
+	return $var !== null
+	&& (is_array($var)
+			|| $var instanceof Traversable
+			|| $var instanceof Iterator
+			|| $var instanceof IteratorAggregate
+	);
+}
+
 class ContentDAO {
 	var $contentName ;
 	var $xmlFileDb ;
@@ -59,6 +68,8 @@ class ContentDAO {
 		$txt = trim($Node->textContent) ;
 		$txt = str_replace(array("\n","\r",PHP_EOL)," ",$txt) ;
 		$Text = $Text.$txt." ";
+		if(is_iterable($Node->childNodes)==false)
+			return $Text ;
 		foreach($Node->childNodes as $childNode) {
 			if($Node==$childNode)
 				continue ;
