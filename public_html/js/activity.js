@@ -108,7 +108,7 @@ var activityListService = {
 	syncActivityList : function() {
 		$.ajax({
 			type: "POST",
-			url: "app/sync/Sync.php" ,
+			url: "app/activity/SyncActivityList.php" ,
 			dataType : "json",
 			data: {
 				userGuid : activityModel.getUserGuid() ,
