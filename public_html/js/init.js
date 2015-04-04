@@ -8,6 +8,7 @@ var appController = {
 		changeUsernameService.initialize() ;
 		changePasswordService.initialize() ;
 		changeEmailService.initialize() ;
+		updateStoryService.initialize() ;
 		uploadService.initialize();
 		personService.initialize() ;
 		syncService.initialize() ;

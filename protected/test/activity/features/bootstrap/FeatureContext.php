@@ -9,7 +9,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-require_once ("../../../public_html/app/activity/ActivityController.php");
+require_once ("../../../public_html/app/activity/ActivityAPI.php");
 
 Logger::setPrefix(dirname(dirname(dirname(dirname(__FILE__))))) ;
 
@@ -98,8 +98,7 @@ class FeatureContext extends BehatContext {
     /**
      * @Then /^"([^"]*)" 活动状态是  "([^"]*)"$/
      */
-    public function activityIsCompleted($activityName, $status)
-    {
+    public function activityIsCompleted($activityName, $status)  {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
     		$creation = $this->intention['activityCreation'] ;
 		$userGuid = $this->intention['userGuid'] ;
@@ -111,5 +110,28 @@ class FeatureContext extends BehatContext {
 			throw new TestException("actual status is ".$actualStatus) ;
 		}
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-    }    	
+    }   
+
+    /**
+     * @Given /^用户 "([^"]*)"$/
+     */
+    public function userWithEmail($email) {
+		$this->intention['email'] = $email ;
+		$controller = new ActivityController() ;
+		$userDAO = $controller->getUserByEmail($email) ;
+		$userGuid = $userDAO->getProperty("guid") ;
+		$controller = new ActivityController() ;
+		$activityVOList = $controller->getActivityVOList($userGuid) ;
+		$this->intention['userGuid'] = $userGuid ;
+		$this->intention['activities'] = $activityVOList ;
+    }
+    
+    /**
+     * @When /^用户分享经历 "([^"]*)"$/
+     */
+    public function userSharesStory($storyText) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    		$activityDAO = $this->intention['activity'] ;
+    		Logger::log(__FILE__,__LINE__,$activityDAO->getProperty("creation")) ;
+    }   
 }

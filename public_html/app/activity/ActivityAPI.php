@@ -26,7 +26,7 @@ require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
-require_once(dirname(dirname(__FILE__))."/team/TeamController.php");
+require_once(dirname(dirname(__FILE__))."/team/TeamAPI.php");
 
 class ActivityController {
 	public function getUserByEmail($email) {

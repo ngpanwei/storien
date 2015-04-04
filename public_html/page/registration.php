@@ -3,7 +3,7 @@
     <h1>登入</h1>
   </div>
   <div data-role="main" class="ui-content">
-      <div data-role='content' id="response"></div>
+    <div data-role='content' id="response"></div>
     <form id="signInForm" class="ui-body ui-body-a ui-corner-all">
         <label class='error' id='message'></label>
         <div data-role='fieldcontain'>

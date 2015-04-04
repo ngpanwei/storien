@@ -26,7 +26,7 @@
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-require_once(dirname(dirname(__FILE__))."/activity/ActivityController.php");
+require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 
 Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
