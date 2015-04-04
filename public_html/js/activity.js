@@ -49,9 +49,9 @@ var syncService = {
 };
 var activityService = {
 	initialize : function(content) {
-		$("#activityContent").empty() ;
-		$("#activityContent").append(content) ;
 		activity = activityModel.getCurrentActivity() ;
+		$("#activityContent"+activity.kind).empty() ;
+		$("#activityContent"+activity.kind).append(content) ;
 		eval("activityService.initialize"+activity.kind+"();") ;
 	},
 	initializeInfo : function() {
@@ -79,7 +79,7 @@ var activityListService = {
 		creation = $(element).attr("activity-creation") ;
 		activity = activityModel.getActivityByCreation(creation) ;
 		activityModel.setCurrentActivity(activity) ;
-		window.location.hash = "pgActivity" ;
+		window.location.hash = "pgActivity" + activity.kind ;
 		this.fetchContent(activity) ;
 	},
 	fetchContent : function(activity) {

@@ -65,9 +65,12 @@ class User {
 		$vo->guid = $this->getProperty("guid") ;
 		$vo->username = $this->getProperty("username") ;
 		$vo->email = $this->getProperty("email") ;
-		$vo->teams = $this->xmlFileDb->getList("teams") ;
+		$vo->teams = $this->getTeams() ;
 		$vo->creation = $this->getProperty("creation") ;
 		return $vo ;
+	}
+	public function getTeams() {
+		return $this->xmlFileDb->getList("teams") ;
 	}
 }
 class UserDb {

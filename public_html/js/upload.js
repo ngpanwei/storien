@@ -4,7 +4,7 @@ var uploadService = {
 		var percent = $('.percent');
 		var status = $('#status');
 
-		$(formId).ajaxForm({
+		$("#uploadForm").ajaxForm({
 		url: 'app/teamify/upload.php',
     	type:'post',
         dataType:'json',       

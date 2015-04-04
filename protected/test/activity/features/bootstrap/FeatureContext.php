@@ -9,9 +9,10 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 // require_once 'PHPUnit/Framework/Assert/Functions.php';
 //
 require_once ("../../../public_html/app/util/Logger.php");
-Logger::log(__FILE__,__LINE__,"activity.feature") ;
 require_once ("../../../public_html/app/activity/ActivityController.php");
-Logger::log(__FILE__,__LINE__,"activity.feature") ;
+
+Logger::setPrefix(dirname(dirname(dirname(dirname(__FILE__))))) ;
+
 /**
  * Features context.
  */

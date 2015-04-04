@@ -27,8 +27,6 @@ require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 require_once(dirname(dirname(__FILE__))."/util/Guid.php");
 
-Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
-
 class ActivityClassVO {
 	var $name ; // name of activity class name
 	var $displayName ; // localized name to be displayed 
@@ -83,7 +81,7 @@ class ActivityDb {
 	var $userId ;
 	var $format ;
 	public function __construct($userId) {
-		$this->format = 'Y-m-d-H-i-s' ;
+		$this->format = 'Y-m-d-H-i-s-u' ;
 		$this->userId = $userId ;
 		$this->dir = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data/activities/" . $userId ;
 		$this->db = new XMLDirDb($this->dir) ;
@@ -96,7 +94,6 @@ class ActivityDb {
 		$this->db->loadAll("creation") ;
 	}	
 	public function getActivityByCreation($creation) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$filename = $this->dir . "/" . $creation . ".xml" ;
 		$fileDb = new XMLFileDb($filename) ;
 		$fileDb->load() ;
@@ -105,12 +102,18 @@ class ActivityDb {
 		if($activityCreation!=$creation) {
 			throw new Exception("cannot find activity ".$creation) ;
 		}
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		return $activity;
+	}
+	public function getDateStr() {
+		$t = microtime(true);
+		$micro = sprintf("%06d",($t - floor($t)) * 1000000);
+		$d = new DateTime( date('Y-m-d H:i:s.'.$micro, $t) );
+		$dateStr = $d->format($this->format) ;
+		return $dateStr ;
 	}
 	public function createActivity($name) {
 		$fileDb = $this->db->createFileDb("title",$name) ;
-		$dateStr = date($this->format) ;
+		$dateStr = $this->getDateStr() ;
 		$filename = $this->dir . "/" . $dateStr . ".xml" ;
 		$fileDb->setFilename($filename) ;
 		$fileDb->setRoot("creation",$dateStr) ;
@@ -120,7 +123,6 @@ class ActivityDb {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$fileDbArray = $this->db->getAllFiles() ;
 		$ActivityVOList = array() ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		foreach($fileDbArray as $fileDb) {
 			$activityDAO = new Activity($fileDb) ;
 			$activityVO = $activityDAO->getVO() ;

@@ -58,11 +58,11 @@ var personService = {
 	},
 } ; // end of signInService 
 var signInService = {
-	initialize : function(formId) {
-        this.validateSignIn(formId) ;
+	initialize : function() {
+        this.validateSignIn() ;
 	},
-	validateSignIn : function(id) {
-        $( id ).validate({
+	validateSignIn : function() {
+        $("#signInForm").validate({
             rules: {
                 email: {
                     required: true,
@@ -108,11 +108,11 @@ var signInService = {
 	},
 } ; // end of signInService 
 var registerService = {
-	initialize : function(formId) {
-        this.validateRegistration(formId) ;
+	initialize : function() {
+        this.validateRegistration() ;
 	},
-	validateRegistration : function(formId) {
-        $(formId).validate({
+	validateRegistration : function() {
+        $("#registrationForm").validate({
             rules: {
                 teamname: {
                     required: true
@@ -185,11 +185,11 @@ var registerService = {
 	},		
 } ; // end of registerService 
 var forgetPasswordService = {
-	initialize : function(formId) {
-        this.validateForgetPassword(formId) ;
+	initialize : function() {
+        this.validateForgetPassword() ;
 	},
-	validateForgetPassword : function(formId) {
-        $(formId).validate({
+	validateForgetPassword : function() {
+        $("#forgetPasswordForm").validate({
             rules: {
                 email: {
                     required: true,

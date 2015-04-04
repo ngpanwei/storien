@@ -53,6 +53,16 @@ class XMLNode {
 		$domElement = $elementList->item(0) ;
 		return new XMLNode($domElement) ;
 	}
+	public function getChildElements() {
+		$elementList = $this->xmlElement->getElementsByTagName("div") ;
+		$nodes = array() ;
+		for($c = 0; $c<$elementList->length; $c++){
+			$domElement = $elementList->item($c) ;
+			$node = new XMLNode($domElement) ;
+			array_push($nodes,$node) ;
+		}
+		return $nodes ;
+	}
 	public function getElementById($Id) {
 		$elementList = $this->xmlElement->getElementsByTagName("div") ;
 		for($c = 0; $c<$elementList->length; $c++){
@@ -199,7 +209,6 @@ class XMLDirDb {
 		}
 	}
 	public function getFileDbByKey($keyValue) {
-		Logger::log(__FILE__,__LINE__,$keyValue) ;
 		try {
 			$xmlDb = $this->dirDb[$keyValue] ;
 			return $xmlDb;

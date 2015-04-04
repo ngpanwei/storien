@@ -22,10 +22,10 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-require_once("../util/Logger.php");
-require_once("../util/Exception.php");
-require_once("../util/XMLFileDb.php");
-require_once("../util/Guid.php");
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
+require_once(dirname(dirname(__FILE__))."/util/Exception.php");
+require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
+require_once(dirname(dirname(__FILE__))."/util/Guid.php");
 
 Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 
@@ -34,19 +34,21 @@ class TeamVO {
 	var $teamname ;
 }
 
-class Team {
+class TeamDAO {
 	var $xmlFileDb ;
 	public function __construct($xmlFileDb) {
 		$this->xmlFileDb = $xmlFileDb ;
 	}
-	public function setRecord($key,$keyValues) {
-	    $this->xmlFileDb->set($key,$keyValues) ;
-	}
 	public function get($key) {
 		return $this->xmlFileDb->get($key) ;
 	}
-	public function setList($key,$values) {
-		$this->xmlFileDb->setList($key,$values) ;
+	public function getContentElements($eventPath) {
+		$eventElement = $this->get($eventPath) ;
+		if($eventElement==null) {
+			return null ;
+		}
+		$contentElements = $eventElement->getChildElements() ;
+		return $contentElements;
 	}
 	public function setProperty($key,$value) {
 	    $this->xmlFileDb->setRoot($key,$value) ;
@@ -80,14 +82,14 @@ class TeamDb {
 		if($fileDb==null) {
 			return null ;
 		}
-		return new Team($fileDb) ;
+		return new TeamDAO($fileDb) ;
 	}
 	public function getTeamById($guid) { // by guid
 		$fileDb = $this->db->getFileByGuid($guid) ;
 		if($fileDb==null) {
 			return null ;
 		}
-		return new Team($fileDb) ;
+		return new TeamDAO($fileDb) ;
 	}
 	public function createTeam($name) {
 		$fileDb = $this->db->createFileDb("teamname",$name) ;

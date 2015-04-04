@@ -26,6 +26,7 @@ require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
+require_once(dirname(dirname(__FILE__))."/team/TeamController.php");
 
 class ActivityController {
 	public function getUserByEmail($email) {
@@ -47,7 +48,8 @@ class ActivityController {
  		$userId = $userDAO->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
-		$contentList = $this->generateContentList($event) ;
+ 		$teamnames = $userDAO->getTeams() ;
+ 		$contentList = $this->generateContentList($teamnames,$event) ;
  		foreach($contentList as $content) {
  			$title = $content->getProperty("title") ;
  			$kind = $content->getProperty("kind") ;
@@ -58,21 +60,29 @@ class ActivityController {
   			$activity->setProperty("kind",$kind) ;
   			$activity->setProperty("text",$text) ;
   			$activityVO = $activity->getVO() ;
- 			$activity->flush() ;
+  			$activity->flush() ;
  			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;
 	}
-	public function generateContentList($event) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+	public function generateContentList($teamnames,$eventName) {
+		$teamController = new TeamController() ;
 		$contentList = array() ;
-		$content = new ContentDAO("engage/registration/welcome.xml") ; 
-		$content->load() ;
-		$title = $content->getProperty("title") ;
-		if(strlen($title)<1) {
-			throw new SystemException("Cannot find content") ;
+		foreach($teamnames as $teamname) {
+			$contentElements = $teamController->getTeamContentElements($teamname,$eventName) ;
+			if($contentElements==null)
+				continue ;
+			foreach($contentElements as $contentElement) {
+				$path = $contentElement->get("path") ;
+				$content = new ContentDAO($path) ; 
+				$content->load() ;
+				$title = $content->getProperty("title") ;
+				if(strlen($title)<1) {
+					continue ;
+				}
+				array_push($contentList,$content) ;
+			}
 		}
-		array_push($contentList,$content) ;
 		return $contentList ;
 	}
 	public function getActivityByCreation($userGuid,$creation) {

@@ -2,13 +2,13 @@ var appController = {
 	initialize : function() {
 		// debug，只验证不提交表单
 		// validatorService.initialize();
-		signInService.initialize("#signInForm") ;
-		registerService.initialize("#registrationForm") ;
-		forgetPasswordService.initialize("#forgetPasswordForm") ;
+		signInService.initialize() ;
+		registerService.initialize() ;
+		forgetPasswordService.initialize() ;
 		changeUsernameService.initialize() ;
 		changePasswordService.initialize() ;
 		changeEmailService.initialize() ;
-		uploadService.initialize("#uploadForm");
+		uploadService.initialize();
 		personService.initialize() ;
 		syncService.initialize() ;
 	},
