@@ -26,26 +26,26 @@ require_once("UserDAO.php");
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
+//require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
-class ChangeUsernameRequest {
-	var $userGuid ;
-	var $username ;
-}
 class ChangeUsernameHandler
 {
 	public $vo;
 	public $userDb;
+    public $userDAO;
+//    public $xmlDirDb;
+    public $username;
+    public $userGuid;
 
-	public function __construct(){
+    public function __construct(){
 		$this->vo = new ResultVO() ;
 		$this->userDb = new UserDb() ;
-		$this->xmlDirDb = new XMLDirDb() ;
+//		$this->xmlDirDb = new XMLDirDb() ;
 	}
 
 	/**
@@ -53,7 +53,8 @@ class ChangeUsernameHandler
 	 * @return 
 	 */
 	public function processForm(){
-		if($this->getFormData()==false) {
+        $getForm = $this->getFormData();
+		if(!$getForm) {
 			$this->vo->resultCode = "failed" ;
 			$this->vo->message = "提交的讯息不完整" ;
 			echo json_encode($this->vo);
@@ -68,10 +69,12 @@ class ChangeUsernameHandler
 	 * @return bool 
 	 */
 	public function getFormData() {
-		if($this->validateFormData()==false) {
+        $validateForm = $this->validateFormData();
+		if(!$validateForm) {
 			return false ;
 		}
-		$this->email     = $_POST["email"] ;
+		$this->username     = $_POST["username"] ;
+        $this->userGuid     = $_POST["userGuid"] ;
 		return true ;
 	}
 
@@ -80,18 +83,19 @@ class ChangeUsernameHandler
 	 * @return bool 
 	 */
 	public function validateFormData() {
-		if(isset($_POST["email"])==false)
+		if(empty($_POST["username"])){
 			return false ;
+        }
 		return true ;
 	}
 
 	/**
-	 * 通过邮箱获取用户
+	 * 通过guid获取用户
 	 * @return obj
 	 */
-	public function getUserbyEmail() {
+	public function getUserbyGuid() {
 		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($this->email) ;
+		$user = $this->userDb->getUserById($this->userGuid) ;
 		return $user ;
 	}
 
@@ -100,17 +104,34 @@ class ChangeUsernameHandler
 	 * @return [type] [description]
 	 */
 	public function process() {
-		$userDAO = $this->getUserbyEmail() ;
-		if(empty($userDAO)) {			
+		$this->userDAO = $this->getUserbyGuid() ;
+		if(empty($this->userDAO)) {			
 			$this->vo->resultCode = "failed" ;
-			$this->vo->message = $this->email . "未曾被注册" ;
+			$this->vo->message = $this->username . "未曾被注册" ;
 			echo json_encode($this->vo);
 			return ;	
 		}
-		$this->vo->resultCode = "success" ;
-		$this->vo->message = "密码已经寄到你的邮箱" ;
-		$this->vo->data = null ;
-		echo json_encode($this->vo);
+        
+        $username = $this->userDAO->getProperty("username");
+        if($username == $this->username) {
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "个人名称已存在" ;
+			echo json_encode($this->vo);
+			return ;
+		}
+        
+        $new_username = $this->userDAO->setProperty("username",  $this->username);
+        var_dump(555);
+        var_dump($new_username);
+        if($new_username){
+            $this->vo->resultCode = "success" ;
+            $this->vo->message = "个人名称修改成功" ;
+            $this->vo->data = array(
+                'username' => $this->username,
+                'userGuid' => $this->userGuid
+            ) ;
+            echo json_encode($this->vo);
+        }
 	}	
 }
 

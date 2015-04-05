@@ -92,24 +92,24 @@ var changeEmailService = {
 } ; // end of changeEmailService 
 var changeUsernameService = {
 	initialize : function() {
-        this.validateSignIn() ;
+        this.validateChangeUsername() ;
 	},
-	validateSignIn : function() {
+	validateChangeUsername : function() {
         $("#changeUsernameForm").validate({
             rules: {
                 username: {
-                    required: true,
-                },
+                    required: true
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
-            		changeUsernameService.submitSignIn(form) ;
-            },            
+            	changeUsernameService.submitChangeUsername(form) ;
+            }        
         }); 
     },
-	submitSignIn : function(form) {
+	submitChangeUsername : function(form) {
 		userGuid = personifyModel.getUserId() ;
 		username = $(form).find("#username").val() ;
 		$.ajax({
@@ -118,19 +118,19 @@ var changeUsernameService = {
 			dataType : "json",
 			data: { 
 				userGuid : userGuid , 
-				username : username ,
+				username : username 
 			}
 		}).done(function(result) {
-			changeUsernameService.afterSignIn(result);
+			changeUsernameService.afterChangeUsername(result);
 		});		
 		return false ;
 	},
-	afterSignIn : function(result) {
+	afterChangeUsername : function(result) {
 		if(result.resultCode=="failed") {
-			$("#signinTitle").text("不好意思，登录没法完成") ;
-			$("#signinText").text(result.message) ;
+			$("#changeUsernameTitle").text("不好意思，修改没法完成") ;
+			$("#changeUsernameText").text(result.message) ;
 			return ;
 		}
-		appController.signinSuccessful(result.data) ;
-	},
+		appController.changeUsernameSuccessful(result.data) ;
+	}
 } ; // end of changeUsernameService

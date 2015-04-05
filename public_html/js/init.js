@@ -25,6 +25,12 @@ var appController = {
 		window.location.hash = "pgPersonHome";
 		activityListService.syncActivityList()  ;
 	},
+    changeUsernameSuccessful : function(userVO) {
+		personifyModel.setUserId(userVO) ;
+		userInfoService.refresh() ;
+		window.location.hash = "pgPersonSettings";
+		activityListService.syncActivityList()  ;
+	},
     uploadSuccessful : function() {
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
