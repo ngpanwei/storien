@@ -1,1 +1,11 @@
 .DS_Store
+/nbproject/private/
+/public_html/storien.sublime-project
+/public_html/storien.sublime-workspace
+/public_html/.tags
+/public_html/.tags_sorted_by_file
+/.settings
+/nbproject
+/.buildpath
+/.project
+/protected/test/bin/behat.php

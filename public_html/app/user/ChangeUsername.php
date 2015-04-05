@@ -26,7 +26,6 @@ require_once("UserDAO.php");
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-//require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;
@@ -38,14 +37,12 @@ class ChangeUsernameHandler
 	public $vo;
 	public $userDb;
     public $userDAO;
-//    public $xmlDirDb;
     public $username;
     public $userGuid;
 
     public function __construct(){
 		$this->vo = new ResultVO() ;
 		$this->userDb = new UserDb() ;
-//		$this->xmlDirDb = new XMLDirDb() ;
 	}
 
 	/**
@@ -104,7 +101,6 @@ class ChangeUsernameHandler
 
 	/**
 	 * 处理过程
-	 * @return [type] [description]
 	 */
 	public function process() {
 		$this->userDAO = $this->getUserbyGuid() ;
