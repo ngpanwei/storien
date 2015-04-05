@@ -4,12 +4,15 @@
   *  本类的实例对象用于处理上传文件，可以上传一个文件，也可同时处理多个文件上传
   */
  
- require_once("../util/ValueObject.php");
+ require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
+ require_once(dirname(dirname(__FILE__))."/user/UserPhoto.php");
+ require_once("ValueObject.php");
   class Upload {  
     private $path = "./uploads";              //上传文件保存的路径
     private $allowtype = array('jpg','gif','png');  //设置限制上传文件的类型
     private $maxsize = 1000000;           //限制文件上传大小（字节）,约1M
-    private $israndname = true;             //设置是否随机重命名文件， false不随机
+    private $israndname = false;             //设置是否随机重命名文件， false不随机
+    private $isdiy = true;    //自定义文件名:guid后台可能有团队ID
     
     private $originName;                  //源文件名
     private $tmpFileName;                 //临时文件名
@@ -19,9 +22,15 @@
     private $errorNum = 0;                  //错误号
     private $errorMess="";                //错误报告消息
     private $vo;
+    private $userDb;
+    private $userDAO;
+    private $userVO;
+    private $userPhoto;
 
     public function __construct(){
     	$this->vo = new ResultVO() ;
+        $this->userDb = new UserDb() ;
+        $this->userPhoto = new UserPhoto() ;
     }
     
     /**
@@ -42,10 +51,11 @@
     /**
      * 调用该方法上传文件
      * @param string  $fileFile 上传文件的表单名称 
+     * @param string  $diyname guid后续可能有团队ID
      * @return  bool        如果上传成功返回数true 
      */
     
-    function upload($fileField) {
+    function upload($fileField,$diyname) {
       $return = true;
       /* 检查文件路径是滞合法 */
       if( !$this->checkFilePath() ) {       
@@ -113,9 +123,10 @@
           /* 上传之前先检查一下大小和类型 */
           if($this->checkFileSize() && $this->checkFileType()){ 
             /* 为上传文件设置新文件名 */
-            $this->setNewFileName(); 
+            $this->setNewFileName($diyname); 
             /* 上传文件   返回0为成功， 小于0都为错误 */
-            if($this->copyFile()){ 
+            if($this->copyFile($diyname)){ 
+                
               	$this->vo->resultCode = "success" ;
 				$this->vo->message = "上传图像成功" ;
 				echo json_encode($this->vo);
@@ -197,9 +208,12 @@
     }
 
     /* 设置上传后的文件名称 */
-    private function setNewFileName() {
+    private function setNewFileName($diyname) {
+      
       if ($this->israndname) {
         $this->setOption('newFileName', $this->proRandName());  
+      }elseif ($this->isdiy) {
+        $this->setOption('newFileName', $this->proDiyName($diyname));  
       } else{ 
         $this->setOption('newFileName', $this->originName);
       } 
@@ -251,12 +265,22 @@
       return $fileName.'.'.$this->fileType; 
     }
     
+    /* 自定义文件名：guid后台可能有团队ID */
+    private function proDiyName($diyname) {    
+      $fileName = $diyname;     
+      return $fileName.'.'.$this->fileType; 
+    }
+    
     /* 复制上传文件到指定的位置 */
-    private function copyFile() {
+    private function copyFile($diyname) {
       if(!$this->errorNum) {
         $path = rtrim($this->path, '/').'/';
         $path .= $this->newFileName;
         if (@move_uploaded_file($this->tmpFileName, $path)) {
+//          $this->userDb->loadAll() ;
+//          $this->userDAO = $this->userDb->getUserById($diyname) ;
+//          $this->userVO = $this->userDAO->getVO() ;
+//          $this->userPhoto->setPhotoPath($this->userDAO,  $this->userVO) ;
           return true;
         }else{
           $this->setOption('errorNum', -3);
@@ -268,15 +292,15 @@
     }
   }
 
-$up = new Upload;                                //实例化文件上传对象
-
-//可以通过set方法设置上传的属性，设置多个属性set方法可以单独调用，也可以连贯操作一起调用多个
-  $up -> set('path', './../../uploads/')             //可以自己设置上传文件保存的路径      
-      -> set('maxsize', 10000000)                  //可以自己限制上传文件的大小(字节),默认约1M
-      -> set('allowtype', array('jpg'))  //可以自己限制上传文件的类型
-      -> set('israndname', false);             //可以使用原文件名，不让系统命名  
-
-$up->upload("file");
+//$up = new Upload;                                //实例化文件上传对象
+//
+////可以通过set方法设置上传的属性，设置多个属性set方法可以单独调用，也可以连贯操作一起调用多个
+//  $up -> set('path', './../../uploads/')             //可以自己设置上传文件保存的路径      
+//      -> set('maxsize', 10000000)                  //可以自己限制上传文件的大小(字节),默认约1M
+//      -> set('allowtype', array('jpg'))  //可以自己限制上传文件的类型
+//      -> set('israndname', false);             //可以使用原文件名，不让系统命名  
+//
+//$up->upload("file");
 
   // echo '<pre>';
     

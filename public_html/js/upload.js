@@ -1,3 +1,9 @@
+var uploadDb = $.localStorage ;
+var uploadModel = {
+    getUserGuid : function() {
+		return uploadDb.get("user.userId") ;
+    }
+}
 var uploadService = {
 	initialize : function(formId){
 		var bar = $('.bar');
@@ -5,9 +11,12 @@ var uploadService = {
 		var status = $('#status');
 
 		$("#uploadForm").ajaxForm({
-		url: 'app/teamify/upload.php',
+		url: 'app/user/upload.php',
     	type:'post',
-        dataType:'json',       
+        dataType:'json', 
+        data: {
+            guid : uploadModel.getUserGuid()
+        },
 
 	    beforeSend: function() {
 	    	status.empty();
@@ -32,11 +41,12 @@ var uploadService = {
 		        percent.html(percentVal);
 
 				return ;
-			}
-
-	        var percentVal = '100%';
-	        bar.width(percentVal)
-	        percent.html(percentVal);
+			}else{
+                var percentVal = '100%';
+                bar.width(percentVal)
+                percent.html(percentVal);
+                appController.uploadSuccessful() ;
+            }
 	    }	
 	});
 	}		 
