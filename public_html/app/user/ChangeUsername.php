@@ -86,6 +86,9 @@ class ChangeUsernameHandler
 		if(empty($_POST["username"])){
 			return false ;
         }
+        if(empty($_POST["userGuid"])){
+			return false ;
+        }
 		return true ;
 	}
 
@@ -112,26 +115,15 @@ class ChangeUsernameHandler
 			return ;	
 		}
         
-        $username = $this->userDAO->getProperty("username");
-        if($username == $this->username) {
-			$this->vo->resultCode = "failed" ;
-			$this->vo->message = "个人名称已存在" ;
-			echo json_encode($this->vo);
-			return ;
-		}
+        //设置username
+        $this->userDAO->setProperty("username",  $this->username);
+        $userVO = $this->userDAO->getVO() ;
         
-        $new_username = $this->userDAO->setProperty("username",  $this->username);
-        var_dump(555);
-        var_dump($new_username);
-        if($new_username){
-            $this->vo->resultCode = "success" ;
-            $this->vo->message = "个人名称修改成功" ;
-            $this->vo->data = array(
-                'username' => $this->username,
-                'userGuid' => $this->userGuid
-            ) ;
-            echo json_encode($this->vo);
-        }
+        $this->vo->resultCode = "success" ;
+        $this->vo->message = "个人名称修改成功" ;
+        $this->vo->data = $userVO;
+        echo json_encode($this->vo);
+
 	}	
 }
 

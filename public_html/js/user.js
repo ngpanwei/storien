@@ -19,6 +19,7 @@ var personifyModel = {
 		personDb.set("user.userId",userVO.guid) ;
 		personDb.set("user.username",userVO.username) ;
 		personDb.set("user.creation",userVO.creation) ;
+        personDb.set("user.photoPath",userVO.photoPath) ;
 	}
 } ; // end of personifyModel
 
@@ -55,7 +56,7 @@ var personService = {
 	signOut : function() {
 		personifyModel.logOut() ;
 		appController.start() ;
-	},
+	}
 } ; // end of signInService 
 var signInService = {
 	initialize : function() {
@@ -78,7 +79,7 @@ var signInService = {
             },
             submitHandler: function(form) {
             		signInService.submitSignIn(form) ;
-            },            
+            }       
         }); 
     },
 	submitSignIn : function(form) {
@@ -91,7 +92,7 @@ var signInService = {
 			dataType : "json",
 			data: { 
 				email : email , 
-				password : password ,
+				password : password 
 			}
 		}).done(function(result) {
 			signInService.afterSignIn(result);
@@ -105,7 +106,7 @@ var signInService = {
 			return ;
 		}
 		appController.signinSuccessful(result.data) ;
-	},
+	}
 } ; // end of signInService 
 var registerService = {
 	initialize : function() {
@@ -130,20 +131,20 @@ var registerService = {
                 },
                 cpassword: {
                     required: true,
-                    minlength: 8,
+                    minlength: 8
                     //equalTo:"#password"
                 },
                 photo: {
 //                    required: true,
 //                    accept: "image/*"
-                },
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
             		registerService.submitRegistration(form) ;
-            },
+            }
         }); 
     },
 	submitRegistration : function(form) {
@@ -163,7 +164,7 @@ var registerService = {
 				username : username , 
 				email : email , 
 				password : password , 
-				cpassword : cpassword , 
+				cpassword : cpassword 
 			} ,
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(xhr.responseText) ;
@@ -182,7 +183,7 @@ var registerService = {
 			return ;
 		}
 		appController.registrationSuccessful(result.data) ;
-	},		
+	}		
 } ; // end of registerService 
 var forgetPasswordService = {
 	initialize : function() {
@@ -194,14 +195,14 @@ var forgetPasswordService = {
                 email: {
                     required: true,
                     email:true
-                },
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
             		forgetPasswordService.submitResetPassword(form) ;
-            },
+            }
         }); 
     },
 	submitResetPassword : function(form) {
@@ -212,7 +213,7 @@ var forgetPasswordService = {
 			url: "app/user/forgetPassword.php" ,
 			dataType : "json",
 			data: { 
-				email : email , 
+				email : email 
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(xhr.responseText) ;
@@ -224,7 +225,7 @@ var forgetPasswordService = {
 	},
 	afterResetPassword : function(data) {
 		alert(data.message);
-	},
+	}
 } ; // end of forget password service 
 
 

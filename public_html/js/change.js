@@ -12,14 +12,14 @@ var changePasswordService = {
                 cpassword: {
                     required: true,
                     minlength: 8
-                },
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
             		changePasswordService.submitNewPassword(form) ;
-            },            
+            }            
         }); 
     },
 	submitNewPassword : function(form) {
@@ -35,7 +35,7 @@ var changePasswordService = {
 				userGuid : userGuid ,
 				opassword : opassword ,
 				password : password ,
-				cpassword : cpassword ,
+				cpassword : cpassword 
 			}
 		}).done(function(result) {
 			changePasswordService.afterChangePassword(result);
@@ -47,7 +47,7 @@ var changePasswordService = {
 			alert("OK") ;
 			return ;
 		}
-	},
+	}
 } ; // end of changePasswordService 
 var changeEmailService = {
 	initialize : function() {
@@ -59,14 +59,14 @@ var changeEmailService = {
                 email: {
                     required: true,
                     email: true
-                },
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
             		changeEmailService.submitEmail(form) ;
-            },            
+            }         
         }); 
     },
     submitEmail : function(form) {
@@ -78,7 +78,7 @@ var changeEmailService = {
 			dataType : "json",
 			data: {
 				userGuid : userGuid ,
-				email : email , 
+				email : email  
 			}
 		}).done(function(result) {
 			changeEmailService.afterChangeEmail(result);
@@ -88,7 +88,7 @@ var changeEmailService = {
 	afterChangeEmail : function(result) {
 		if(result.resultCode=="failed") {
 		}
-	},
+	}
 } ; // end of changeEmailService 
 var changeUsernameService = {
 	initialize : function() {

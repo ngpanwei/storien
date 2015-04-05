@@ -1,9 +1,3 @@
-var uploadDb = $.localStorage ;
-var uploadModel = {
-    getUserGuid : function() {
-		return uploadDb.get("user.userId") ;
-    }
-}
 var uploadService = {
 	initialize : function(formId){
 		var bar = $('.bar');
@@ -15,7 +9,7 @@ var uploadService = {
     	type:'post',
         dataType:'json', 
         data: {
-            guid : uploadModel.getUserGuid()
+            guid : personifyModel.getUserId
         },
 
 	    beforeSend: function() {
@@ -45,7 +39,7 @@ var uploadService = {
                 var percentVal = '100%';
                 bar.width(percentVal)
                 percent.html(percentVal);
-                appController.uploadSuccessful() ;
+                appController.uploadSuccessful(result.data) ;
             }
 	    }	
 	});

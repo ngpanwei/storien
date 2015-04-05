@@ -25,12 +25,10 @@
     private $userDb;
     private $userDAO;
     private $userVO;
-    private $userPhoto;
 
     public function __construct(){
     	$this->vo = new ResultVO() ;
         $this->userDb = new UserDb() ;
-        $this->userPhoto = new UserPhoto() ;
     }
     
     /**
@@ -126,9 +124,14 @@
             $this->setNewFileName($diyname); 
             /* 上传文件   返回0为成功， 小于0都为错误 */
             if($this->copyFile($diyname)){ 
+                $this->userDb->loadAll() ;
+                $this->userDAO = $this->userDb->getUserById($diyname) ;
+                $this->userVO = $this->userDAO->getVO() ;
                 
               	$this->vo->resultCode = "success" ;
 				$this->vo->message = "上传图像成功" ;
+                $this->vo->data = $this->userVO;
+                
 				echo json_encode($this->vo);
 
               return true;
@@ -277,10 +280,6 @@
         $path = rtrim($this->path, '/').'/';
         $path .= $this->newFileName;
         if (@move_uploaded_file($this->tmpFileName, $path)) {
-//          $this->userDb->loadAll() ;
-//          $this->userDAO = $this->userDb->getUserById($diyname) ;
-//          $this->userVO = $this->userDAO->getVO() ;
-//          $this->userPhoto->setPhotoPath($this->userDAO,  $this->userVO) ;
           return true;
         }else{
           $this->setOption('errorNum', -3);

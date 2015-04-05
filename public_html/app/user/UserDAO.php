@@ -35,6 +35,7 @@ class UserVO {
 	var $email ;
 	var $teams ;
 	var $creation;
+    var $photoPath;
 }
 
 class User {
@@ -67,6 +68,7 @@ class User {
 		$vo->email = $this->getProperty("email") ;
 		$vo->teams = $this->getTeams() ;
 		$vo->creation = $this->getProperty("creation") ;
+        $vo->photoPath = $this->getProperty("photoPath") ;
 		return $vo ;
 	}
 	public function getTeams() {

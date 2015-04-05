@@ -32,6 +32,7 @@ var appController = {
 		activityListService.syncActivityList()  ;
 	},
     uploadSuccessful : function() {
+        personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
 		activityListService.syncActivityList()  ;
