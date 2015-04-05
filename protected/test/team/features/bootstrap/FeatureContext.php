@@ -49,7 +49,7 @@ class FeatureContext extends BehatContext {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$teamname = $this->intention['teamname'] ;
 		$eventName = $this->intention['eventName'] ;
-		$controller = new TeamController() ;
+		$controller = new TeamAPI() ;
 		$contentElements = $controller->getTeamContentElements($teamname,$eventName) ;
 		Logger::log(__FILE__,__LINE__,count($contentElements)) ;
 		foreach($contentElements as $contentElement) {

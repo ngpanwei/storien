@@ -124,7 +124,7 @@ class RegistrationHandler {
 		$userPhoto = new UserPhoto() ;
 		$userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$activityController = new ActivityController() ;
+		$activityController = new ActivityAPI() ;
 		$activityController->handleUserEvent($userDAO, "register") ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailerAPI = new MailerAPI() ;

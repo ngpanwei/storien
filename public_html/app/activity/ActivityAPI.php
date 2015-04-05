@@ -28,7 +28,7 @@ require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
 require_once(dirname(dirname(__FILE__))."/team/TeamAPI.php");
 
-class ActivityController {
+class ActivityAPI {
 	public function getUserByEmail($email) {
 		$userDb = new UserDb() ;
 		$userDb->loadAll() ;
@@ -66,7 +66,7 @@ class ActivityController {
  		return $activityList;
 	}
 	public function generateContentList($teamnames,$eventName) {
-		$teamController = new TeamController() ;
+		$teamController = new TeamAPI() ;
 		$contentList = array() ;
 		foreach($teamnames as $teamname) {
 			$contentElements = $teamController->getTeamContentElements($teamname,$eventName) ;

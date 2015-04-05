@@ -82,7 +82,7 @@ class SyncHandler {
 	function handle($request) {
 		$userGuid = $request->userGuid ;
 		Logger::log(__FILE__,__LINE__,$userGuid) ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityVOList = $controller->getActivityVOList($userGuid) ;
 		$syncResponse = new SyncResponse() ;
 		$syncResponse->activities = $activityVOList ;

@@ -84,7 +84,7 @@ class FetchContentHandler {
 		$creation = $activityDetail['creation'] ;
 		Logger::log(__FILE__,__LINE__,$userGuid) ;
 		Logger::log(__FILE__,__LINE__,$creation) ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityDAO = $controller->getActivityByCreation($userGuid,$creation) ;
 		if($activityDAO==null) {
 			throw new Exception("Cannot find find activity") ;

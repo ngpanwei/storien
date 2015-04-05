@@ -1,7 +1,7 @@
 <?php
 require_once("TeamDAO.php");
 
-class TeamController {
+class TeamAPI {
 	public function getTeamContentElements($teamname,$eventName) {
 		$teamDb = new TeamDb() ;
 		$teamDb->loadAll() ;

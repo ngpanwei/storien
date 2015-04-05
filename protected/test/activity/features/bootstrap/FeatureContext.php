@@ -36,7 +36,7 @@ class FeatureContext extends BehatContext {
 	{
 		$this->intention['email'] = $email ;
 		$this->intention['event'] = $event ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$user = $controller->getUserByEmail($email) ;
 		$this->intention['userGuid'] = $user->getProperty("guid") ;
 		$this->intention['activities'] = $controller->handleUserEvent($user, $event) ;
@@ -58,7 +58,7 @@ class FeatureContext extends BehatContext {
     		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$userGuid = $this->intention['userGuid'] ;
     		Logger::log(__FILE__,__LINE__,$userGuid) ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityVOList = $controller->getActivityVOList($userGuid) ;
     		Logger::log(__FILE__,__LINE__,$userGuid) ;
     }
@@ -73,7 +73,7 @@ class FeatureContext extends BehatContext {
 		}
 		$creation = $activityVO->creation ;
 		$userGuid = $this->intention['userGuid'] ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityDAO = $controller->getActivityByCreation($userGuid,$creation) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$title = $activityDAO->getProperty("title") ;
@@ -103,7 +103,7 @@ class FeatureContext extends BehatContext {
     		$creation = $this->intention['activityCreation'] ;
 		$userGuid = $this->intention['userGuid'] ;
     		Logger::log(__FILE__,__LINE__,$creation) ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityDAO = $controller->getActivityByCreation($userGuid, $creation) ;
 		$actualStatus = $activityDAO->getProperty("status") ;
 		if($status!=$actualStatus) {
@@ -117,10 +117,10 @@ class FeatureContext extends BehatContext {
      */
     public function userWithEmail($email) {
 		$this->intention['email'] = $email ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$userDAO = $controller->getUserByEmail($email) ;
 		$userGuid = $userDAO->getProperty("guid") ;
-		$controller = new ActivityController() ;
+		$controller = new ActivityAPI() ;
 		$activityVOList = $controller->getActivityVOList($userGuid) ;
 		$this->intention['userGuid'] = $userGuid ;
 		$this->intention['activities'] = $activityVOList ;
