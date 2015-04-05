@@ -44,6 +44,12 @@ class XMLNode {
 		} 
 		$this->xmlElement->setAttribute($key, $value) ;
 	}
+	public function getText() {
+		return $this->xmlElement->nodeValue ;
+	}
+	public function setText($text) {
+		$this->xmlElement->nodeValue = $text ;
+	}
 	public function get($key) {
 		$value = $this->xmlElement->getAttribute($key) ;
 		return $value ;
@@ -134,7 +140,7 @@ class XMLFileDb {
 		$rootElement = new XMLNode($this->xmlRoot) ;
 		$rootElement->set($key, $value) ;
 	}
-	public function setRecord($elementId,$keyValues) {
+	public function createElement($elementId) {
 		$element = $this->get($elementId) ;
 		if($element==null) {
 			$domElement = $this->xmlDoc->createElement("div","") ;
@@ -142,6 +148,21 @@ class XMLFileDb {
 			$this->xmlRoot->appendChild($domElement);
 			$element = new XMLNode($domElement) ;
 		}
+		return $element ;
+	}
+	public function setKeyText($elementId,$text) {
+		$element = $this->createElement($elementId) ;
+		$element->setText($text) ;
+	}
+	public function getKeyText($elementId) {
+		$element = $this->get($elementId) ;
+		if($element==null) {
+			return null ;
+		}
+		return $element->getText() ;
+	}
+	public function setRecord($elementId,$keyValues) {
+		$element = $this->createElement($elementId) ;
 		$element->setKeyValues($keyValues) ;
 		return $element ;
 	}

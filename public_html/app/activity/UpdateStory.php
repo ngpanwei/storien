@@ -38,7 +38,8 @@ class StoryRequest {
 }
 
 class StoryResponse {
-	
+	var $activity ;
+	var $story ;
 }
 
 class UpdateStoryHandler {
@@ -86,11 +87,16 @@ class UpdateStoryHandler {
 		$userGuid = $request->userGuid ;
 		$activityGuid = $request->activityGuid ;
 		$storyText = $request->storyText ;
-
+		$storyAPI = new StoryAPI() ;
+		$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
+		$activityDAO->flush() ;
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "提交经历成功" ;
-// 		$vo->data = $syncResponse ;
+		$syncResponse = new SyncResponse() ;
+		$syncResponse->activity = $activityDAO->getVO() ;
+		$syncResponse->story = $activityDAO->getText("story") ;
+ 		$vo->data = $syncResponse ;
 		return $vo ;		
 	}
 }

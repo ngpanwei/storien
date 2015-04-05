@@ -63,6 +63,12 @@ class Activity {
 	public function flush() {
 		$this->xmlFileDb->flush() ;
 	}
+	public function setText($id,$text) {
+		$this->xmlFileDb->setKeyText($id,$text) ;
+	}
+	public function getText($id) {
+		$this->xmlFileDb->getKeyText($id) ;
+	}
 	public function getVO() {
 		$vo = new ActivityVO ;
 		$vo->guid = $this->getProperty("guid") ;

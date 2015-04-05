@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 //
 require_once ("../../../public_html/app/util/Logger.php");
 require_once ("../../../public_html/app/activity/ActivityAPI.php");
+require_once ("../../../public_html/app/activity/StoryAPI.php");
 
 Logger::setPrefix(dirname(dirname(dirname(dirname(__FILE__))))) ;
 
@@ -132,6 +133,10 @@ class FeatureContext extends BehatContext {
     public function userSharesStory($storyText) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
     		$activityDAO = $this->intention['activity'] ;
-    		Logger::log(__FILE__,__LINE__,$activityDAO->getProperty("creation")) ;
+    		$userGuid = $this->intention['userGuid'] ;
+    		$activityGuid = $activityDAO->getProperty("creation") ;
+    		$storyAPI = new StoryAPI() ;
+    		$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
+    		$activityDAO->flush() ;
     }   
 }

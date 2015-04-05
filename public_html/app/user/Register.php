@@ -25,7 +25,7 @@
 require_once("UserDAO.php");
 require_once("UserPhoto.php");
 require_once("PersonifyMailer.php");
-require_once(dirname(dirname(__FILE__))."/activity/ActivityController.php");
+require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
 
