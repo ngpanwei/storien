@@ -20,6 +20,8 @@ var personifyModel = {
 		personDb.set("user.username",userVO.username) ;
 		personDb.set("user.creation",userVO.creation) ;
         personDb.set("user.photoPath",userVO.photoPath) ;
+        personDb.set("user.email",userVO.email) ;
+        personDb.set("user.password",userVO.password) ;
 	}
 } ; // end of personifyModel
 

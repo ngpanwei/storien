@@ -26,7 +26,6 @@ require_once("UserDAO.php");
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;
@@ -35,14 +34,18 @@ Logger::setMode("file") ;
 
 class ChangePasswordHandler
 {
-	public $email ;
+    public $opassword ;
+	public $password ;
+	public $cpassword ;
 	public $vo;
 	public $userDb;
+    public $userDAO;
+    public $username;
+    public $userGuid;
 
 	public function __construct(){
 		$this->vo = new ResultVO() ;
 		$this->userDb = new UserDb() ;
-		$this->xmlDirDb = new XMLDirDb() ;
 	}
 
 	/**
@@ -50,7 +53,8 @@ class ChangePasswordHandler
 	 * @return 
 	 */
 	public function processForm(){
-		if($this->getFormData()==false) {
+        $getForm = $this->getFormData();
+		if(!$getForm) {
 			$this->vo->resultCode = "failed" ;
 			$this->vo->message = "提交的讯息不完整" ;
 			echo json_encode($this->vo);
@@ -65,10 +69,14 @@ class ChangePasswordHandler
 	 * @return bool 
 	 */
 	public function getFormData() {
-		if($this->validateFormData()==false) {
+        $validateForm = $this->validateFormData();
+		if(!$validateForm) {
 			return false ;
 		}
-		$this->email     = $_POST["email"] ;
+        $this->opassword    = $_POST["opassword"] ;
+		$this->password     = $_POST["password"] ;
+		$this->cpassword    = $_POST["cpassword"] ;
+        $this->userGuid     = $_POST["userGuid"] ;
 		return true ;
 	}
 
@@ -77,37 +85,71 @@ class ChangePasswordHandler
 	 * @return bool 
 	 */
 	public function validateFormData() {
-		if(isset($_POST["email"])==false)
+        if(empty($_POST["opassword"])){
 			return false ;
+        }
+		if(empty($_POST["password"])){
+			return false ;
+        }
+        if(empty($_POST["cpassword"])){
+			return false ;
+        }
+        if(empty($_POST["userGuid"])){
+			return false ;
+        }
 		return true ;
 	}
 
 	/**
-	 * 通过邮箱获取用户
+	 * 通过guid获取用户
 	 * @return obj
 	 */
-	public function getUserbyEmail() {
+	public function getUserbyGuid() {
 		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($this->email) ;
+		$user = $this->userDb->getUserById($this->userGuid) ;
 		return $user ;
 	}
 
 	/**
 	 * 处理过程
-	 * @return [type] [description]
 	 */
 	public function process() {
-		$userDAO = $this->getUserbyEmail() ;
-		if(empty($userDAO)) {			
+		$this->userDAO = $this->getUserbyGuid() ;
+		if(empty($this->userDAO)) {			
 			$this->vo->resultCode = "failed" ;
 			$this->vo->message = $this->email . "未曾被注册" ;
 			echo json_encode($this->vo);
 			return ;	
 		}
-		$this->vo->resultCode = "success" ;
-		$this->vo->message = "密码已经寄到你的邮箱" ;
-		$this->vo->data = null ;
-		echo json_encode($this->vo);
+        
+        $password = $this->userDAO->getProperty("password") ;
+        
+        //老密码判断
+        if($this->opassword != $password) {
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "用户老密码有误" ;
+			echo json_encode($this->vo);
+			return ;
+		}
+        
+        //新密码和确认密码判断
+        if($this->password != $this->cpassword) {
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "两次输入密码不一致" ;
+			echo json_encode($this->vo);
+			return ;
+		}
+          
+        //设置password
+        $this->userDAO->setProperty("password",  $this->password);
+        $userVO = $this->userDAO->getVO() ;
+//        var_dump($this->userDAO);
+//        var_dump($this->password);
+//        var_dump($userVO);die;
+        $this->vo->resultCode = "success" ;
+        $this->vo->message = "个人密码修改成功" ;
+        $this->vo->data = $userVO;
+        echo json_encode($this->vo);
 	}	
 }
 

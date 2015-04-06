@@ -111,6 +111,14 @@ class ChangeUsernameHandler
 			return ;	
 		}
         
+        $username = $this->userDAO->getProperty("username") ;
+        if($username == $this->username) {
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "用户名称已存在" ;
+			echo json_encode($this->vo);
+			return ;
+		}
+                
         //设置username
         $this->userDAO->setProperty("username",  $this->username);
         $userVO = $this->userDAO->getVO() ;

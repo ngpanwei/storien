@@ -1,10 +1,14 @@
 var changePasswordService = {
 	initialize : function() {
-        this.validateSignIn() ;
+        this.validateChangePassword() ;
 	},
-	validateSignIn : function() {
+	validateChangePassword : function() {
         $("#changePasswordForm").validate({
             rules: {
+                opassword: {
+                    required: true,
+                    minlength: 8
+                },
                 password: {
                     required: true,
                     minlength: 8
@@ -12,6 +16,7 @@ var changePasswordService = {
                 cpassword: {
                     required: true,
                     minlength: 8
+//                    equalTo:"#password"
                 }
             },
             errorPlacement: function(error, element) {
@@ -43,17 +48,21 @@ var changePasswordService = {
 		return false ;
 	},
 	afterChangePassword : function(result) {
+        alert(result.data.password);
 		if(result.resultCode=="failed") {
-			alert("OK") ;
+			$("#changePasswordDialog").popup("open") ;
+			$("#changePasswordTitle").text("不好意思，修改没法完成") ;
+			$("#changePasswordText").text(result.message) ;
 			return ;
 		}
+        appController.changePasswordSuccessful(result.data) ;
 	}
 } ; // end of changePasswordService 
 var changeEmailService = {
 	initialize : function() {
-        this.validateSignIn() ;
+        this.validateChangeEmail() ;
 	},
-	validateSignIn : function(id) {
+	validateChangeEmail : function() {
         $("#changeEmailForm").validate({
             rules: {
                 email: {
@@ -65,11 +74,11 @@ var changeEmailService = {
                 error.insertAfter(element.parent());
             },
             submitHandler: function(form) {
-            		changeEmailService.submitEmail(form) ;
+            		changeEmailService.submitChangeEmail(form) ;
             }         
         }); 
     },
-    submitEmail : function(form) {
+    submitChangeEmail : function(form) {
 		userGuid = personifyModel.getUserId() ;
 		email = $(form).find("#email").val() ;
 		$.ajax({
@@ -87,7 +96,12 @@ var changeEmailService = {
 	},
 	afterChangeEmail : function(result) {
 		if(result.resultCode=="failed") {
+            $("#changeEmailDialog").popup("open") ;
+			$("#changeEmailTitle").text("不好意思，修改没法完成") ;
+			$("#changeEmailText").text(result.message) ;
+			return ;
 		}
+        appController.changeEmailSuccessful(result.data) ;
 	}
 } ; // end of changeEmailService 
 var changeUsernameService = {
@@ -127,6 +141,7 @@ var changeUsernameService = {
 	},
 	afterChangeUsername : function(result) {
 		if(result.resultCode=="failed") {
+            $("#changeUsernameDialog").popup("open") ;
 			$("#changeUsernameTitle").text("不好意思，修改没法完成") ;
 			$("#changeUsernameText").text(result.message) ;
 			return ;

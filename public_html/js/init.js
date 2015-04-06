@@ -31,6 +31,18 @@ var appController = {
 		window.location.hash = "pgPersonSettings";
 		activityListService.syncActivityList()  ;
 	},
+    changeEmailSuccessful : function(userVO) {
+		personifyModel.setUserId(userVO) ;
+		userInfoService.refresh() ;
+		window.location.hash = "pgPersonSettings";
+		activityListService.syncActivityList()  ;
+	},
+    changePasswordSuccessful : function(userVO) {
+		personifyModel.setUserId(userVO) ;
+		userInfoService.refresh() ;
+		window.location.hash = "pgPersonSettings";
+		activityListService.syncActivityList()  ;
+	},
     uploadSuccessful : function() {
         personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
