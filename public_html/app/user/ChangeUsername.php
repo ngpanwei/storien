@@ -122,6 +122,7 @@ class ChangeUsernameHandler
         //设置username
         $this->userDAO->setProperty("username",  $this->username);
         $userVO = $this->userDAO->getVO() ;
+        $this->userDAO->flush() ;   //回存储数据到文件
         
         $this->vo->resultCode = "success" ;
         $this->vo->message = "个人名称修改成功" ;

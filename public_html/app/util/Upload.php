@@ -127,6 +127,7 @@
                 $this->userDb->loadAll() ;
                 $this->userDAO = $this->userDb->getUserById($diyname) ;
                 $this->userVO = $this->userDAO->getVO() ;
+               $this->userDAO->flush() ;   //回存储数据到文件
                 
               	$this->vo->resultCode = "success" ;
 				$this->vo->message = "上传图像成功" ;

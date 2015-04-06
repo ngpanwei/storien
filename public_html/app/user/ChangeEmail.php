@@ -122,6 +122,7 @@ class ChangeEmailHandler
         //设置email
         $this->userDAO->setProperty("email",  $this->email);
         $userVO = $this->userDAO->getVO() ;
+        $this->userDAO->flush() ;   //回存储数据到文件
         
         $this->vo->resultCode = "success" ;
         $this->vo->message = "邮箱修改成功" ;

@@ -48,14 +48,21 @@ var changePasswordService = {
 		return false ;
 	},
 	afterChangePassword : function(result) {
-        alert(result.data.password);
 		if(result.resultCode=="failed") {
 			$("#changePasswordDialog").popup("open") ;
 			$("#changePasswordTitle").text("不好意思，修改没法完成") ;
 			$("#changePasswordText").text(result.message) ;
 			return ;
 		}
-        appController.changePasswordSuccessful(result.data) ;
+        
+        $("#changePasswordDialog").popup("open") ;
+        $("#changePasswordTitle").text("个人密码修改成功") ;
+        $("#changePasswordText").text(result.message) ;
+        
+        //延时2秒跳转刷新
+        setTimeout(function () {
+            appController.changePasswordSuccessful(result.data) ;
+        }, 2000);           
 	}
 } ; // end of changePasswordService 
 var changeEmailService = {
@@ -101,7 +108,16 @@ var changeEmailService = {
 			$("#changeEmailText").text(result.message) ;
 			return ;
 		}
-        appController.changeEmailSuccessful(result.data) ;
+        
+        $("#changeEmailDialog").popup("open") ;
+        $("#changeEmailTitle").text("邮箱修改成功") ;
+        $("#changeEmailText").text(result.message) ;
+        
+        //延时2秒跳转刷新
+        setTimeout(function () {
+            appController.changeEmailSuccessful(result.data) ;
+        }, 2000);        
+        
 	}
 } ; // end of changeEmailService 
 var changeUsernameService = {
@@ -146,6 +162,14 @@ var changeUsernameService = {
 			$("#changeUsernameText").text(result.message) ;
 			return ;
 		}
-		appController.changeUsernameSuccessful(result.data) ;
+        
+        $("#changeUsernameDialog").popup("open") ;
+        $("#changeUsernameTitle").text("用户名修改成功") ;
+        $("#changeUsernameText").text(result.message) ;
+        
+        //延时2秒跳转刷新
+        setTimeout(function () {
+            appController.changePasswordSuccessful(result.data) ;
+        }, 2000);     
 	}
 } ; // end of changeUsernameService

@@ -7,6 +7,7 @@
 			<li><a id='user' href="#pgUpload"> <img id="settingUserIcon"
 					src="./assets/member-photo.png" width='150' height='150' />
 					<h2 id='settingUsername'>Me</h2>
+                    <h2 id='settingEmail'>devx@ngpanwei.com</h2>
 			</a></li>
 			<li><a id='changeUsername' href="#pgChangeUsername">修改命名</a></li>
 			<li><a id='changeEmail' href="#pgChangeEmail">修改邮箱</a></li>

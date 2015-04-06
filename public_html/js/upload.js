@@ -39,7 +39,15 @@ var uploadService = {
                 var percentVal = '100%';
                 bar.width(percentVal)
                 percent.html(percentVal);
-                appController.uploadSuccessful(result.data) ;
+                
+                $("#uploadDialog").popup("open") ;
+				$("#uploadTitle").text("上传图像成功") ;
+				$("#uploadText").text(result.message) ;
+                
+                //延时2秒跳转刷新
+                setTimeout(function () {
+                    appController.uploadSuccessful(result.data) ;
+                }, 2000);
             }
 	    }	
 	});

@@ -32,6 +32,7 @@ var userInfoService = {
 			return ;
 		}
 		$("#settingUsername").text(userVO.username) ;
+        $("#settingEmail").text(userVO.email) ;
 		d = new Date(); str = d.getTime() ;
 		$("#settingUserIcon").attr("src","./"+userVO.photoPath+"?"+str) ;
 		$("#settingUserPhoto").attr("src","./"+userVO.photoPath+"?"+str) ;

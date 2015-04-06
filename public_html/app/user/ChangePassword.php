@@ -143,9 +143,8 @@ class ChangePasswordHandler
         //设置password
         $this->userDAO->setProperty("password",  $this->password);
         $userVO = $this->userDAO->getVO() ;
-//        var_dump($this->userDAO);
-//        var_dump($this->password);
-//        var_dump($userVO);die;
+        $this->userDAO->flush() ;   //回存储数据到文件
+        
         $this->vo->resultCode = "success" ;
         $this->vo->message = "个人密码修改成功" ;
         $this->vo->data = $userVO;
