@@ -59,7 +59,9 @@ class ActivityAPI {
   			$activity->setProperty("path",$content->contentName) ;
   			$activity->setProperty("kind",$kind) ;
   			$activity->setProperty("text",$text) ;
+  			$activity->setContentXML($xml) ;
   			$activityVO = $activity->getVO() ;
+  			Logger::log(__FILE__,__LINE__,$activityVO->content) ;
   			$activity->flush() ;
  			array_push($activityList,$activityVO) ;
  		}

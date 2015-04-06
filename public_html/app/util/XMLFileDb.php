@@ -150,6 +150,22 @@ class XMLFileDb {
 		}
 		return $element ;
 	}
+	public function getXML($elementId) {
+		$element = $this->get($elementId) ;
+		$xml = $this->xmlDoc->saveXML($element->xmlElement) ;
+		return $xml ;
+	}
+	public function setXML($elementId,$xml) {
+		$element = $this->get($elementId) ;
+		if($element!=null) {
+			$domElement = $element->xmlElement ;
+			$parentNode = $domElement->parentNode ;
+			$parentNode->removeChild($domElement) ;
+		}
+		$fragment = $this->xmlDoc->createDocumentFragment();
+		$fragment->appendXML($xml) ;
+		$this->xmlRoot->appendChild($fragment);
+	}
 	public function setKeyText($elementId,$text) {
 		$element = $this->createElement($elementId) ;
 		$element->setText($text) ;

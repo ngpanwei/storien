@@ -62,19 +62,33 @@ var activityListService = {
 	initialize : function() {
 	},
 	addActivityItem : function(activity,index) {
-		html = "<li class='ui-li-has-thumb'>"
-		+ "<a id='activity" + index +"' class='ui-btn ui-btn-icon-right'" 
-		+ " activity-creation='"+ activity.creation +"'>"
-		+ "<img src='./assets/icon/" + activity.kind + ".png' width='150' height='150'/>"
-		+ "<h2>" + activity.title + "</h2>"
-		+ "<p>" + activity.text + "</p>"
-		+ "</a></li>" ;
-		$("#personActivity").append(html) ;
-		$("#personActivity").trigger("create") ;
-		$("#activity"+index).click(function() {
-			activityListService.activityItemClick(this) ;
-		});
+		html = "<div id='$activityId'>"
+			+ "<table width='100%' border='0'><tr><td width='80' valign='top'>"
+		    + "<img src='./assets/icon/$activityIcon.png' width='80' /></td><td>"
+		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
+		    + "$activityText"
+			+  "<hr/></td></tr></table></div>" ;
+		html = html.replace("$activityId",activity.creation) ;
+		html = html.replace("$activityIcon",activity.kind) ;
+		html = html.replace("$activityTitle",activity.title) ;
+		html = html.replace("$activityText",activity.content) ;
+		$("#activities").append(html) ;
+		$("#activities").trigger("create") ;
 	},
+//	addActivityItem2 : function(activity,index) {
+//		html = "<li class='ui-li-has-thumb'>"
+//		+ "<a id='activity" + index +"' class='ui-btn ui-btn-icon-right'" 
+//		+ " activity-creation='"+ activity.creation +"'>"
+//		+ "<img src='./assets/icon/" + activity.kind + ".png' width='150' height='150'/>"
+//		+ "<h2>" + activity.title + "</h2>"
+//		+ "<p>" + activity.text + "</p>"
+//		+ "</a></li>" ;
+//		$("#personActivity").append(html) ;
+//		$("#personActivity").trigger("create") ;
+//		$("#activity"+index).click(function() {
+//			activityListService.activityItemClick(this) ;
+//		});
+//	},
 	activityItemClick : function(element) {
 		creation = $(element).attr("activity-creation") ;
 		activity = activityModel.getActivityByCreation(creation) ;
@@ -98,7 +112,7 @@ var activityListService = {
 		});
 	},
 	refreshActivityList : function() {
-		$("#personActivity").empty() ;
+		$("#activities").empty() ;
 		newActivityList = activityModel.getActivityList() ;
 		for(i=0;i<newActivityList.length;i++) {
 			activity = newActivityList[i] ;

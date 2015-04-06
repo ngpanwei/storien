@@ -33,14 +33,15 @@ class ActivityClassVO {
 }
 
 class ActivityVO {
-	var $title     ; // name of activity to display on person's activity list
+	var $title    ; // name of activity to display on person's activity list
 	var $creation ; // date when activity was created
 	var $kind     ; // kind of activity, which achieved results in a medal
-	var $path  ; // path to find the content of this activity
-	var $text ; // text
+	var $path     ; // path to find the content of this activity
+	var $text     ; // text
+	var $content  ; // html based content
 }
 
-class Activity {
+class ActivityDAO {
 	var $xmlFileDb ;
 	public function __construct($xmlFileDb) {
 		$this->xmlFileDb = $xmlFileDb ;
@@ -60,6 +61,10 @@ class Activity {
 	public function getProperty($key) {
 		return $this->xmlFileDb->getRoot($key) ;
 	}
+	public function setContentXML($xml) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$this->xmlFileDb->setXML("content",$xml) ;
+	}
 	public function flush() {
 		$this->xmlFileDb->flush() ;
 	}
@@ -77,6 +82,7 @@ class Activity {
 		$vo->path = $this->getProperty("path") ;
 		$vo->kind = $this->getProperty("kind") ;
 		$vo->text = $this->getProperty("text") ;
+		$vo->content = $this->xmlFileDb->getXML("content") ;
 		return $vo ;
 	}
 }
@@ -103,7 +109,7 @@ class ActivityDb {
 		$filename = $this->dir . "/" . $creation . ".xml" ;
 		$fileDb = new XMLFileDb($filename) ;
 		$fileDb->load() ;
-		$activity = new Activity($fileDb) ;
+		$activity = new ActivityDAO($fileDb) ;
 		$activityCreation = $activity->getProperty("creation") ;
 		if($activityCreation!=$creation) {
 			throw new Exception("cannot find activity ".$creation) ;
@@ -123,14 +129,14 @@ class ActivityDb {
 		$filename = $this->dir . "/" . $dateStr . ".xml" ;
 		$fileDb->setFilename($filename) ;
 		$fileDb->setRoot("creation",$dateStr) ;
-		return new Activity($fileDb) ;
+		return new ActivityDAO($fileDb) ;
 	}
 	public function getAllActivities() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$fileDbArray = $this->db->getAllFiles() ;
 		$ActivityVOList = array() ;
 		foreach($fileDbArray as $fileDb) {
-			$activityDAO = new Activity($fileDb) ;
+			$activityDAO = new ActivityDAO($fileDb) ;
 			$activityVO = $activityDAO->getVO() ;
 			array_push($ActivityVOList,$activityVO) ;
 		}
