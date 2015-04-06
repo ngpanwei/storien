@@ -164,7 +164,7 @@ var changeUsernameService = {
 		}
         
         $("#changeUsernameDialog").popup("open") ;
-        $("#changeUsernameTitle").text("用户名修改成功") ;
+        $("#changeUsernameTitle").text("个人名称修改成功") ;
         $("#changeUsernameText").text(result.message) ;
         
         //延时2秒跳转刷新
