@@ -61,19 +61,28 @@ var activityService = {
 var activityListService = {
 	initialize : function() {
 	},
+	setInfoActivityForm : function(activity,Index) {
+		return ;
+	},
+	setStoryActivityForm : function(activity,index) {
+		updateStoryService.setStoryActivityForm(activity,index) ;
+	},
 	addActivityItem : function(activity,index) {
 		html = "<div id='$activityId'>"
 			+ "<table width='100%' border='0'><tr><td width='80' valign='top'>"
 		    + "<img src='./assets/icon/$activityIcon.png' width='80' /></td><td>"
 		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
 		    + "$activityText"
+		    + "<form id='$activityFormId'></form>"
 			+  "<hr/></td></tr></table></div>" ;
 		html = html.replace("$activityId",activity.creation) ;
 		html = html.replace("$activityIcon",activity.kind) ;
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
+		html = html.replace("$activityFormId","activity-"+index) ;
 		$("#activities").append(html) ;
 		$("#activities").trigger("create") ;
+		eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 	},
 //	addActivityItem2 : function(activity,index) {
 //		html = "<li class='ui-li-has-thumb'>"

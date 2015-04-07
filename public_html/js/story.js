@@ -1,25 +1,20 @@
 var updateStoryService = {
 	initialize : function() {
-        this.validateUpdateStory() ;
 	},
-	validateUpdateStory : function() {
-        $("#storyForm").validate({
-            rules: {
-            		storyText: {
-                    required: true,
-                },
-            },
-            errorPlacement: function(error, element) {
-                error.insertAfter(element.parent());
-            },
-            submitHandler: function(form) {
-            		updateStoryService.submitStory(form) ;
-            },
-        }); 
-    },
-    submitStory : function(form) {
+	setStoryActivityForm : function(activity,index) {
+		formId = "#activity-" + index ;
+		buttonId = "#activity-button-"+index ;
+		textId = "#textarea-"+index ;
+		$(formId).append("<textarea id='storyText'></textarea>") ;
+		$(formId).append("<button class='ui-btn ui-mini' id='activity-button-"+index+"'>提交</button>") ; 
+		$(formId).trigger("create") ;
+	    $(buttonId).click(function() {
+	    		updateStoryService.submitStory($(formId),activity) ;
+	    		return false ;
+	    }) ;
+	},
+    submitStory : function(form,activity) {
 		userGuid = personifyModel.getUserId() ;
-		activity = activityModel.getCurrentActivity() ;
 		activityGuid = activity.creation;
 		storyText = $(form).find("#storyText").val() ;
 		alert(userGuid + ":" + activityGuid + ":" + storyText) ;
@@ -33,14 +28,15 @@ var updateStoryService = {
 				storyText : storyText ,
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.responseText) ;
+				alert("Error:"+xhr.status + "  " + thrownError);
+				alert("Error:"+xhr.responseText) ;
 		    }			
 		}).done(function(result) {
 			updateStoryService.afterStorySubmission(result) ;
 		});
 	    	return false ;
 	},
-	afterStorySubmission : function(data) {
-		alert(data.message);
+	afterStorySubmission : function(result) {
+		alert("submit complete:"+data.message);
 	},
 } ; // end of update story service 

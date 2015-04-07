@@ -24,6 +24,7 @@
  */
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
+require_once(dirname(dirname(__FILE__))."/activity/StoryAPI.php");
 
 header('Content-type: text/html; charset=UTF-8');
 
@@ -65,7 +66,6 @@ class UpdateStoryHandler {
 		return $request ;
 	}
 	function processForm() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$request = $this->getRequest() ;
 		if($request==null) {
 			$vo = new ResultVO() ;
@@ -77,13 +77,13 @@ class UpdateStoryHandler {
 		$this->process($request) ;
 	}
 	function process($request) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$vo = $this->handle($request) ;
 		$json = json_encode($vo);
 		Logger::log(__FILE__,__LINE__,$json) ;
 		echo json_encode($vo);
 	}
 	function handle($request) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$userGuid = $request->userGuid ;
 		$activityGuid = $request->activityGuid ;
 		$storyText = $request->storyText ;
@@ -93,7 +93,7 @@ class UpdateStoryHandler {
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "提交经历成功" ;
-		$syncResponse = new SyncResponse() ;
+		$storyResponse = new StoryResponse() ;
 		$syncResponse->activity = $activityDAO->getVO() ;
 		$syncResponse->story = $activityDAO->getText("story") ;
  		$vo->data = $syncResponse ;
