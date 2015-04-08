@@ -1,11 +1,11 @@
 var uploadService = {
-	initialize : function(formId){
+	initialize : function(){
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
 
 		$("#uploadForm").ajaxForm({
-		url: 'app/user/upload.php',
+		url: 'app/user/Upload.php',
     	type:'post',
         dataType:'json', 
         data: {
