@@ -40,6 +40,7 @@ var activityModel = {
 var syncService = {
 	initialize : function() {
 		$("#syncBtn").click(function() {
+			$("#activityPopupMenu").popup("close") ;
 			syncService.sync() ;
 		});
 	},
@@ -69,12 +70,15 @@ var activityListService = {
 	},
 	addActivityItem : function(activity,index) {
 		html = "<div id='$activityId'>"
-			+ "<table width='100%' border='0'><tr><td width='80' valign='top'>"
-		    + "<img src='./assets/icon/$activityIcon.png' width='80' /></td><td>"
+//			+ "<table width='100%' border='0'><tr><td width='40' valign='top'>"
+//		    + "<img src='./assets/icon/$activityIcon.png' width='40' />"
+//		    + </td><td>"
 		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
 		    + "$activityText"
 		    + "<form id='$activityFormId'></form>"
-			+  "<hr/></td></tr></table></div>" ;
+		    + "<hr/>"
+//			+  "<hr/></td></tr></table>"
+			+ "</div>" ;
 		html = html.replace("$activityId",activity.creation) ;
 		html = html.replace("$activityIcon",activity.kind) ;
 		html = html.replace("$activityTitle",activity.title) ;
@@ -84,19 +88,22 @@ var activityListService = {
 		$("#activities").trigger("create") ;
 		eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 	},
-//	addActivityItem2 : function(activity,index) {
-//		html = "<li class='ui-li-has-thumb'>"
-//		+ "<a id='activity" + index +"' class='ui-btn ui-btn-icon-right'" 
-//		+ " activity-creation='"+ activity.creation +"'>"
-//		+ "<img src='./assets/icon/" + activity.kind + ".png' width='150' height='150'/>"
-//		+ "<h2>" + activity.title + "</h2>"
-//		+ "<p>" + activity.text + "</p>"
-//		+ "</a></li>" ;
-//		$("#personActivity").append(html) ;
-//		$("#personActivity").trigger("create") ;
-//		$("#activity"+index).click(function() {
-//			activityListService.activityItemClick(this) ;
-//		});
+//	addActivityItem : function(activity,index) {
+//		html = "<div id='$activityId'>"
+//			+ "<table width='100%' border='0'><tr><td width='40' valign='top'>"
+//		    + "<img src='./assets/icon/$activityIcon.png' width='40' /></td><td>"
+//		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
+//		    + "$activityText"
+//		    + "<form id='$activityFormId'></form>"
+//			+  "<hr/></td></tr></table></div>" ;
+//		html = html.replace("$activityId",activity.creation) ;
+//		html = html.replace("$activityIcon",activity.kind) ;
+//		html = html.replace("$activityTitle",activity.title) ;
+//		html = html.replace("$activityText",activity.content) ;
+//		html = html.replace("$activityFormId","activity-"+index) ;
+//		$("#activities").append(html) ;
+//		$("#activities").trigger("create") ;
+//		eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 //	},
 	activityItemClick : function(element) {
 		creation = $(element).attr("activity-creation") ;
