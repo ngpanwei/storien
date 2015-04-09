@@ -69,6 +69,7 @@ var appController = {
             window.location.hash = "pgWelcomeConfirmation";
             userInfoService.refresh() ;
 			activityListService.refreshActivityList() ;
+            return ; 
         }
         
 		if(personifyModel.isLoggedIn()==true) {

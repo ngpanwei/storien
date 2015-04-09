@@ -75,7 +75,7 @@ class MailerAPI {
 		$mailer->AddAddress($userObject->email);
 		$mailer->Subject = "谢谢! 点击链接姐能够完成邮箱确认了" ;
 		$username = $userObject->username ;
-		$confirmUrl = $this->GetAbsoluteURLFolder().'/experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
+		$confirmUrl = $this->GetAbsoluteURLFolder().'experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
 		$body = "" ;
 		$body .= "你好， $username," . PHP_EOL . PHP_EOL ;
 		$body .= "感谢的支持. 只剩下一个步骤就注册完成了." . PHP_EOL ;
