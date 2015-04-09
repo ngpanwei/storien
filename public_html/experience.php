@@ -32,6 +32,7 @@ function file_inject($filename) {
 	return $content;
 }
 echo file_get_contents('./page/head.php'); 
+echo file_inject('./page/welcome.php');
 echo file_inject('./page/home.php');
 echo file_inject('./page/activityInfo.php');
 echo file_inject('./page/activityStory.php');
