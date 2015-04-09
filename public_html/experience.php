@@ -32,7 +32,6 @@ function file_inject($filename) {
 	return $content;
 }
 echo file_get_contents('./page/head.php'); 
-echo file_inject('./page/welcome.php');
 echo file_inject('./page/home.php');
 echo file_inject('./page/activityInfo.php');
 echo file_inject('./page/activityStory.php');
@@ -43,5 +42,6 @@ echo file_inject('./page/changeUsername.php');
 echo file_inject('./page/changeEmail.php');
 echo file_inject('./page/changePassword.php');
 echo file_inject('./page/upload.php');
+echo file_inject('./page/welcome.php');
 echo file_get_contents('./page/end.php');
 ?>
