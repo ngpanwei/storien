@@ -17,6 +17,12 @@ class Deployer {
 	 * @var	bool
 	 */
 	public $debug = FALSE;
+    /**
+	 * Passive mode flag
+	 *
+	 * @var	bool
+	 */
+	public $passive = TRUE;
 	
 	public function __construct() {
 		$this->hostname = "www.storien.com" ;
@@ -43,6 +49,13 @@ class Deployer {
 		$this->getCredentials() ;
 		$this->loginToServer() ;
 		echo ftp_pwd($this->connection);
+        
+        // Set passive mode if needed
+		if ($this->passive === TRUE)
+		{
+			ftp_pasv($this->connection, TRUE);
+		}
+        
         $this->mirror($locpath, $rempath);
 //		$contents = ftp_nlist($this->connection, ".");
 //		foreach($contents as $content) {
