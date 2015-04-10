@@ -1,3 +1,44 @@
+var postStoryService = {
+	initialize : function() {
+		$("#postBtn").click(function() {
+			$("#activityPopupMenu").popup("close") ;
+			$("#postActivity").toggle() ;
+		});
+		$("#closePostBtn").click(function() {
+			$("#postActivity").toggle() ;
+			return false ;
+		}) ;
+		$("#postStoryBtn").click(function() {
+			postStoryService.postStory($("#postStoryForm")) ;
+			return false ;
+		}) ;
+	},
+    postStory : function(form) {
+		userGuid = personifyModel.getUserId() ;
+		storyText = $(form).find("#postText").val() ;
+		alert(userGuid + ":" + storyText) ;
+        $.ajax({
+			type: "POST",
+			url: "app/activity/PostStory.php" ,
+			dataType : "json",
+			data: { 
+				userGuid : userGuid , 
+				storyText : storyText ,
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert("Error:"+xhr.status + "  " + thrownError);
+				alert("Error:"+xhr.responseText) ;
+		    }			
+		}).done(function(result) {
+			$("#postActivity").toggle() ;
+			postStoryService.afterStoryPosting(result) ;
+		});
+	    	return false ;
+	},
+	afterStoryPosting : function(result) {
+		alert("posting complete:"+data.message);
+	},
+}; // 
 var updateStoryService = {
 	initialize : function() {
 	},
