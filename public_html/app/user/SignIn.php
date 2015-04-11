@@ -35,9 +35,11 @@ Logger::setMode("file") ;
 class SignInRequest {
 	var $email ;
 	var $password ;
+    public $vo;
 }
 class SignInHandler {
 	public function __construct() {
+        $this->vo = new ResultVO() ;
 	}
 	function validateFormData() {
 		if(isset($_POST["email"])==false)
@@ -58,15 +60,26 @@ class SignInHandler {
 	function processForm() {
 		$request = $this->getFormData() ;
 		if($request==null) {
-			$vo = new ResultVO() ;
-			$vo->resultCode = "failed" ;
-			$vo->message = "提交的讯息不完整" ;
-			echo json_encode($vo);
+			$this->vo->resultCode = "failed" ;
+			$this->vo->message = "提交的讯息不完整" ;
+			echo json_encode($this->vo);
 			return ;
 		}
         
-        $handler = new UserController() ;
-		$handler->signIn($request) ;
+        try {
+            $handler = new UserController() ;
+            $userVO = $handler->signIn($request) ;
+            
+            $this->vo->resultCode = "success" ;
+            $this->vo->message = "登录成功！" ;
+            $this->vo->data = $userVO ;
+            echo json_encode($this->vo);
+            
+        } catch(Exception $e) {
+            $this->vo->resultCode = "failed" ;
+            $this->vo->message = $e->getMessage() ;
+            echo json_encode($this->vo);
+        }  
 	}
 }
 

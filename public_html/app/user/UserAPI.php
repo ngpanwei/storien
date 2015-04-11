@@ -23,7 +23,6 @@
  *  SOFTWARE.
  */
 require_once("UserDAO.php");
-require_once("UserAPI.php");
 require_once("UserPhoto.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
@@ -34,6 +33,13 @@ Logger::setMode("file") ;
 
 class UserController {
     public $userDb;
+    public $vo;
+    
+    public function __construct() {
+       $this->userDb = new UserDb() ;
+       $this->vo = new ResultVO() ;
+    }
+    
     public function register($registerRequest) {
 		//
 		return $userVO ;
@@ -46,29 +52,19 @@ class UserController {
      */
 	public function signIn($signInRequest) {
 		$userDAO = $this->getUserbyEmail($signInRequest) ;
-		$vo = new ResultVO() ;
 		if($userDAO==null) {
-			$vo->resultCode = "failed" ;
-			$vo->message = $userDAO->getProperty("email") . "未曾被注册" ;
-			echo json_encode($vo);
-			return ;	
+            $error = $signInRequest->email . "未曾被注册" ;
+            throw new Exception($error);
 		}
         
 		if($userDAO->getProperty("password")!=$signInRequest->password) {
-			$vo->resultCode = "failed" ;
-			$vo->message = "密码不正确" ;
-			echo json_encode($vo);
-			return ;
+            $error = "密码不正确" ;
+            throw new Exception($error);
 		}
 
 		$userVO = $userDAO->getVO() ;
 		$userPhoto = new UserPhoto() ;
 		$userPhoto->getPhotoPath($userDAO,$userVO) ;
-        
-		$vo->resultCode = "success" ;
-		$vo->message = "登录成功！" ;
-		$vo->data = $userVO ;
-		echo json_encode($vo);
         
 		return $userVO ;
 	}
@@ -78,8 +74,7 @@ class UserController {
      * @param obj $request
      * @return obj
      */
-    function getUserbyEmail($request) {
-		$this->userDb = new UserDb() ;
+    function getUserbyEmail($request) {	
 		$this->userDb->loadAll() ;
 		$user = $this->userDb->getUserByEmail($request->email) ;
 		return $user ;
