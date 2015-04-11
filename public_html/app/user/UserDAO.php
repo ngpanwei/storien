@@ -114,16 +114,4 @@ class UserDb {
 	}
 }
 
-// Logger::log(__FILE__,__LINE__,"Teamify") ;
-// $userDb = new UserDb() ;
-// Logger::log(__FILE__,__LINE__,"Teamify") ;
-// $userDb->loadAll() ;
-// $user = $userDb->getUserByEmail("panwei@storien.com") ;
-// if($user==null) {
-// 	Logger::log(__FILE__,__LINE__,"create new user") ;
-// 	$user = $userDb->createUser("panwei@storien.com") ;	
-// } else {
-// 	Logger::log(__FILE__,__LINE__,"existing user") ;
-// }
-// Logger::log(__FILE__,__LINE__,"Teamify") ;
 ?>
