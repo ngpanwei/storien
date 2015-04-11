@@ -90,6 +90,7 @@ class SyncHandler {
 		$vo->resultCode = "success" ;
 		$vo->message = "提交的讯息不完整" ;
 		$vo->data = $syncResponse ;
+		Logger::log(__FILE__,__LINE__,json_encode($activityVOList)) ;
 		return $vo ;
 	}
 }

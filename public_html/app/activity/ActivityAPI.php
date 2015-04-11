@@ -67,7 +67,6 @@ class ActivityAPI {
  			$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
  			$activityDAO->flush() ;
   			$activityVO = $activityDAO->getVO() ;
-  			Logger::log(__FILE__,__LINE__,$activityVO->content) ;
   			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;

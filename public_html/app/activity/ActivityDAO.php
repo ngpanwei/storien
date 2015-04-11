@@ -84,7 +84,6 @@ class ActivityDAO {
 		$vo->text = $this->getProperty("text") ;
 		$vo->content = $this->xmlFileDb->getXML("content") ;
 		$vo->story = $this->getText("story") ;
-		Logger::log(__FILE__,__LINE__,$vo->story) ;
 		return $vo ;
 	}
 }
