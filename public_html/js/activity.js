@@ -69,6 +69,17 @@ var activityListService = {
 	setStoryActivityForm : function(activity,index) {
 		updateStoryService.setStoryActivityForm(activity,index) ;
 	},
+	updateActivityItem : function(newActivity) {
+		activities = activityModel.getActivityList() ;
+		for (i=0;i<activities.length;i++) {
+			activity = activities[i] ;
+			if(activity.creation==newActivity.creation) {
+				alert("updating story :"+newActivity.story) ;
+				return ;
+			}
+		}
+		alert("adding story :"+newActivity.story) ;
+	},
 	addActivityItem : function(activity,index) {
 		html = $("#activityTemplate").html() ;
 		html = html.replace("$activityId",activity.creation) ;

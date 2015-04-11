@@ -39,11 +39,6 @@ class PostStoryRequest {
 	var $storyText ;	
 }
 
-class PostStoryResponse {
-	var $activity ;
-	var $storyText ;
-}
-
 class PostStoryHandler {
 	public function __construct() {
 	}
@@ -60,7 +55,7 @@ class PostStoryHandler {
 		}
 		$request = new PostStoryRequest() ;
 		$request->userGuid  = $_POST["userGuid"] ;
-		$request->postText  = $_POST["storyText"] ;
+		$request->storyText  = $_POST["storyText"] ;
 		return $request ;
 	}
 	function processForm() {
@@ -88,10 +83,7 @@ class PostStoryHandler {
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "提交经历成功" ;
-		$storyResponse = new PostStoryResponse() ;
-		$syncResponse->activity = $activityDAO->getVO() ;
-		$syncResponse->story = $activityDAO->getText("story") ;
- 		$vo->data = $syncResponse ;
+ 		$vo->data = $activityDAO->getVO() ;
 		return $vo ;		
 	}
 }

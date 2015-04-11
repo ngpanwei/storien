@@ -38,11 +38,6 @@ class StoryRequest {
 	var $storyText ;	
 }
 
-class StoryResponse {
-	var $activity ;
-	var $story ;
-}
-
 class UpdateStoryHandler {
 	public function __construct() {
 	}
@@ -92,10 +87,7 @@ class UpdateStoryHandler {
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "提交经历成功" ;
-		$storyResponse = new StoryResponse() ;
-		$syncResponse->activity = $activityDAO->getVO() ;
-		$syncResponse->story = $activityDAO->getText("story") ;
- 		$vo->data = $syncResponse ;
+ 		$vo->data = $activityDAO->getVO() ;
 		return $vo ;		
 	}
 }

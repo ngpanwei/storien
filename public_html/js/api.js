@@ -3,5 +3,4 @@ var api = {
     fetchContent : "app/content/FetchContent.php" ,
     postStory : "app/activity/PostStory.php" ,
     updateStory : "app/activity/UpdateStory.php" ,
-   
 } ;
