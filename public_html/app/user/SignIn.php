@@ -23,6 +23,7 @@
  *  SOFTWARE.
  */
 require_once("UserDAO.php");
+require_once("UserAPI.php");
 require_once("UserPhoto.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
@@ -63,39 +64,9 @@ class SignInHandler {
 			echo json_encode($vo);
 			return ;
 		}
-		$this->process($request) ;
-	}	
-	function getUserbyEmail($request) {
-		$this->userDb = new UserDb() ;
-		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($request->email) ;
-		return $user ;
-	}
-	function process($request) {
-		$userDAO = $this->getUserbyEmail($request) ;
-		$vo = new ResultVO() ;
-		if($userDAO==null) {
-			$vo->resultCode = "failed" ;
-			$vo->message = $this->email . "未曾被注册" ;
-			echo json_encode($vo);
-			return ;	
-		}
-		if($userDAO->getProperty("password")!=$request->password) {
-			$vo->resultCode = "failed" ;
-			$vo->message = "密码不正确" ;
-			echo json_encode($vo);
-			return ;
-		}
-		$guid = $userDAO->getProperty("guid") ;
-		$userVO = $userDAO->getVO() ;
-		$userPhoto = new UserPhoto() ;
-		$userPhoto->getPhotoPath($userDAO,$userVO) ;
-		$vo->resultCode = "success" ;
-		$vo->message = "登录成功！" ;
-		$vo->data = $userVO ;
-// 		setcookie('userId', $guid, time() + (86400 * 30), "/");
-// 		setcookie('username', $user->getProperty("username"), time() + (86400 * 30), "/");
-		echo json_encode($vo);
+        
+        $handler = new UserController() ;
+		$handler->signIn($request) ;
 	}
 }
 
