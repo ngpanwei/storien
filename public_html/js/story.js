@@ -15,7 +15,7 @@ var postStoryService = {
 	},
     postStory : function(form) {
 		userGuid = personifyModel.getUserId() ;
-		storyText = $(form).find("#postText").val() ;
+		storyText = $(form).find("#storyText").val() ;
 		alert(userGuid + ":" + storyText) ;
         $.ajax({
 			type: "POST",

@@ -13,7 +13,7 @@
 	<div data-role="main" class="ui-content">
 	    <div id="postActivity" style="display:none">
 	    		<form id="postStoryForm">
-	    			<textarea id="postText"></textarea>
+	    			<textarea id="storyText"></textarea>
 	    		</form>
 	    			<button class='ui-btn ui-mini' id='postStoryBtn'>提交</button>
 	    			<button class='ui-btn ui-mini' id='closePostBtn'>取消</button>

@@ -27,6 +27,14 @@ require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 
 class StoryAPI {
+	public function postStory($userGuid,$storyText) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityAPI = new ActivityAPI() ;
+		$activityDAO = $activityAPI->createActivity($userGuid,"未提供标题") ;
+		$activityDAO->setText("story", $storyText) ;
+		$activityDAO->setProperty("status","done") ;
+		return $activityDAO ;
+	}
 	public function updateStory($userGuid,$activityGuid,$storyText) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityAPI = new ActivityAPI() ;

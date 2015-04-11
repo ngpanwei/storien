@@ -87,6 +87,12 @@ class ActivityAPI {
 		}
 		return $contentList ;
 	}
+	public function createActivity($userGuid,$title) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityDb = new ActivityDb($userGuid) ;
+		$activityDAO = $activityDb->createActivity($title) ;
+		return $activityDAO ;
+	}
 	public function getActivityByCreation($userGuid,$creation) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$activityDb = new ActivityDb($userGuid) ;
