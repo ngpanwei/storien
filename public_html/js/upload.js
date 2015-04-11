@@ -5,7 +5,7 @@ var uploadService = {
 		var status = $('#status');
 
 		$("#uploadForm").ajaxForm({
-		url: 'app/user/Upload.php',
+		url: api.upload ,
     	type:'post',
         dataType:'json', 
         data: {
