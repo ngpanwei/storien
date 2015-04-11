@@ -89,7 +89,6 @@ class UpdateStoryHandler {
 		$storyText = $request->storyText ;
 		$storyAPI = new StoryAPI() ;
 		$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
-		$activityDAO->flush() ;
 		$vo = new ResultVO() ;
 		$vo->resultCode = "success" ;
 		$vo->message = "提交经历成功" ;

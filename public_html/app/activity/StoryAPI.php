@@ -33,6 +33,7 @@ class StoryAPI {
 		$activityDAO = $activityAPI->createActivity($userGuid,"未提供标题") ;
 		$activityDAO->setText("story", $storyText) ;
 		$activityDAO->setProperty("status","done") ;
+		$activityDAO->flush() ;
 		return $activityDAO ;
 	}
 	public function updateStory($userGuid,$activityGuid,$storyText) {
@@ -41,6 +42,7 @@ class StoryAPI {
 		$activityDAO = $activityAPI->getActivityByCreation($userGuid,$activityGuid) ;
 		$activityDAO->setText("story", $storyText) ;
 		$activityDAO->setProperty("status","done") ;
+		$activityDAO->flush() ;
 		return $activityDAO ;
 	}
 }

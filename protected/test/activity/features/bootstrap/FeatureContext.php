@@ -108,6 +108,7 @@ class FeatureContext extends BehatContext {
 		$activityDAO = $controller->getActivityByCreation($userGuid, $creation) ;
 		$actualStatus = $activityDAO->getProperty("status") ;
 		if($status!=$actualStatus) {
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 			throw new TestException("actual status is ".$actualStatus) ;
 		}
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
@@ -132,11 +133,18 @@ class FeatureContext extends BehatContext {
      */
     public function userSharesStory($storyText) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-    		$activityDAO = $this->intention['activity'] ;
     		$userGuid = $this->intention['userGuid'] ;
-    		$activityGuid = $activityDAO->getProperty("creation") ;
-    		$storyAPI = new StoryAPI() ;
-    		$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
-    		$activityDAO->flush() ;
+    		if(isset($this->intention['activity'])==true) {
+			$activityDAO = $this->intention['activity'] ;
+    			$activityGuid = $activityDAO->getProperty("creation") ;
+    			$storyAPI = new StoryAPI() ;
+    			$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
+    		} else {
+    			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+    			$storyAPI = new StoryAPI() ;
+    			$activityDAO = $storyAPI->postStory($userGuid,$storyText) ;
+    			$creation = $activityDAO->getProperty("creation") ;
+    			$this->intention['activityCreation'] = $creation ;
+    		}
     }   
 }
