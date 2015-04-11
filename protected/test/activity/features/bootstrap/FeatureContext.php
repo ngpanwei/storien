@@ -139,12 +139,16 @@ class FeatureContext extends BehatContext {
     			$activityGuid = $activityDAO->getProperty("creation") ;
     			$storyAPI = new StoryAPI() ;
     			$activityDAO = $storyAPI->updateStory($userGuid, $activityGuid, $storyText) ;
+    			$activityVO = $activityDAO->getVO() ;
+			Logger::log(__FILE__,__LINE__,$activityVO->story) ;
     		} else {
     			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
     			$storyAPI = new StoryAPI() ;
     			$activityDAO = $storyAPI->postStory($userGuid,$storyText) ;
     			$creation = $activityDAO->getProperty("creation") ;
     			$this->intention['activityCreation'] = $creation ;
+    			$activityVO = $activityDAO->getVO() ;
+			Logger::log(__FILE__,__LINE__,$activityVO->story) ;
     		}
     }   
 }

@@ -175,7 +175,8 @@ class XMLFileDb {
 		if($element==null) {
 			return null ;
 		}
-		return $element->getText() ;
+		$text = $element->getText() ;
+		return $text ;
 	}
 	public function setRecord($elementId,$keyValues) {
 		$element = $this->createElement($elementId) ;

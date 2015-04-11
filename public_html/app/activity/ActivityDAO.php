@@ -27,11 +27,6 @@ require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 require_once(dirname(dirname(__FILE__))."/util/Guid.php");
 
-class ActivityClassVO {
-	var $name ; // name of activity class name
-	var $displayName ; // localized name to be displayed 
-}
-
 class ActivityVO {
 	var $title    ; // name of activity to display on person's activity list
 	var $creation ; // date when activity was created
@@ -39,6 +34,12 @@ class ActivityVO {
 	var $path     ; // path to find the content of this activity
 	var $text     ; // text
 	var $content  ; // html based content
+	var $story    ; // user submitted content
+	var $photo    ; // user submitted photo
+	public function __construct() {
+		$this->story = "" ;
+		$this->photo = "" ;
+	}
 }
 
 class ActivityDAO {
@@ -62,7 +63,6 @@ class ActivityDAO {
 		return $this->xmlFileDb->getRoot($key) ;
 	}
 	public function setContentXML($xml) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->xmlFileDb->setXML("content",$xml) ;
 	}
 	public function flush() {
@@ -72,7 +72,7 @@ class ActivityDAO {
 		$this->xmlFileDb->setKeyText($id,$text) ;
 	}
 	public function getText($id) {
-		$this->xmlFileDb->getKeyText($id) ;
+		return $this->xmlFileDb->getKeyText($id) ;
 	}
 	public function getVO() {
 		$vo = new ActivityVO ;
@@ -83,6 +83,8 @@ class ActivityDAO {
 		$vo->kind = $this->getProperty("kind") ;
 		$vo->text = $this->getProperty("text") ;
 		$vo->content = $this->xmlFileDb->getXML("content") ;
+		$vo->story = $this->getText("story") ;
+		Logger::log(__FILE__,__LINE__,$vo->story) ;
 		return $vo ;
 	}
 }

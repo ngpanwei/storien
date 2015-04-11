@@ -32,6 +32,7 @@ class StoryAPI {
 		$activityAPI = new ActivityAPI() ;
 		$activityDAO = $activityAPI->createActivityFromContentPath($userGuid,"story/postStory.xml") ;
 		$activityDAO->setText("story", $storyText) ;
+		Logger::log(__FILE__,__LINE__,$activityDAO->getText("story")) ;
 		$activityDAO->setProperty("status","done") ;
 		$activityDAO->flush() ;
 		return $activityDAO ;
@@ -41,6 +42,7 @@ class StoryAPI {
 		$activityAPI = new ActivityAPI() ;
 		$activityDAO = $activityAPI->getActivityByCreation($userGuid,$activityGuid) ;
 		$activityDAO->setText("story", $storyText) ;
+		Logger::log(__FILE__,__LINE__,$activityDAO->getText("story")) ;
 		$activityDAO->setProperty("status","done") ;
 		$activityDAO->flush() ;
 		return $activityDAO ;
