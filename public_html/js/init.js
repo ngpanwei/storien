@@ -67,10 +67,25 @@ var appController = {
 	start : function() { 
         var code = appController.getUrlVar('code');
         if(code != undefined && code == personifyModel.getUserId()){
-            window.location.hash = "pgWelcomeConfirmation";
-            userInfoService.refresh() ;
-			activityListService.refreshActivityList() ;
-            return ; 
+            userGuid = personifyModel.getUserId() ;
+            $.ajax({
+                type: "POST",
+                url: "app/user/ConfirmUser.php" ,
+                dataType : "json",
+                data: { 
+                    userGuid : userGuid 
+                }
+            }).done(function(result) {
+                if(result.resultCode=="success") {
+                    //延时2秒跳转刷新
+                    setTimeout(function () {
+                        window.location.hash = "pgWelcomeConfirmation";
+                        userInfoService.refresh() ;
+                        activityListService.refreshActivityList() ;
+                    }, 2000); 
+                }               
+            });		
+            return false ;           
         }
         
 		if(personifyModel.isLoggedIn()==true) {
@@ -85,22 +100,4 @@ var appController = {
 $(document).ready(function() {    
 	appController.initialize() ;
 	appController.start() ;
-    
-    //jQuery 获取URL请求参数
-//    $.extend({
-//        getUrlVars: function(){
-//          var vars = [], hash;
-//          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-//          for(var i = 0; i < hashes.length; i++)
-//          {
-//            hash = hashes[i].split('=');
-//            vars.push(hash[0]);
-//            vars[hash[0]] = hash[1];
-//          }
-//          return vars;
-//        },
-//        getUrlVar: function(name){
-//          return $.getUrlVars()[name];
-//        }
-//     });
 }) ;
