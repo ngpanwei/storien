@@ -35,7 +35,7 @@ var postStoryService = {
 	    	return false ;
 	},
 	afterStoryPosting : function(newActivity) {
-		activityListService.updateActivityItem(newActivity) ;
+		activityListService.updateActivityList(newActivity) ;
 	},
 }; // 
 var updateStoryService = {
@@ -91,6 +91,6 @@ var updateStoryService = {
 	    	return false ;
 	},
 	afterStorySubmission : function(newActivity) {
-		activityListService.updateActivityItem(newActivity) ;
+		activityListService.updateActivityList(newActivity) ;
 	},
 } ; // end of update story service 

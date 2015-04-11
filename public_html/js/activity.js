@@ -69,30 +69,46 @@ var activityListService = {
 	setStoryActivityForm : function(activity,index) {
 		updateStoryService.setStoryActivityForm(activity,index) ;
 	},
-	updateActivityItem : function(newActivity) {
+	updateActivityList : function(newActivity) {
 		activities = activityModel.getActivityList() ;
 		for (i=0;i<activities.length;i++) {
 			activity = activities[i] ;
 			if(activity.creation==newActivity.creation) {
-				alert("updating story :"+newActivity.story) ;
+				activities[i] = newActivity ;
+				this.updateActivityItem(activities[i],i) ;
 				return ;
 			}
 		}
-		alert("adding story :"+newActivity.story) ;
+		activities.push(newActivity) ;
+		this.addActivityItem(newActivity,activities.length) ;
 	},
-	addActivityItem : function(activity,index) {
+	getActivityHtml : function(activity,index) {
 		html = $("#activityTemplate").html() ;
 		html = html.replace("$activityId",activity.creation) ;
 		html = html.replace("$activityContentId",activity.creation+"-content") ;
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
-		$("#activities").append(html) ;
-		$("#activities").trigger("create") ;
+		return html ;
+	},
+	setActivityHtmlDetail : function(activity,index) {
 		try {
 			eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 		} catch (err) {
 			alert(err.message) ;
 		}
+	},
+	updateActivityItem : function(activity,index) {
+		html = this.getActivityHtml(activity,index) ;
+		div = "#" + activity.creation ;
+		$(div).replaceWith(html) ;
+		$(div).trigger("create") ;
+		this.setActivityHtmlDetail(activity,index) ;
+	},
+	addActivityItem : function(activity,index) {
+		html = this.getActivityHtml(activity,index) ;
+		$("#activities").append(html) ;
+		$("#activities").trigger("create") ;
+		this.setActivityHtmlDetail(activity,index) ;
 	},
 	activityItemClick : function(element) {
 		creation = $(element).attr("activity-creation") ;
