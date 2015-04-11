@@ -73,7 +73,6 @@ var activityListService = {
 		html = $("#activityTemplate").html() ;
 		html = html.replace("$activityId",activity.creation) ;
 		html = html.replace("$activityContentId",activity.creation+"-content") ;
-		html = html.replace("$activityIcon",activity.kind) ;
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
 		$("#activities").append(html) ;
