@@ -74,6 +74,7 @@ class ActivityAPI {
 	}
 	public function generateContentList($teamnames,$eventName) {
 		$teamController = new TeamAPI() ;
+		$contentAPI = new ContentAPI() ;
 		$contentList = array() ;
 		foreach($teamnames as $teamname) {
 			$contentElements = $teamController->getTeamContentElements($teamname,$eventName) ;
@@ -81,21 +82,18 @@ class ActivityAPI {
 				continue ;
 			foreach($contentElements as $contentElement) {
 				$path = $contentElement->get("path") ;
-				$content = new ContentDAO($path) ; 
-				$content->load() ;
-				$title = $content->getProperty("title") ;
-				if(strlen($title)<1) {
-					continue ;
-				}
-				array_push($contentList,$content) ;
+				$contentDAO = $contentAPI->getContentFromPath($path) ;
+				array_push($contentList,$contentDAO) ;
 			}
 		}
 		return $contentList ;
 	}
-	public function createActivity($userGuid,$title) {
+	public function createActivityFromContentPath($userGuid,$path) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$contentAPI = new ContentAPI() ;
+		$contentDAO = $contentAPI->getContentFromPath($path) ;
 		$activityDb = new ActivityDb($userGuid) ;
-		$activityDAO = $activityDb->createActivity($title) ;
+		$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
 		return $activityDAO ;
 	}
 	public function getActivityByCreation($userGuid,$creation) {
