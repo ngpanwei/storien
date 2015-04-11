@@ -13,6 +13,7 @@
     <script src="scripts/plugin/jquery.form.min.js"></script>
     <script src="scripts/plugin/jquery.metadata.js"></script>
     <script src="scripts/plugin/localization/messages_zh.min.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/user.js"></script>
     <script src="js/change.js"></script>
     <script src="js/story.js"></script>

@@ -16,10 +16,9 @@ var postStoryService = {
     postStory : function(form) {
 		userGuid = personifyModel.getUserId() ;
 		storyText = $(form).find("#storyText").val() ;
-		alert(userGuid + ":" + storyText) ;
         $.ajax({
 			type: "POST",
-			url: "app/activity/PostStory.php" ,
+			url: api.postStory ,
 			dataType : "json",
 			data: { 
 				userGuid : userGuid , 
@@ -75,7 +74,7 @@ var updateStoryService = {
 		alert(userGuid + ":" + activityGuid + ":" + storyText) ;
         $.ajax({
 			type: "POST",
-			url: "app/activity/UpdateStory.php" ,
+			url: api.updateStory ,
 			dataType : "json",
 			data: { 
 				userGuid : userGuid , 

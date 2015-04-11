@@ -93,7 +93,7 @@ var activityListService = {
 	fetchContent : function(activity) {
 		$.ajax({
 			type: "POST",
-			url: "app/content/FetchContent.php" ,
+			url: api.fetchContent ,
 			data: {
 				userGuid : activityModel.getUserGuid() ,
 				activity : activity , 
@@ -116,7 +116,7 @@ var activityListService = {
 	syncActivityList : function() {
 		$.ajax({
 			type: "POST",
-			url: "app/activity/SyncActivityList.php" ,
+			url: api.syncActivityList ,
 			dataType : "json",
 			data: {
 				userGuid : activityModel.getUserGuid() ,
