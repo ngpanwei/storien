@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div id="registration">
+	<div id="subject">谢谢! 点击链接就能够完成邮箱确认了</div>
+	<div id="body">
+<![CDATA[
+你好， $username,
+
+感谢的支持. 只剩下一个步骤就注册完成了.
+请点击此链接 $confirmUrl 
+
+谢谢
+ -- $sender 
+]]>
+	</div>
+</div>
