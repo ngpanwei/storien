@@ -81,9 +81,9 @@ class MailerAPI {
 		$username = $userObject->username ;
 		$confirmUrl = $this->GetAbsoluteURLFolder().'experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
 		$body = $mailDAO->getText("body") ;
-		$body .= str_replace("$username",$username,$body) ;
-		$body .= str_replace("$confirmUrl",$confirmUrl,$body) ;
-// 		$body .= str_replace("$sender",$mailer->From,$body) ;
+		$body = str_replace("@username",$username,$body) ;
+		$body = str_replace("@confirmUrl",$confirmUrl,$body) ;
+		$body = str_replace("@sender",$mailer->From,$body) ;
 		$mailer->Body = $body ;
 		
 		Logger::log(__FILE__,__LINE__,$mailer->Subject) ;
