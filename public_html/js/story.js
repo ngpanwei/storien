@@ -42,17 +42,34 @@ var postStoryService = {
 var updateStoryService = {
 	initialize : function() {
 	},
-	setStoryActivityForm : function(activity,index) {
-		formId = "#activity-" + index ;
+	setStoryActivityEmptyForm : function(activity,index) {
+		html = "<form id='$activityIndex'>"
+	          +    "<textarea id='storyText'></textarea>"
+	          +    "<button class='ui-btn ui-mini' id='$activityButton'>提交</button>"
+		      + "</form>";
+		html = html.replace("$activityIndex","activity-"+index) ;
+		html = html.replace("$activityButton","activity-button-"+index) ;
+		activityContentId = "#"+activity.creation+"-content" ;
+		$(activityContentId).append(html) ;
+		$(activityContentId).trigger("create") ;
 		buttonId = "#activity-button-"+index ;
-		textId = "#textarea-"+index ;
-		$(formId).append("<textarea id='storyText'></textarea>") ;
-		$(formId).append("<button class='ui-btn ui-mini' id='activity-button-"+index+"'>提交</button>") ; 
-		$(formId).trigger("create") ;
 	    $(buttonId).click(function() {
 	    		updateStoryService.submitStory($(formId),activity) ;
 	    		return false ;
 	    }) ;
+	},
+	setStoryActivityContent : function(activity,index) {
+		html = "<p>" + activity.story + "</p>" ;
+		activityContentId = "#"+activity.creation+"-content" ;
+		$(activityContentId).append(html) ;
+		$(activityContentId).trigger("create") ;
+	},
+	setStoryActivityForm : function(activity,index) {
+		if(activity.story!=null&&activity.story!="") {
+			this.setStoryActivityContent(activity,index) ;
+		} else {
+			this.setStoryActivityEmptyForm(activity,index) ;
+		}
 	},
     submitStory : function(form,activity) {
 		userGuid = personifyModel.getUserId() ;

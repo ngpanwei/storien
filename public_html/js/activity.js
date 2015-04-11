@@ -71,41 +71,24 @@ var activityListService = {
 	},
 	addActivityItem : function(activity,index) {
 		html = "<div id='$activityId'>"
-//			+ "<table width='100%' border='0'><tr><td width='40' valign='top'>"
-//		    + "<img src='./assets/icon/$activityIcon.png' width='40' />"
-//		    + </td><td>"
-		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
+		    + "<h2>$activityTitle</h2>"
 		    + "$activityText"
-		    + "<form id='$activityFormId'></form>"
+		    + "<div id='$activityContentId'></div>"
 		    + "<hr/>"
-//			+  "<hr/></td></tr></table>"
 			+ "</div>" ;
 		html = html.replace("$activityId",activity.creation) ;
+		html = html.replace("$activityContentId",activity.creation+"-content") ;
 		html = html.replace("$activityIcon",activity.kind) ;
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
-		html = html.replace("$activityFormId","activity-"+index) ;
 		$("#activities").append(html) ;
 		$("#activities").trigger("create") ;
-		eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
+		try {
+			eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
+		} catch (err) {
+			alert(err.message) ;
+		}
 	},
-//	addActivityItem : function(activity,index) {
-//		html = "<div id='$activityId'>"
-//			+ "<table width='100%' border='0'><tr><td width='40' valign='top'>"
-//		    + "<img src='./assets/icon/$activityIcon.png' width='40' /></td><td>"
-//		    + "<h2>$activityTitle</h2><div id='$activityContentId'></div>"
-//		    + "$activityText"
-//		    + "<form id='$activityFormId'></form>"
-//			+  "<hr/></td></tr></table></div>" ;
-//		html = html.replace("$activityId",activity.creation) ;
-//		html = html.replace("$activityIcon",activity.kind) ;
-//		html = html.replace("$activityTitle",activity.title) ;
-//		html = html.replace("$activityText",activity.content) ;
-//		html = html.replace("$activityFormId","activity-"+index) ;
-//		$("#activities").append(html) ;
-//		$("#activities").trigger("create") ;
-//		eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
-//	},
 	activityItemClick : function(element) {
 		creation = $(element).attr("activity-creation") ;
 		activity = activityModel.getActivityByCreation(creation) ;
