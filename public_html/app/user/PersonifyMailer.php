@@ -25,11 +25,12 @@
 require_once (dirname(dirname(__FILE__))."/util/Logger.php");
 require_once (dirname(dirname(__FILE__))."/util/Exception.php");
 require_once (dirname(dirname(__FILE__))."/util/Mailer.php");
-
+require_once (dirname(dirname(__FILE__))."/util/MailDAO.php");
 
 class MailerAPI {
 	var $mailer;
 	public function __construct() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->mailer = new PHPMailer();
 	}
 	public function getMailer() {
@@ -72,19 +73,21 @@ class MailerAPI {
 	public function sendRegistrationConfirmationEmail($userObject) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailer = $this->getMailer() ;
+		$mailDAO = new MailDAO("email/registration.xml") ;
+		$mailDAO->load() ;
 		$mailer->AddAddress($userObject->email);
-		$mailer->Subject = "谢谢! 点击链接就能够完成邮箱确认了" ;
+		$mailer->Subject = $mailDAO->getText("subject") ;
+		Logger::log(__FILE__,__LINE__,$mailer->From) ;
 		$username = $userObject->username ;
 		$confirmUrl = $this->GetAbsoluteURLFolder().'experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
-		$body = "" ;
-		$body .= "你好， $username," . PHP_EOL . PHP_EOL ;
-		$body .= "感谢的支持. 只剩下一个步骤就注册完成了." . PHP_EOL ;
-		$body .= "请点击此链接 $confirmUrl ". PHP_EOL ;
-		$body .= PHP_EOL . PHP_EOL ;
-		$body .= "谢谢". PHP_EOL ;
-		$body .= " -- " . $mailer->From ;
-				
+		$body = $mailDAO->getText("body") ;
+		$body .= str_replace("$username",$username,$body) ;
+		$body .= str_replace("$confirmUrl",$confirmUrl,$body) ;
+// 		$body .= str_replace("$sender",$mailer->From,$body) ;
 		$mailer->Body = $body ;
+		
+		Logger::log(__FILE__,__LINE__,$mailer->Subject) ;
+		Logger::log(__FILE__,__LINE__,$mailer->Body) ;
 		if(!$mailer->Send()) {
 			Logger::log(__FILE__,__LINE__,"Registration Mailer Failed.") ;
 			return false;

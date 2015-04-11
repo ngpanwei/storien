@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
 //
 require_once ("../../../public_html/app/util/Logger.php");
 require_once ("../../../public_html/app/user/Register.php");
+require_once ("../../../public_html/app/user/UserAPI.php");
 Logger::setMode("console") ;
 
 /**
@@ -67,9 +68,9 @@ class FeatureContext extends BehatContext {
 		$request->password  = $this->intention ['password'] ;
 		$request->cpassword = $this->intention ['cpassword'] ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$handler = new RegistrationHandler() ;
+		$handler = new UserController() ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$vo = $handler->handle($request) ;
+		$vo = $handler->register($request) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($vo==null) {
 			throw new Exception("no result") ;
