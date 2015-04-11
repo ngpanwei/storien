@@ -46,8 +46,6 @@ class Deployer {
      * @param string $rempath   Path to destination - include the base folder with trailing slash
      */
 	public function deploy($locpath,$rempath) {
-		$this->getCredentials() ;
-		$this->loginToServer() ;
 		echo ftp_pwd($this->connection);
         
         // Set passive mode if needed
@@ -299,6 +297,8 @@ $deployer = new Deployer() ;
      * @param string $locpath   Path to source with trailing slash
      * @param string $rempath   Path to destination - include the base folder with trailing slash
      */
+$deployer->getCredentials() ;
+$deployer->loginToServer() ;
 $deployer->deploy('../../protected/template/','protected/template/') ;
 $deployer->deploy('../../protected/content/','protected/content/') ;
 $deployer->deploy('../../public_html/','public_html/') ;
