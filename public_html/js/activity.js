@@ -70,12 +70,7 @@ var activityListService = {
 		updateStoryService.setStoryActivityForm(activity,index) ;
 	},
 	addActivityItem : function(activity,index) {
-		html = "<div id='$activityId'>"
-		    + "<h2>$activityTitle</h2>"
-		    + "$activityText"
-		    + "<div id='$activityContentId'></div>"
-		    + "<hr/>"
-			+ "</div>" ;
+		html = $("#activityTemplate").html() ;
 		html = html.replace("$activityId",activity.creation) ;
 		html = html.replace("$activityContentId",activity.creation+"-content") ;
 		html = html.replace("$activityIcon",activity.kind) ;

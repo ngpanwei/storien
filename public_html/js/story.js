@@ -43,10 +43,7 @@ var updateStoryService = {
 	initialize : function() {
 	},
 	setStoryActivityEmptyForm : function(activity,index) {
-		html = "<form id='$activityIndex'>"
-	          +    "<textarea id='storyText'></textarea>"
-	          +    "<button class='ui-btn ui-mini' id='$activityButton'>提交</button>"
-		      + "</form>";
+		html = $("#StoryFormTemplate").html() ;
 		html = html.replace("$activityIndex","activity-"+index) ;
 		html = html.replace("$activityButton","activity-button-"+index) ;
 		activityContentId = "#"+activity.creation+"-content" ;
