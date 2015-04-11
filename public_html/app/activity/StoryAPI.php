@@ -31,9 +31,12 @@ class StoryAPI {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityAPI = new ActivityAPI() ;
 		$activityDAO = $activityAPI->createActivity($userGuid,"未提供标题") ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityDAO->setText("story", $storyText) ;
 		$activityDAO->setProperty("status","done") ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityDAO->flush() ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		return $activityDAO ;
 	}
 	public function updateStory($userGuid,$activityGuid,$storyText) {
