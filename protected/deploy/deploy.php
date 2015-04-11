@@ -299,5 +299,6 @@ $deployer = new Deployer() ;
      * @param string $locpath   Path to source with trailing slash
      * @param string $rempath   Path to destination - include the base folder with trailing slash
      */
+$deployer->deploy('../../protected/template/','protected/template/') ;
 $deployer->deploy('../../protected/content/','protected/content/') ;
 $deployer->deploy('../../public_html/','public_html/') ;
