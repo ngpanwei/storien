@@ -73,7 +73,7 @@ class MailerAPI {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailer = $this->getMailer() ;
 		$mailer->AddAddress($userObject->email);
-		$mailer->Subject = "谢谢! 点击链接姐能够完成邮箱确认了" ;
+		$mailer->Subject = "谢谢! 点击链接就能够完成邮箱确认了" ;
 		$username = $userObject->username ;
 		$confirmUrl = $this->GetAbsoluteURLFolder().'experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
 		$body = "" ;

@@ -23,6 +23,7 @@
  *  SOFTWARE.
  */
 require_once("UserDAO.php");
+require_once("UserAPI.php");
 require_once("UserPhoto.php");
 require_once("PersonifyMailer.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
@@ -41,10 +42,12 @@ class RegistrationRequest {
 	var $email ;
 	var $password ;
 	var $cpassword ;
+    public $vo;
 }
 
 class RegistrationHandler {
 	public function __construct() {
+        $this->vo = new ResultVO() ;
 	}
 	function validateFormData() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
@@ -59,7 +62,7 @@ class RegistrationHandler {
 		if(isset($_POST["cpassword"])==false)
 			return false ;
 		return true ;		
-	}
+	}    
 	function getFormData() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($this->validateFormData()==false) {
@@ -72,22 +75,7 @@ class RegistrationHandler {
 		$request->password  = $_POST["password"] ;
 		$request->cpassword = $_POST["cpassword"] ;
 		return $request ;
-	}
-	function getUserbyEmail($request) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$this->userDb = new UserDb() ;
-		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($request->email) ;
-		return $user ;
-	}
-	function registerNewUser($request) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userDAO = $this->userDb->createUser($request->email) ;
-		$userDAO->setProperty("username", $request->username) ;
-		$userDAO->setProperty("password", $request->password) ;
-		$userDAO->setList("teams",array($request->teamname)) ;
-		return $userDAO ;
-	}
+	}		
 	function processForm() {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$request = $this->getFormData() ;
@@ -103,39 +91,21 @@ class RegistrationHandler {
 	}
 	function process($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$vo = $this->handle($request) ;
-		$json = json_encode($vo) ;
-		Logger::log(__FILE__,__LINE__,$json) ;
-		echo $json;
-	}
-	function handle($request) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userDAO = $this->getUserbyEmail($request) ;
-		if($userDAO!=null) {
-			$vo = new ResultVO() ;
-			$vo->resultCode = "failed" ;
-			$vo->message = $this->email . "已经被注册了" ;
-			return $vo;	
-		}
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userDAO = $this->registerNewUser($request) ;
-		$userVO = $userDAO->getVO() ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userPhoto = new UserPhoto() ;
-		$userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$activityController = new ActivityAPI() ;
-		$activityController->handleUserEvent($userDAO, "register") ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$mailerAPI = new MailerAPI() ;
-		$mailerAPI->sendRegistrationConfirmationEmail($userVO) ;
-		$userDAO->flush() ;
-		
-		$vo = new ResultVO() ;
-		$vo->resultCode = "success" ;
-		$vo->message = "注册成功！" ;
-		$vo->data = $userVO ;
-		return $vo;
+        
+        try {
+            $handler = new UserController() ;
+            $userVO = $handler->register($request) ;
+            
+            $this->vo->resultCode = "success" ;
+            $this->vo->message = "注册成功！" ;
+            $this->vo->data = $userVO ;
+            echo json_encode($this->vo);
+            
+        } catch(Exception $e) {
+            $this->vo->resultCode = "failed" ;
+            $this->vo->message = $e->getMessage() ;
+            echo json_encode($this->vo);
+        }        
 	}
 }
 

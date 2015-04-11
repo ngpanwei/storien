@@ -24,7 +24,8 @@
  */
 require_once("UserDAO.php");
 require_once("UserPhoto.php");
-require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
+require_once("PersonifyMailer.php");
+require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;
@@ -33,16 +34,63 @@ Logger::setMode("file") ;
 
 class UserController {
     public $userDb;
-    public $vo;
-    
+    public $userPhoto;
+
     public function __construct() {
        $this->userDb = new UserDb() ;
-       $this->vo = new ResultVO() ;
+       $this->userPhoto = new UserPhoto() ;
     }
     
+    /**
+     * 注册操作
+     * @param obj $registerRequest
+     * @return obj
+     * @throws Exception
+     */
     public function register($registerRequest) {
-		//
-		return $userVO ;
+        //通过邮箱获取user对象
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userDAO = $this->getUserbyEmail($registerRequest) ;
+		if($userDAO!=null) {
+            $error = $registerRequest->email . "已经被注册了" ;
+            throw new Exception($error);
+		}
+        
+        //注册新用户
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userDAO = $this->registerNewUser($registerRequest) ;
+		$userVO = $userDAO->getVO() ;
+        
+        //生成默认图像
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$this->userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
+        
+        //活动
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$activityController = new ActivityAPI() ;
+		$activityController->handleUserEvent($userDAO, "register") ;
+        
+        //发送确认邮件
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$mailerAPI = new MailerAPI() ;
+		$mailerAPI->sendRegistrationConfirmationEmail($userVO) ;
+		$userDAO->flush() ;
+		
+		return $userVO;
+	}
+    
+    /**
+     * 注册新用户
+     * @param obj $request
+     * @return obj
+     */
+    function registerNewUser($request) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$userDAO = $this->userDb->createUser($request->email) ;
+		$userDAO->setProperty("username", $request->username) ;
+		$userDAO->setProperty("password", $request->password) ;
+		$userDAO->setList("teams",array($request->teamname)) ;
+		return $userDAO ;
 	}
     
     /**
@@ -63,8 +111,7 @@ class UserController {
 		}
 
 		$userVO = $userDAO->getVO() ;
-		$userPhoto = new UserPhoto() ;
-		$userPhoto->getPhotoPath($userDAO,$userVO) ;
+		$this->userPhoto->getPhotoPath($userDAO,$userVO) ;
         
 		return $userVO ;
 	}
