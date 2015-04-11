@@ -34,7 +34,7 @@ var changePasswordService = {
 		cpassword = $(form).find("#cpassword").val() ;
 		$.ajax({
 			type: "POST",
-			url: "app/user/ChangePassword.php" ,
+			url: api.changePassword ,
 			dataType : "json",
 			data: { 
 				userGuid : userGuid ,
@@ -90,7 +90,7 @@ var changeEmailService = {
 		email = $(form).find("#email").val() ;
 		$.ajax({
 			type: "POST",
-			url: "app/user/ChangeEmail.php" ,
+			url: api.changeEmail ,
 			dataType : "json",
 			data: {
 				userGuid : userGuid ,
@@ -144,7 +144,7 @@ var changeUsernameService = {
 		username = $(form).find("#username").val() ;
 		$.ajax({
 			type: "POST",
-			url: "app/user/ChangeUsername.php" ,
+			url: api.changeUsername ,
 			dataType : "json",
 			data: { 
 				userGuid : userGuid , 

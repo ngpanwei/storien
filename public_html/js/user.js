@@ -69,7 +69,7 @@ var signInService = {
                 password: {
                     required: true,
                     minlength: 8
-                },
+                }
             },
             errorPlacement: function(error, element) {
                 error.insertAfter(element.parent());
@@ -85,7 +85,7 @@ var signInService = {
 		$("#signinDialog").popup("open") ;
 		$.ajax({
 			type: "POST",
-			url: "app/user/SignIn.php" ,
+			url:api.signIn ,
 			dataType : "json",
 			data: { 
 				email : email , 
@@ -154,7 +154,7 @@ var registerService = {
 //		photo = $(form).find("#photo").val() ;
 	    	$.ajax({
 			type: "POST",
-			url: "app/user/Register.php" ,
+			url: api.register ,
 			dataType : "json",
 			data: { 
 				teamname : teamname , 
@@ -207,7 +207,7 @@ var forgetPasswordService = {
 		alert(email) ;
         $.ajax({
 			type: "POST",
-			url: "app/user/forgetPassword.php" ,
+			url: api.forgetPassword ,
 			dataType : "json",
 			data: { 
 				email : email 
