@@ -1,7 +1,8 @@
 var appDb = $.localStorage ;
 var activityModel = {
 	getUserGuid : function() {
-		return appDb.get("user.userId") ;
+		userDetail = appDb.get("user.detail") ;
+		return userDetail.guid ;
 	},
 	getLastUpdate : function() {
 		if(appDb.isSet("activity.lastUpdate")!=false) {

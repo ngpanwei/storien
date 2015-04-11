@@ -2,7 +2,7 @@
 <style>
 .progress {
 	position: relative;
-	width: 400px;
+	width: 100%;
 	border: 1px solid #ddd;
 	padding: 1px;
 	border-radius: 3px;
@@ -33,7 +33,7 @@
 		<form action="" method="post" id="uploadForm"
 			class="ui-body ui-body-a ui-corner-all" enctype="multipart/form-data">
 			<label for="file">文件名称</label> <input type="file" name="file"
-				id="file" class="required" value="" accept="image/*" /> <br />
+				id="file" class="in" value="choose file" accept="image/*" /> <br />
 			<div class="progress">
 				<div class="bar"></div>
 				<div class="percent">0%</div>

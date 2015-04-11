@@ -23,7 +23,7 @@
 	          <a id='forget' href="#pgForgetPassword" data-role="button">修复密码</a></div>
     </div>
 
-<div data-role="popup" id="signinDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:500px; width:470px;">
+<div data-role="popup" id="signinDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
 <div data-role="header" data-theme="a">
 <h1 id="signinTitle">登录</h1>
 </div>
