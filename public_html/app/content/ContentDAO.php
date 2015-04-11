@@ -77,5 +77,4 @@ class ContentDAO {
 		}
 		return $Text;
 	}
-	
 }
