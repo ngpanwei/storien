@@ -24,6 +24,7 @@
  */
 require_once(dirname(dirname(__FILE__))."/util/Logger.php");
 require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
+require_once(dirname(dirname(__FILE__))."/content/ContentAPI.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
 require_once(dirname(dirname(__FILE__))."/team/TeamAPI.php");
@@ -39,6 +40,18 @@ class ActivityAPI {
 		$user = getUserByEmail($email) ;
 		return handleUserEvent($user,$event) ;
 	}
+	public function createActivityFromContent($activityDb,$contentDAO) {
+		$title = $contentDAO->getProperty("title") ;
+		$kind = $contentDAO->getProperty("kind") ;
+		$xml = $contentDAO->getContentXML() ;
+		$text = $contentDAO->getContentText() ;
+		$activityDAO = $activityDb->createActivity($title) ;
+		$activityDAO->setProperty("path",$contentDAO->contentName) ;
+		$activityDAO->setProperty("kind",$kind) ;
+		$activityDAO->setProperty("text",$text) ;
+		$activityDAO->setContentXML($xml) ;
+		return $activityDAO ;
+	}
 	public function handleUserEvent($userDAO,$event) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityList = array() ;
@@ -50,20 +63,12 @@ class ActivityAPI {
  		$activityDb->init() ;
  		$teamnames = $userDAO->getTeams() ;
  		$contentList = $this->generateContentList($teamnames,$event) ;
- 		foreach($contentList as $content) {
- 			$title = $content->getProperty("title") ;
- 			$kind = $content->getProperty("kind") ;
- 			$xml = $content->getContentXML() ;
-			$text = $content->getContentText() ;
- 			$activity = $activityDb->createActivity($title) ;
-  			$activity->setProperty("path",$content->contentName) ;
-  			$activity->setProperty("kind",$kind) ;
-  			$activity->setProperty("text",$text) ;
-  			$activity->setContentXML($xml) ;
-  			$activityVO = $activity->getVO() ;
+ 		foreach($contentList as $contentDAO) {
+ 			$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
+ 			$activityDAO->flush() ;
+  			$activityVO = $activityDAO->getVO() ;
   			Logger::log(__FILE__,__LINE__,$activityVO->content) ;
-  			$activity->flush() ;
- 			array_push($activityList,$activityVO) ;
+  			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;
 	}
