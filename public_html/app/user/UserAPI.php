@@ -32,7 +32,7 @@ Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
-class UserController {
+class UserAPI {
     public $userDb;
     public $userPhoto;
 

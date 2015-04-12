@@ -93,7 +93,7 @@ class RegistrationHandler {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
         
         try {
-            $handler = new UserController() ;
+            $handler = new UserAPI() ;
             $userVO = $handler->register($request) ;
             
             $this->vo->resultCode = "success" ;
@@ -116,12 +116,5 @@ try {
 	$vo->resultCode = "failed" ;
 	$vo->message = $e->getMessage() ;
 }
-// $handler = new RegistrationHandler() ;
-// $handler->teamname = "storien" ;
-// $handler->username = "黄邦伟" ;
-// $handler->email = "panwei@storien.com" ;
-// $handler->password = "ABCDEFG" ;
-// $handler->cpassword = "ABCDEFG" ;
-// $handler->process() ;
 
 ?>

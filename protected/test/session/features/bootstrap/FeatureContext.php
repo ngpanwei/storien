@@ -68,18 +68,14 @@ class FeatureContext extends BehatContext {
 		$request->password  = $this->intention ['password'] ;
 		$request->cpassword = $this->intention ['cpassword'] ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$handler = new UserController() ;
+		$handler = new UserAPI() ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$vo = $handler->register($request) ;
+		$userVO = $handler->register($request) ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		if($vo==null) {
+		if($userVO==null) {
 			throw new Exception("no result") ;
 		}
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		if($vo->resultCode!=$result) {
-			throw new Exception("registration should be ".$result) ;
-		}
-		var_dump($vo) ;
+		var_dump($userVO) ;
 	}
 	
     /**

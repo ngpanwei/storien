@@ -67,7 +67,7 @@ class SignInHandler {
 		}
         
         try {
-            $handler = new UserController() ;
+            $handler = new UserAPI() ;
             $userVO = $handler->signIn($request) ;
             
             $this->vo->resultCode = "success" ;
@@ -86,8 +86,4 @@ class SignInHandler {
 $handler = new SignInHandler() ;
 $handler->processForm() ;
 
-// $handler = new SignInHandler() ;
-// $handler->email = "panwei@storien.com" ;
-// $handler->password = "ABCDEFG" ;
-// $handler->process() ;
 ?>
