@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<div>
+<div id="admin">
 	<div id="adminisistrators">
 		<div email="panwei@storien.com" password="12345678" />
-		<div email="devx@storien.com" password="12345678" />
-		<div email="dev@storien.com" password="12345678" />
 	</div>
 </div>
