@@ -14,7 +14,7 @@
           <label for="password">密码:</label>
           <input name="password" id="password" value="" type="password"></input>
         </div>
-	    <button type="submit" data-theme="a" name="submit" 
+	    <button type="submit" data-theme="a" name="submit" id="submitRegistration" 
 	            value="signin">登入</button>
       </form>
 	        <div class="ui-block-a">
