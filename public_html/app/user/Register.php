@@ -36,15 +36,6 @@ Logger::setMode("file") ;
 
 Logger::log(__FILE__,__LINE__,"register") ;
 
-class RegistrationRequest {
-	var $teamname ;
-	var $username ;
-	var $email ;
-	var $password ;
-	var $cpassword ;
-    public $vo;
-}
-
 class RegistrationHandler {
 	public function __construct() {
         $this->vo = new ResultVO() ;

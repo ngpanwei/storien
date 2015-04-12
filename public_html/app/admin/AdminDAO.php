@@ -27,6 +27,8 @@ require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 
 class AdminVO {
+	var $teamname ;
+	var $username ;
 	var $email ;
 	var $password ;
 }
@@ -49,6 +51,8 @@ class AdminDAO {
 		$adminVOList = array() ;
 		foreach($elements as $element) {
 			$adminVO = new AdminVO() ;
+			$adminVO->teamname = $element->get("teamname") ;
+			$adminVO->username = $element->get("username") ;
 			$adminVO->email = $element->get("email") ;
 			$adminVO->password = $element->get("password") ;
 			array_push($adminVOList,$adminVO) ;

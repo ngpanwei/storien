@@ -22,15 +22,49 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
+require_once(dirname(dirname(__FILE__))."/util/Exception.php");
+require_once(dirname(dirname(__FILE__))."/util/FileUtil.php");
+require_once(dirname(dirname(__FILE__))."/util/Config.php");
+require_once(dirname(dirname(__FILE__))."/admin/AdminDAO.php");
+require_once(dirname(dirname(__FILE__))."/user/UserAPI.php");
+
 class AdminAPI {
-	var $adminDAO ;
 	
 	public function __construct() {
-		$this->adminDAO = new AdminDAO() ;
 	}
-	public function load() {
-		$this->adminDAO->load() ;
+	public function wipe() {
+		$root = Config::getRootPath() ;
+		FileUtil::clearFolderFiles($root."/protected/data/users",".xml") ;
+		FileUtil::clearFolderFiles($root."/protected/data/activities",".xml") ;
+		FileUtil::clearFolderFiles($root."/public_html/users",".jpg") ;
+		FileUtil::clearFolderFiles($root."/public_html/activities",".jpg") ;
 	}
-	
+	public function init() {
+		$this->createAdministratorUsers() ;
+	}
+	public function createAdministratorUsers() {
+		$adminDAO = new AdminDAO() ;
+		$adminDAO->load() ;
+		$administrators = $adminDAO->getAdminList() ;
+		$userAPI = new UserAPI() ;
+		foreach($administrators as $administrator) {
+			$request = new RegistrationRequest() ;
+			$request->teamname  = $administrator->teamname ;
+			$request->username  = $administrator->username ;
+			$request->email     = $administrator->email ;
+			$request->password  = $administrator->password ;
+			$request->cpassword = $administrator->password ;
+			try {
+				$userAPI->register($registerRequest) ;
+			} catch (Exception $e) {
+			}
+		}
+	}
 }
+
+Logger::log(__FILE__,__LINE__,"AdminAPI") ;
+$adminAPI = new AdminAPI() ;
+$adminAPI->wipe() ;
+
 ?>

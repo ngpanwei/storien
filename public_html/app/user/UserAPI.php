@@ -32,6 +32,19 @@ Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
+class RegistrationRequest {
+	var $teamname ;
+	var $username ;
+	var $email ;
+	var $password ;
+	var $cpassword ;
+}
+
+class SignInRequest {
+	var $email ;
+	var $password ;
+}
+
 class UserAPI {
     public $userDb;
     public $userPhoto;
@@ -58,7 +71,7 @@ class UserAPI {
         
         //注册新用户
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userDAO = $this->registerNewUser($registerRequest) ;
+		$userDAO = $this->createNewUser($registerRequest) ;
 		$userVO = $userDAO->getVO() ;
         
         //生成默认图像
@@ -84,7 +97,7 @@ class UserAPI {
      * @param obj $request
      * @return obj
      */
-    function registerNewUser($request) {
+    function createNewUser($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$userDAO = $this->userDb->createUser($request->email) ;
 		$userDAO->setProperty("username", $request->username) ;

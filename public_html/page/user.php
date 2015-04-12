@@ -2,7 +2,7 @@
 	<div data-role="header" data-position="fixed" data-theme="a">
 		<h1 >我的活动</h1>
 		<a href="#activityPopupMenu" data-rel="popup" data-role="button" data-icon="info"
-			class="ui-btn-right">处理</a>
+			class="ui-btn ui-corner-all ui-btn-right ui-icon-grid ui-btn-icon-notext">处理</a>
 	</div>
 	<div data-role="popup" id="activityPopupMenu" data-theme="a">
 		<ul data-role="listview" data-inset="true" style="min-width: 100px;">

@@ -22,30 +22,29 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+require_once(dirname(dirname(__FILE__))."/util/Logger.php");
+require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 
-class Config {
-	public static function getRootPath() {
-		$path = dirname(dirname(dirname(dirname(__FILE__)))) ;
-		return $path ;
-	}
-	public static function getTemplatePath() {
-		$path = dirname(dirname(dirname(dirname(__FILE__))))."/protected/template";
-		return $path ;
-	}
-	public static function getDataPath() {
-		$path = dirname(dirname(dirname(dirname(__FILE__))))."/protected/data";
-		return $path ;
-	}
-	public static function getPublicPath() {
-		$path = dirname(dirname(dirname(__FILE__)));
-		return $path ;
-	}
-	public static function getPublicUserPath() {
-		$path = dirname(dirname(dirname(__FILE__)))."/users";
-		return $path ;
-	}
-	public static function getContentPath() {
-		$path = dirname(dirname(dirname(dirname(__FILE__))))."/protected/content";
-		return $path ;
+class FileUtil {
+	public static function clearFolderFiles($folderName,$extension) {
+		Logger::log(__FILE__,__LINE__,$folderName) ;
+		$files = scandir($folderName);
+		foreach($files as $filename) {
+			if($filename==".") continue ;
+			if($filename=="..") continue ;
+			$path = $folderName . "/".$filename ;
+			if(is_dir($path)) {
+				Logger::log(__FILE__,__LINE__,$path) ;
+				self::clearFolderFiles($path,$extension) ;
+				Logger::log(__FILE__,__LINE__,$path) ;
+				rmdir($path) ;
+				continue ;
+			}
+			if(strpos($filename,$extension)==false) {
+				continue ;
+			}
+			unlink($path) ;
+			Logger::log(__FILE__,__LINE__,$path) ;
+		}
 	}
 }

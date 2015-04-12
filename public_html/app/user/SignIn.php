@@ -32,10 +32,6 @@ Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
 
-class SignInRequest {
-	var $email ;
-	var $password ;
-}
 class SignInHandler {
 	public function __construct() {
 	}

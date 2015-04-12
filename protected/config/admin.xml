@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <div id="admin">
 	<div id="administrators">
-		<div email="panwei@storien.com" password="12345678" />
+		<div username="黄邦伟" email="panwei@storien.com" password="12345678" teamname="storien" />
 	</div>
 </div>

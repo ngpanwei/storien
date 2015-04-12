@@ -6,27 +6,34 @@ Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 Logger::log(__FILE__,__LINE__,"init") ;
 
 class Initializer {
-	public function clearFolder($folderName,$extension) {
+	public function clearFolderFiles($folderName,$extension) {
+		Logger::log(__FILE__,__LINE__,$folderName) ;
 		$files = scandir($folderName);
 		foreach($files as $filename) {
 			if($filename==".") continue ;
 			if($filename=="..") continue ;
 			$path = $folderName . "/".$filename ;
 			if(is_dir($path)) {
-				$this->clearFolder($path,$extension) ;
-				return ;
+				Logger::log(__FILE__,__LINE__,$path) ;
+				$this->clearFolderFiles($path,$extension) ;
+				Logger::log(__FILE__,__LINE__,$path) ;
+				rmdir($path) ;
+				continue ;
 			}
 			if(strpos($filename,$extension)==false) {
 				continue ;
 			}
+			unlink($path) ;
 			Logger::log(__FILE__,__LINE__,$path) ;
 		}
 	}
 	public function process() {
 		$root = dirname(dirname(dirname(__FILE__))) ;
 		Logger::log(__FILE__,__LINE__,$root) ;
-		$this->clearFolder($root."/protected/data/users",".xml") ;
-		$this->clearFolder($root."/public_html/users",".jpg") ;
+		$this->clearFolderFiles($root."/protected/data/users",".xml") ;
+		$this->clearFolderFiles($root."/protected/data/activities",".xml") ;
+		$this->clearFolderFiles($root."/public_html/users",".jpg") ;
+		$this->clearFolderFiles($root."/public_html/activities",".jpg") ;
 	}
 }
 
