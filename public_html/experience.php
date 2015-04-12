@@ -33,7 +33,8 @@ function file_inject($filename) {
 }
 echo file_get_contents('./page/head.php'); 
 echo file_inject('./page/welcome.php');
-echo file_inject('./page/home.php');
+echo file_inject('./page/user.php');
+echo file_inject('./page/team.php');
 echo file_inject('./page/activityTemplate.php');
 echo file_inject('./page/activityInfo.php');
 echo file_inject('./page/activityStory.php');

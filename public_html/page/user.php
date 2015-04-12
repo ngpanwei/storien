@@ -1,6 +1,6 @@
-<div data-role="page" id="pgPersonHome" data-title="个人设置">
+<div data-role="page" class="ui-page-theme-a" id="pgPersonHome" data-title="个人">
 	<div data-role="header" data-position="fixed" data-theme="a">
-		<h1>我的活动</h1>
+		<h1 >我的活动</h1>
 		<a href="#activityPopupMenu" data-rel="popup" data-role="button" data-icon="info"
 			class="ui-btn-right">处理</a>
 	</div>

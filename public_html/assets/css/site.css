@@ -8,3 +8,6 @@ ul li h2 p {
     white-space: -hp-pre-wrap !important;  /* HP Printers */
     word-wrap: break-word;      /* IE 5+ */
 }
+.st-highlight {
+	color: #3EB249;
+}

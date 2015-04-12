@@ -4,18 +4,20 @@
   </div>
   <div data-role="main" class="ui-content" id="activityTemplates">
 	<div id="activityTemplate">
-		<div id='$activityId'>
-		    <h2>$activityTitle</h2>
+		<div id='$activityId' class="ui-body ui-body-a ui-corner-all">
+		    <h3 class="st-highlight">$activityTitle
+		    <a id="$activityBtnId" class="ui-btn ui-btn-right ui-icon-grid ui-corner-all ui-btn-icon-notext">##</a>
+		    </h3>
 			$activityText
 			<div id='$activityContentId'></div>
-			<hr/>
 		</div>
 	</div>
   <div id="StoryFormTemplate">
 	<form id='$activityIndex'>
 	    <textarea id='storyText'></textarea>
-	    <button class='ui-btn ui-mini' id='$activityButton'>提交</button>
-	</form>
+	    <div data-role="controlgroup" data-type="horizontal">
+	    <button class='ui-btn ui-mini ui-btn-inline' id='$activityButton'>提交</button>
+	</div></form>
   </div>
   <div id="StoryContentTemplate">
   </div>
