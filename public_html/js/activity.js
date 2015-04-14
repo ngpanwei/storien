@@ -45,6 +45,11 @@ var syncService = {
 			syncService.sync() ;
 		});
 		$("#signifyBtn").click(function() {
+			alert("signify") ;
+			$("#activityItemPopupMenu").popup("close") ;
+		});
+		$("#deleteBtn").click(function() {
+			alert("delete") ;
 			$("#activityItemPopupMenu").popup("close") ;
 		});
 	},
@@ -99,23 +104,14 @@ var activityListService = {
 		return html ;
 	},
 	showPopup : function(activity,index) {
+		detailBtn = "#" + index+"-btn" ;
 		$('#activityItemPopupMenu').popup("open", {positionTo: detailBtn});
 	},
 	setActivityHtmlDetail : function(activity,index) {
 		detailBtn = "#" + index+"-btn" ;
-		alert(detailBtn) ;
 		$(detailBtn).click(function() {
 			activityListService.showPopup(activity,index) ;
 		});
-		menu = "#" + index+"-menu" ;
-//		signifyBtn = "#" + activity.creation+"-signify" ;
-//		deleteBtn = "#" + activity.creation+"-delete" ;
-//		$(signifyBtn).click(function(){
-//		    $(menu).popup("close") ;
-//		}) ;
-//		$(deleteBtn).click(function(){
-//		    $(menu).popup("close") ;
-//		}) ;
 		try {
 			eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 		} catch (err) {
