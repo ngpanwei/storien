@@ -17,13 +17,13 @@ var appController = {
 	registrationSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
-		window.location.hash = "pgPersonHome";
+		window.location.hash = "pgUserHome";
 		activityListService.syncActivityList()  ;
 	},
 	signinSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
-		window.location.hash = "pgPersonHome";
+		window.location.hash = "pgUserHome";
 		activityListService.syncActivityList()  ;
 	},
     changeUsernameSuccessful : function(userVO) {
@@ -53,8 +53,7 @@ var appController = {
     getUrlVars: function(){
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < hashes.length; i++)
-        {
+        for(var i = 0; i < hashes.length; i++) {
           hash = hashes[i].split('=');
           vars.push(hash[0]);
           vars[hash[0]] = hash[1];
@@ -89,7 +88,7 @@ var appController = {
         }
         
 		if(personifyModel.isLoggedIn()==true) {
-			window.location.hash = "pgPersonHome";
+			window.location.hash = "pgUserHome";
 			userInfoService.refresh() ;
 			activityListService.refreshActivityList() ;
 		} else {

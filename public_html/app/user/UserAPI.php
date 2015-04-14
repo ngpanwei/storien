@@ -24,13 +24,10 @@
  */
 require_once("UserDAO.php");
 require_once("UserPhoto.php");
+
 require_once("PersonifyMailer.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 header('Content-type: text/html; charset=UTF-8');
-
-Logger::enable(true) ;
-Logger::setFilename(dirname(__FILE__)."/log.txt") ;
-Logger::setMode("file") ;
 
 class RegistrationRequest {
 	var $teamname ;
@@ -63,7 +60,8 @@ class UserAPI {
     public function register($registerRequest) {
         //通过邮箱获取user对象
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$userDAO = $this->getUserbyEmail($registerRequest) ;
+		Logger::log(__FILE__,__LINE__,$registerRequest->email) ;
+		$userDAO = $this->getUserbyEmail($registerRequest->email) ;
 		if($userDAO!=null) {
             $error = $registerRequest->email . "已经被注册了" ;
             throw new Exception($error);
@@ -112,7 +110,7 @@ class UserAPI {
      * @return obj
      */
 	public function signIn($signInRequest) {
-		$userDAO = $this->getUserbyEmail($signInRequest) ;
+		$userDAO = $this->getUserbyEmail($signInRequest->email) ;
 		if($userDAO==null) {
             $error = $signInRequest->email . "未曾被注册" ;
             throw new Exception($error);
@@ -134,9 +132,9 @@ class UserAPI {
      * @param obj $request
      * @return obj
      */
-    function getUserbyEmail($request) {	
+    function getUserbyEmail($email) {	
 		$this->userDb->loadAll() ;
-		$user = $this->userDb->getUserByEmail($request->email) ;
+		$user = $this->userDb->getUserByEmail($email) ;
 		return $user ;
 	}
 }

@@ -44,6 +44,9 @@ var syncService = {
 			$("#activityPopupMenu").popup("close") ;
 			syncService.sync() ;
 		});
+		$("#signifyBtn").click(function() {
+			$("#activityItemPopupMenu").popup("close") ;
+		});
 	},
 	sync : function() {
 		activityListService.syncActivityList() ;
@@ -88,9 +91,31 @@ var activityListService = {
 		html = html.replace("$activityContentId",activity.creation+"-content") ;
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
+		html = html.replace("$activityBtnId",index+"-btn") ;
+		html = html.replace("$activityItemPopupMenu",index+"-menu") ;
+		html = html.replace("$activityItemPopupMenu",index+"-menu") ;
+//		html = html.replace("$signifyBtn",activity.creation+"-signify") ;
+//		html = html.replace("$deleteBtn",activity.creation+"-delete") ;
 		return html ;
 	},
+	showPopup : function(activity,index) {
+		$('#activityItemPopupMenu').popup("open", {positionTo: detailBtn});
+	},
 	setActivityHtmlDetail : function(activity,index) {
+		detailBtn = "#" + index+"-btn" ;
+		alert(detailBtn) ;
+		$(detailBtn).click(function() {
+			activityListService.showPopup(activity,index) ;
+		});
+		menu = "#" + index+"-menu" ;
+//		signifyBtn = "#" + activity.creation+"-signify" ;
+//		deleteBtn = "#" + activity.creation+"-delete" ;
+//		$(signifyBtn).click(function(){
+//		    $(menu).popup("close") ;
+//		}) ;
+//		$(deleteBtn).click(function(){
+//		    $(menu).popup("close") ;
+//		}) ;
 		try {
 			eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
 		} catch (err) {

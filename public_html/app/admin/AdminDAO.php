@@ -32,6 +32,7 @@ class AdminVO {
 	var $email ;
 	var $password ;
 }
+
 class AdminDAO {
 	var $xmlFileDb ;
 	public function __construct() {
@@ -60,12 +61,6 @@ class AdminDAO {
 		return $adminVOList ;
 	}
 }
-// try {
-// 	$adminDAO = new AdminDAO() ;
-// 	$adminDAO->load() ;
-// 	$list = $adminDAO->getAdminList() ;
-// 	var_dump($list) ;
-// }  catch (Exception $e) {
-// 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
-// }
+
+
 ?>

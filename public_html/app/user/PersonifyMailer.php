@@ -75,6 +75,7 @@ class MailerAPI {
 		$mailer = $this->getMailer() ;
 		$mailDAO = new MailDAO("email/registration.xml") ;
 		$mailDAO->load() ;
+		Logger::log(__FILE__,__LINE__,$userObject->email) ;
 		$mailer->AddAddress($userObject->email);
 		$mailer->Subject = $mailDAO->getText("subject") ;
 		Logger::log(__FILE__,__LINE__,$mailer->From) ;

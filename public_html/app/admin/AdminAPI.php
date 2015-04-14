@@ -29,6 +29,8 @@ require_once(dirname(dirname(__FILE__))."/util/Config.php");
 require_once(dirname(dirname(__FILE__))."/admin/AdminDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserAPI.php");
 
+Logger::setPrefix(dirname(dirname(__FILE__))) ;
+
 class AdminAPI {
 	
 	public function __construct() {
@@ -43,6 +45,9 @@ class AdminAPI {
 	public function init() {
 		$this->createAdministratorUsers() ;
 	}
+	public function clean() {
+		// remove all unwanted files from the data folder
+	}
 	public function createAdministratorUsers() {
 		$adminDAO = new AdminDAO() ;
 		$adminDAO->load() ;
@@ -55,16 +60,22 @@ class AdminAPI {
 			$request->email     = $administrator->email ;
 			$request->password  = $administrator->password ;
 			$request->cpassword = $administrator->password ;
+			Logger::log(__FILE__,__LINE__,$administrator->email) ;
 			try {
-				$userAPI->register($registerRequest) ;
+				$userAPI->register($request) ;
 			} catch (Exception $e) {
 			}
 		}
 	}
 }
 
-Logger::log(__FILE__,__LINE__,"AdminAPI") ;
-$adminAPI = new AdminAPI() ;
-$adminAPI->wipe() ;
-
+try {
+	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
+	$adminAPI = new AdminAPI() ;
+	$adminAPI->wipe() ;
+	$adminAPI->init() ;
+	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
+	} catch (Exception $e) {
+	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+}
 ?>

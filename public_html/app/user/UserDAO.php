@@ -27,8 +27,6 @@ require_once(dirname(dirname(__FILE__))."/util/Exception.php");
 require_once(dirname(dirname(__FILE__))."/util/XMLFileDb.php");
 require_once(dirname(dirname(__FILE__))."/util/Guid.php");
 
-Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
-
 class UserVO {
 	var $guid ;
 	var $username ;

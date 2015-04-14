@@ -4,12 +4,16 @@
   </div>
   <div data-role="main" class="ui-content" id="activityTemplates">
 	<div id="activityTemplate">
-		<div id='$activityId' class="ui-body ui-body-a ui-corner-all">
+		<div id='$activityId' >
+		   <div class="ui-body ui-body-a ui-corner-all">
 		    <h3 class="st-highlight">$activityTitle
-		    <a id="$activityBtnId" class="ui-btn ui-btn-right ui-icon-grid ui-corner-all ui-btn-icon-notext">##</a>
+		    <a id="$activityBtnId" 
+		    			class="ui-btn ui-btn-right ui-icon-grid ui-corner-all ui-btn-icon-notext">##</a>
 		    </h3>
 			$activityText
 			<div id='$activityContentId'></div>
+			</div>
+			<br/>
 		</div>
 	</div>
   <div id="StoryFormTemplate">

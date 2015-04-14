@@ -36,6 +36,7 @@ class SignInHandler {
 	public function __construct() {
 	}
 	function validateFormData() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if(isset($_POST["email"])==false)
 			return false ;
 		if(isset($_POST["password"])==false)
@@ -43,6 +44,7 @@ class SignInHandler {
 		return true ;
 	}
 	function getFormData() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($this->validateFormData()==false) {
 			return null ;
 		}
@@ -52,6 +54,7 @@ class SignInHandler {
 		return $request ;
 	}
 	function processForm() {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$request = $this->getFormData() ;
         $vo = new ResultVO() ;
 		if($request==null) {
@@ -62,8 +65,10 @@ class SignInHandler {
 		}
         
         try {
-            $handler = new UserAPI() ;
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+        		$handler = new UserAPI() ;
             $userVO = $handler->signIn($request) ;
+            Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
             
             $vo->resultCode = "success" ;
             $vo->message = "登录成功！" ;
