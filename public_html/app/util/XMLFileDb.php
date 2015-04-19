@@ -235,13 +235,26 @@ class XMLDirDb {
 			}
 		}
 	}
-	public function loadAll($key) {
+	/**
+	 * load all files from the directory.
+	 * @param unknown $key
+	 * @param string $extension is a callback function. 
+	 *     If the return value from this call back is false, 
+	 *     the file is not added to dirDb hashmap.
+	 */
+	public function loadAll($key,$extension=NULL) {
 		$files = scandir($this->dir);
 		foreach($files as $filename) {
 			if(strpos($filename,'.xml')!==false) {
 				$xmlDb = new XMLFileDb($this->dir."/".$filename) ;
 				$xmlDb->load() ;
 				$keyValue = $xmlDb->getRoot($key) ;
+				if($extension!=NULL) {
+					$result = call_user_func($extension,$xmlDb) ;
+					if($result==false) {
+						continue ;
+					}
+				}
 				$this->dirDb[$keyValue] = $xmlDb ;
 			}
 		}
@@ -279,18 +292,5 @@ class XMLDirDb {
 		return $fileDbArray;
 	}
 }
-
-// try {
-// 	$xmlDb = new XMLFileDb(dirname(__FILE__)."/Db.xml") ;
-// 	$xmlDb->load() ;
-// 	$xmlDb->set("spelling7",array("correct"=>3,"wrong"=>2)) ;
-// 	Logger::log(__FILE__,__LINE__,"Log") ;
-// 	$xmlDb->set("spelling9",array("correct"=>23,"wrong"=>2)) ;
-// 	Logger::log(__FILE__,__LINE__,"Log") ;
-// 	$xmlDb->flush() ;
-// 	Logger::log(__FILE__,__LINE__,"Log") ;
-// } catch(Exception $e) {
-// 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
-// }
 
 ?>

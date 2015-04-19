@@ -112,4 +112,10 @@ class ActivityAPI {
 		$activityVOList = $activityDb->getAllActivities() ;
 		return $activityVOList;
 	}
+	public function deleteActivity($userGuid,$activityGuid) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+ 		$activityDb = new ActivityDb($userGuid) ;
+ 		$activityDAO = $activityDb->deleteActivity($activityGuid) ;
+ 		return $activityDAO ;
+	}
 }

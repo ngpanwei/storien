@@ -104,18 +104,27 @@ class ActivityDb {
 		$this->db->deleteAll() ;
 	}
 	public function loadAll() {
-		$this->db->loadAll("creation") ;
-	}	
+		$this->db->loadAll("creation","ActivityDb::loadFilter") ;
+	}
+	public static function loadFilter($activityFileDb) {
+		$keyValue = $activityFileDb->getRoot("deleted") ;
+		if($keyValue!=null) {
+			if($keyValue=="true")
+				return false ;
+			return true ; // continue processing
+		}
+		return true ;
+	}
 	public function getActivityByCreation($creation) {
 		$filename = $this->dir . "/" . $creation . ".xml" ;
 		$fileDb = new XMLFileDb($filename) ;
 		$fileDb->load() ;
-		$activity = new ActivityDAO($fileDb) ;
-		$activityCreation = $activity->getProperty("creation") ;
+		$activityDAO = new ActivityDAO($fileDb) ;
+		$activityCreation = $activityDAO->getProperty("creation") ;
 		if($activityCreation!=$creation) {
 			throw new Exception("cannot find activity ".$creation) ;
 		}
-		return $activity;
+		return $activityDAO;
 	}
 	public function getDateStr() {
 		$t = microtime(true);
@@ -133,7 +142,6 @@ class ActivityDb {
 		return new ActivityDAO($fileDb) ;
 	}
 	public function getAllActivities() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$fileDbArray = $this->db->getAllFiles() ;
 		$ActivityVOList = array() ;
 		foreach($fileDbArray as $fileDb) {
@@ -142,6 +150,12 @@ class ActivityDb {
 			array_push($ActivityVOList,$activityVO) ;
 		}
 		return $ActivityVOList ;
+	}
+	public function deleteActivity($activityGuid) {
+		$activityDAO = $this->getActivityByCreation($activityGuid) ;
+		$activityDAO->setProperty("deleted", "true") ;
+		$activityDAO->flush() ;
+		return $activityDAO ;
 	}
 }
 

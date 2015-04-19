@@ -1,6 +1,7 @@
 var api = {
-    syncActivityList : "app/activity/SyncActivityList.php" ,
-    fetchContent : "app/content/FetchContent.php" ,
+    requestActivityList : "app/activity/SyncActivityList.php" ,
+    requestDeleteActivity : "app/activity/DeleteActivity.php" ,
+//    fetchContent : "app/content/FetchContent.php" ,
     postStory : "app/activity/PostStory.php" ,
     updateStory : "app/activity/UpdateStory.php" ,
     signIn : "app/user/SignIn.php",

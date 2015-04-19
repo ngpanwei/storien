@@ -37,6 +37,17 @@ var activityModel = {
 	setCurrentActivity : function(activity) {
 		return appDb.set("activity.currentActivity",activity) ;
 	},
+	deleteActivity : function(activityGuid) {
+		activityList = this.getActivityList() ;
+		newActivityList = new Array() ;
+		for(i=0;i<activityList.length;i++) {
+			activity = activityList[i] ;
+			if(activity.creation!=activityGuid) {
+				newActivityList.push(activity) ;
+			}
+		}
+		this.updateActivityList(newActivityList) ;
+	},
 } ;
 var syncService = {
 	initialize : function() {
@@ -45,16 +56,17 @@ var syncService = {
 			syncService.sync() ;
 		});
 		$("#signifyBtn").click(function() {
-			alert("signify") ;
+			activity = activityModel.getCurrentActivity() ;
 			$("#activityItemPopupMenu").popup("close") ;
 		});
 		$("#deleteBtn").click(function() {
-			alert("delete") ;
+			activity = activityModel.getCurrentActivity() ;
 			$("#activityItemPopupMenu").popup("close") ;
+			activityListService.requestDeleteActivity() ;
 		});
 	},
 	sync : function() {
-		activityListService.syncActivityList() ;
+		activityListService.requestActivityList() ;
 	},
 };
 var activityService = {
@@ -90,6 +102,10 @@ var activityListService = {
 		activities.push(newActivity) ;
 		this.addActivityItem(newActivity,activities.length) ;
 	},
+	deleteActivityFromList : function(activityGuid) {
+		activityHash = "#" + activityGuid ;
+		$(activityHash).remove() ;
+	},
 	getActivityHtml : function(activity,index) {
 		html = $("#activityTemplate").html() ;
 		html = html.replace("$activityId",activity.creation) ;
@@ -97,20 +113,19 @@ var activityListService = {
 		html = html.replace("$activityTitle",activity.title) ;
 		html = html.replace("$activityText",activity.content) ;
 		html = html.replace("$activityBtnId",index+"-btn") ;
-		html = html.replace("$activityItemPopupMenu",index+"-menu") ;
-		html = html.replace("$activityItemPopupMenu",index+"-menu") ;
-//		html = html.replace("$signifyBtn",activity.creation+"-signify") ;
-//		html = html.replace("$deleteBtn",activity.creation+"-delete") ;
+		html = html.replace("$activityItemPopupMenu",activity.creation+"-menu") ;
+		html = html.replace("$activityItemPopupMenu",activity.creation+"-menu") ;
 		return html ;
 	},
-	showPopup : function(activity,index) {
+	showActivityItemPopup : function(activity,index) {
 		detailBtn = "#" + index+"-btn" ;
+		activityModel.setCurrentActivity(activity) ;
 		$('#activityItemPopupMenu').popup("open", {positionTo: detailBtn});
 	},
 	setActivityHtmlDetail : function(activity,index) {
 		detailBtn = "#" + index+"-btn" ;
 		$(detailBtn).click(function() {
-			activityListService.showPopup(activity,index) ;
+			activityListService.showActivityItemPopup(activity,index) ;
 		});
 		try {
 			eval("this.set"+activity.kind+"ActivityForm(activity,index)") ;
@@ -138,21 +153,21 @@ var activityListService = {
 		window.location.hash = "pgActivity" + activity.kind ;
 		this.fetchContent(activity) ;
 	},
-	fetchContent : function(activity) {
-		$.ajax({
-			type: "POST",
-			url: api.fetchContent ,
-			data: {
-				userGuid : activityModel.getUserGuid() ,
-				activity : activity , 
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr + thrownError) ; 
-			},
-		}).done(function(result) {
-			activityService.initialize(result) ;
-		});
-	},
+//	fetchContent : function(activity) {
+//		$.ajax({
+//			type: "POST",
+//			url: api.fetchContent ,
+//			data: {
+//				userGuid : activityModel.getUserGuid() ,
+//				activity : activity , 
+//			},
+//			error: function (xhr, ajaxOptions, thrownError) {
+//				alert(xhr + thrownError) ; 
+//			},
+//		}).done(function(result) {
+//			activityService.initialize(result) ;
+//		});
+//	},
 	refreshActivityList : function() {
 		$("#activities").empty() ;
 		newActivityList = activityModel.getActivityList() ;
@@ -161,10 +176,33 @@ var activityListService = {
 			this.addActivityItem(activity,i);
 		}		
 	},
-	syncActivityList : function() {
+	requestDeleteActivity : function() {
+		currentActivity = activityModel.getCurrentActivity() ;
 		$.ajax({
 			type: "POST",
-			url: api.syncActivityList ,
+			url: api.requestDeleteActivity ,
+			dataType : "json",
+			data: {
+				userGuid : activityModel.getUserGuid() ,
+				activityGuid : currentActivity.creation ,
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr + thrownError) ; 
+			},
+		}).done(function(result) {
+			if(result.resultCode=="failed") {
+				alert("failed: "+result.message) ;
+				return ;
+			}
+			activityGuid = result.data ;
+			activityModel.deleteActivity(activityGuid) ;
+			activityListService.deleteActivityFromList(activityGuid) ;
+		});		
+	},
+	requestActivityList : function() {
+		$.ajax({
+			type: "POST",
+			url: api.requestActivityList ,
 			dataType : "json",
 			data: {
 				userGuid : activityModel.getUserGuid() ,
