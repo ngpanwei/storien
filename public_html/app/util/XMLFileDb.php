@@ -123,7 +123,9 @@ class XMLFileDb {
 	public function flush() {
 		$this->writeUTF8File($this->filename,$this->xmlDoc->saveXML()) ;
 	}
-	
+	public function erase() {
+		return ulink($this->filename) ;
+	}
 	private function writeUTF8File($filename,$content) {
 		$f=fopen($filename,"w");
 		# Now UTF-8 - Add byte order mark
@@ -258,6 +260,13 @@ class XMLDirDb {
 				$this->dirDb[$keyValue] = $xmlDb ;
 			}
 		}
+	}
+	public function erase() {
+		$files = scandir($this->dir);
+		foreach($this->dirDb as $fileDb) {
+			$fileDb->erase() ;
+		}
+		rmdir($this->dir) ;
 	}
 	public function getFileDbByKey($keyValue) {
 		try {

@@ -36,7 +36,7 @@ class MailerAPI {
 	public function getMailer() {
 		$mailer = new PHPMailer();
 		$mailer->CharSet = 'utf-8';
-		$mailer->From = "happy@storien.com" ;
+		$mailer->From = "panwei@storien.com" ;
 		return $mailer ;
 	}
 	function GetAbsoluteURLFolder()

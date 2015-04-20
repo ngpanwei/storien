@@ -18,37 +18,33 @@ var appController = {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgUserHome";
-		activityListService.syncActivityList()  ;
+		activityListService.requestActivityList()  ;
 	},
 	signinSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgUserHome";
-		activityListService.syncActivityList()  ;
+		activityListService.requestActivityList()  ;
 	},
     changeUsernameSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
-		activityListService.syncActivityList()  ;
 	},
     changeEmailSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
-		activityListService.syncActivityList()  ;
 	},
     changePasswordSuccessful : function(userVO) {
 		personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
-		activityListService.syncActivityList()  ;
 	},
     uploadSuccessful : function() {
         personifyModel.setUserId(userVO) ;
 		userInfoService.refresh() ;
 		window.location.hash = "pgPersonSettings";
-		activityListService.syncActivityList()  ;
 	},
     getUrlVars: function(){
         var vars = [], hash;
