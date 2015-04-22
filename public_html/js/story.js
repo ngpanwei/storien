@@ -42,16 +42,17 @@ var updateStoryService = {
 	initialize : function() {
 	},
 	setStoryActivityEmptyForm : function(activity,index) {
-		formId = "activity-"+index ;
+		formId = "activity-form-"+activity.creation ;
 		html = $("#StoryFormTemplate").html() ;
-		html = html.replace("$activityIndex","activity-"+index) ;
-		html = html.replace("$activityButton","activity-button-"+index) ;
+		html = html.replace("$activityForm",formId) ;
+		html = html.replace("$activityButton","activity-button-"+activity.creation) ;
 		activityContentId = "#"+activity.creation+"-content" ;
 		$(activityContentId).append(html) ;
 		$(activityContentId).trigger("create") ;
-		buttonId = "#activity-button-"+index ;
+		buttonId = "#activity-button-"+activity.creation ;
 	    $(buttonId).click(function() {
-	    		updateStoryService.submitStory($("#"+formId),activity) ;
+	    		form = $(this).closest('form');
+	    		updateStoryService.submitStory(form,activity) ;
 	    		return false ;
 	    }) ;
 	},

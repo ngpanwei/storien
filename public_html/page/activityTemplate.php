@@ -17,7 +17,7 @@
 		</div>
 	</div>
   <div id="StoryFormTemplate">
-	<form id='$activityIndex'>
+	<form id='$activityForm'>
 	    <textarea id='storyText'></textarea>
 	    <div data-role="controlgroup" data-type="horizontal">
 	    <button class='ui-btn ui-mini ui-btn-inline' id='$activityButton'>提交</button>
