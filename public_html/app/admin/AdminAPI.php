@@ -69,13 +69,13 @@ class AdminAPI {
 	}
 }
 
-try {
-	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
-	$adminAPI = new AdminAPI() ;
-	$adminAPI->wipe() ;
-	$adminAPI->init() ;
-	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
-	} catch (Exception $e) {
-	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
-}
+// try {
+// 	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
+// 	$adminAPI = new AdminAPI() ;
+// 	$adminAPI->wipe() ;
+// 	$adminAPI->init() ;
+// 	Logger::log(__FILE__,__LINE__,"AdminAPI") ;
+// 	} catch (Exception $e) {
+// 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+// }
 ?>

@@ -66,27 +66,22 @@ class UserAPI {
             $error = $registerRequest->email . "已经被注册了" ;
             throw new Exception($error);
 		}
-        
         //注册新用户
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$userDAO = $this->createNewUser($registerRequest) ;
 		$userVO = $userDAO->getVO() ;
-        
         //生成默认图像
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
-        
         //活动
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityController = new ActivityAPI() ;
 		$activityController->handleUserEvent($userDAO, "register") ;
-        
         //发送确认邮件
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailerAPI = new MailerAPI() ;
 		$mailerAPI->sendRegistrationConfirmationEmail($userVO) ;
 		$userDAO->flush() ;
-		
 		return $userVO;
 	}
     
@@ -120,10 +115,8 @@ class UserAPI {
             $error = "密码不正确" ;
             throw new Exception($error);
 		}
-
 		$userVO = $userDAO->getVO() ;
 		$this->userPhoto->getPhotoPath($userDAO,$userVO) ;
-        
 		return $userVO ;
 	}
     
@@ -137,4 +130,20 @@ class UserAPI {
 		$user = $this->userDb->getUserByEmail($email) ;
 		return $user ;
 	}
+	function getAllUsers($options) {
+		$this->userDb->loadAll() ;
+		$userVOList = $this->userDb->getAllUsers($options) ;
+		return $userVOList;
+	}
 }
+
+$api = new UserAPI() ;
+$userVOList = $api->getAllUsers() ;
+$index = 1 ;
+foreach($userVOList as $userVO) {
+	echo $index . "--" . $userVO->email . "--" . 
+		 $userVO->username . "--" . 
+	     $userVO->getFirstTeam() . PHP_EOL ;
+	$index = $index + 1 ;
+}
+

@@ -36,6 +36,12 @@ class UserVO {
     var $photoPath;
     var $password;
     var $confirmation;
+	public function getFirstTeam() {
+		foreach($this->teams as $teamname) {
+			return $teamname ;			
+		} 
+		return null ;
+	}
 }
 
 class User {
@@ -88,6 +94,16 @@ class UserDb {
 	}
 	public function loadAll() {
 		$this->db->loadAll("email") ;
+	}
+	public function getAllUsers($option) {
+		$userVOList = array() ;
+		$fileArray = $this->db->getAllFiles() ;
+		foreach($fileArray as $fileDb) {
+			$userDAO = new User($fileDb) ;
+			$userVO = $userDAO->getVO() ;
+			array_push($userVOList,$userVO) ;
+		}
+		return $userVOList ;
 	}
 	public function getUserByEmail($email) {
 		Logger::log(__FILE__,__LINE__,$email) ;
