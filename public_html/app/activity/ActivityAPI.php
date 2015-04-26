@@ -61,11 +61,7 @@ class ActivityAPI {
  		$userId = $userDAO->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
- 		$cohortNames = $userDAO->getTeams() ;
- 		foreach($cohortNames as $cohort) {
- 			Logger::log(__FILE__,__LINE__,$cohort) ;
-  		}
+ 		$cohortNames = $userDAO->getCohorts() ;
  		$contentList = $this->generateContentList($cohortNames,$event) ;
  		foreach($contentList as $contentDAO) {
  			$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
@@ -76,12 +72,10 @@ class ActivityAPI {
  		return $activityList;
 	}
 	public function generateContentList($cohortNames,$eventName) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$cohortAPI = new CohortAPI() ;
 		$contentAPI = new ContentAPI() ;
 		$contentList = array() ;
 		foreach($cohortNames as $cohortName) {
-			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 			$contentElements = $cohortAPI->getCohortEventContents($cohortName,$eventName) ;
 			if($contentElements==null)
 				continue ;
@@ -90,12 +84,12 @@ class ActivityAPI {
 				Logger::log(__FILE__,__LINE__,$path) ;
 				$contentDAO = $contentAPI->getContentFromPath($path) ;
 				array_push($contentList,$contentDAO) ;
+				Logger::log(__FILE__,__LINE__,$path) ;
 			}
 		}
 		return $contentList ;
 	}
 	public function createActivityFromContentPath($userGuid,$path) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$contentAPI = new ContentAPI() ;
 		$contentDAO = $contentAPI->getContentFromPath($path) ;
 		$activityDb = new ActivityDb($userGuid) ;
@@ -103,7 +97,6 @@ class ActivityAPI {
 		return $activityDAO ;
 	}
 	public function getActivityByCreation($userGuid,$creation) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$activityDb = new ActivityDb($userGuid) ;
  		$activityDAO = $activityDb->getActivityByCreation($creation) ;
 		if($activityDAO==null) {
@@ -113,14 +106,12 @@ class ActivityAPI {
 		return $activityDAO ;
 	}
 	public function getActivityVOList($userGuid) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityDb = new ActivityDb($userGuid) ;
 		$activityDb->loadAll() ;
 		$activityVOList = $activityDb->getAllActivities() ;
 		return $activityVOList;
 	}
 	public function deleteActivity($userGuid,$activityGuid) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
  		$activityDb = new ActivityDb($userGuid) ;
  		$activityDAO = $activityDb->deleteActivity($activityGuid) ;
  		return $activityDAO ;

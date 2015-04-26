@@ -59,6 +59,15 @@ class TeamDAO {
 	public function flush() {
 		$this->xmlFileDb->flush() ;
 	}
+	public function addMember($userGuid,$username) {
+		$node = $this->xmlFileDb->addListItem("members",$userGuid) ; 
+		$node->set("username",$username) ;
+		return $node ;
+	}
+	public function getMember($userGuid) {
+		$node = $this->xmlFileDb->getListItem("members",$userGuid) ; 
+		return $node ;
+	}
 	public function getVO() {
 		$vo = new TeamVO ;
 		$vo->guid = $this->getProperty("guid") ;
@@ -93,7 +102,7 @@ class TeamDb {
 	}
 	public function createTeam($name) {
 		$fileDb = $this->db->createFileDb("teamname",$name) ;
-		return new Team($fileDb) ;
+		return new TeamDAO($fileDb) ;
 	}
 }
 

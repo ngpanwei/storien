@@ -57,7 +57,7 @@ class RegistrationHandler {
 			return null ;
 		}
 		$request = new RegistrationRequest() ;
-		$request->teamname  = $_POST["teamname"] ;
+		$request->cohortName  = $_POST["teamname"] ;
 		$request->username  = $_POST["username"] ;
 		$request->email     = $_POST["email"] ;
 		$request->password  = $_POST["password"] ;

@@ -72,6 +72,7 @@ class User {
 		$vo->guid = $this->getProperty("guid") ;
 		$vo->username = $this->getProperty("username") ;
 		$vo->email = $this->getProperty("email") ;
+		$vo->chohorts = $this->getCohorts() ;
 		$vo->teams = $this->getTeams() ;
 		$vo->creation = $this->getProperty("creation") ;
         $vo->confirmation = $this->getProperty("confirmation") ;
@@ -81,6 +82,9 @@ class User {
 	}
 	public function getTeams() {
 		return $this->xmlFileDb->getList("teams") ;
+	}
+	public function getCohorts() {
+		return $this->xmlFileDb->getList("cohorts") ;
 	}
 }
 class UserDb {
@@ -106,9 +110,7 @@ class UserDb {
 		return $userVOList ;
 	}
 	public function getUserByEmail($email) {
-		Logger::log(__FILE__,__LINE__,$email) ;
 		$fileDb = $this->db->getFileDbByKey($email) ;
-		Logger::log(__FILE__,__LINE__,$email) ;
 		if($fileDb==null) {
 			return null ;
 		}

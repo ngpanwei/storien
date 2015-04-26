@@ -28,10 +28,8 @@ require_once("PersonifyMailer.php");
 require_once(dirname(dirname(__FILE__))."/cohort/CohortAPI.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 
-header('Content-type: text/html; charset=UTF-8');
-
 class RegistrationRequest {
-	var $teamname ;
+	var $cohortName ;
 	var $username ;
 	var $email ;
 	var $password ;
@@ -69,9 +67,9 @@ class UserAPI {
 		// 确认期届存在
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$cohortAPI = new CohortAPI() ;
-		$cohortDAO = $cohortAPI->getCohortByName($registerRequest->teamname) ;
+		$cohortDAO = $cohortAPI->getCohortByName($registerRequest->cohortName) ;
 		if($cohortDAO==null) {
-			$error = $registerRequest->teamname . " 期届不存在" ;
+			$error = $registerRequest->cohortName . " 期届不存在" ;
 			throw new AppException($error);
 		}
         //注册新用户
@@ -103,7 +101,7 @@ class UserAPI {
 		$userDAO = $this->userDb->createUser($request->email) ;
 		$userDAO->setProperty("username", $request->username) ;
 		$userDAO->setProperty("password", $request->password) ;
-		$userDAO->setList("teams",array($request->teamname)) ;
+		$userDAO->setList("cohorts",array($request->cohortName)) ;
 		return $userDAO ;
 	}
     
@@ -145,9 +143,19 @@ class UserAPI {
 	}
 }
 
-// $userAPI = new UserAPI() ;
-// $userDAO = $userAPI->getUserbyEmail("panwei@storien.com") ;
-// $userVO = $userDAO->getVO() ;
-// $teams = $userDAO->getTeams() ;
-// var_dump($userVO) ;
-// var_dump($teams) ;
+// $request = new RegistrationRequest() ;
+// $request->cohortName = "BIPT-20150425";
+// $request->username = "黄邦伟";
+// $request->email = "panwei@storien.com";
+// $request->password = '12345678' ;
+// $request->cpassword = "12345678" ;
+
+// try {
+// 	Logger::log(__FILE__,__LINE__,"register") ;
+// 	$userAPI = new UserAPI() ;
+// 	Logger::log(__FILE__,__LINE__,"register") ;
+// 	$userVO = $userAPI->register($request) ;
+// 	Logger::log(__FILE__,__LINE__,"register") ;
+// } catch (Exception $e) {
+// 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+// }

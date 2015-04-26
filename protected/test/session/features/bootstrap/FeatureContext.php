@@ -62,7 +62,7 @@ class FeatureContext extends BehatContext {
 	{
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$request = new RegistrationRequest() ;
-		$request->teamname  = $this->intention ['teamname'] ;
+		$request->cohortName  = $this->intention ['teamname'] ;
 		$request->username  = $this->intention ['username'] ;
 		$request->email     = $this->intention ['email'] ;
 		$request->password  = $this->intention ['password'] ;
