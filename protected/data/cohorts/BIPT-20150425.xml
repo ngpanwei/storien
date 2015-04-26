@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<div guid="BIPT-20150425" name="BIPT-20150425">
+	<div id="events">
+		<div id="events.register">
+		    <div path="2015-04-25/start/01-welcome.xml" />
+		    <div path="2015-04-25/start/02-student-code.xml" />
+		    <div path="2015-04-25/start/03-git-repo.xml" />
+		</div>
+	</div>
+</div>
+

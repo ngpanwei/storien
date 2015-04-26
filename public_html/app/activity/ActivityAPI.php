@@ -27,7 +27,7 @@ require_once(dirname(dirname(__FILE__))."/content/ContentDAO.php");
 require_once(dirname(dirname(__FILE__))."/content/ContentAPI.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityDAO.php");
 require_once(dirname(dirname(__FILE__))."/user/UserDAO.php");
-require_once(dirname(dirname(__FILE__))."/team/TeamAPI.php");
+require_once(dirname(dirname(__FILE__))."/cohort/CohortAPI.php");
 
 class ActivityAPI {
 	public function getUserByEmail($email) {
@@ -61,8 +61,12 @@ class ActivityAPI {
  		$userId = $userDAO->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
- 		$teamnames = $userDAO->getTeams() ;
- 		$contentList = $this->generateContentList($teamnames,$event) ;
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+ 		$cohortNames = $userDAO->getTeams() ;
+ 		foreach($cohortNames as $cohort) {
+ 			Logger::log(__FILE__,__LINE__,$cohort) ;
+  		}
+ 		$contentList = $this->generateContentList($cohortNames,$event) ;
  		foreach($contentList as $contentDAO) {
  			$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
  			$activityDAO->flush() ;
@@ -71,16 +75,19 @@ class ActivityAPI {
  		}
  		return $activityList;
 	}
-	public function generateContentList($teamnames,$eventName) {
-		$teamController = new TeamAPI() ;
+	public function generateContentList($cohortNames,$eventName) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$cohortAPI = new CohortAPI() ;
 		$contentAPI = new ContentAPI() ;
 		$contentList = array() ;
-		foreach($teamnames as $teamname) {
-			$contentElements = $teamController->getTeamContentElements($teamname,$eventName) ;
+		foreach($cohortNames as $cohortName) {
+			Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+			$contentElements = $cohortAPI->getCohortEventContents($cohortName,$eventName) ;
 			if($contentElements==null)
 				continue ;
 			foreach($contentElements as $contentElement) {
 				$path = $contentElement->get("path") ;
+				Logger::log(__FILE__,__LINE__,$path) ;
 				$contentDAO = $contentAPI->getContentFromPath($path) ;
 				array_push($contentList,$contentDAO) ;
 			}

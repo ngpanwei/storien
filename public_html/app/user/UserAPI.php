@@ -24,9 +24,10 @@
  */
 require_once("UserDAO.php");
 require_once("UserPhoto.php");
-
 require_once("PersonifyMailer.php");
+require_once(dirname(dirname(__FILE__))."/cohort/CohortAPI.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
+
 header('Content-type: text/html; charset=UTF-8');
 
 class RegistrationRequest {
@@ -60,11 +61,18 @@ class UserAPI {
     public function register($registerRequest) {
         //通过邮箱获取user对象
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		Logger::log(__FILE__,__LINE__,$registerRequest->email) ;
 		$userDAO = $this->getUserbyEmail($registerRequest->email) ;
 		if($userDAO!=null) {
             $error = $registerRequest->email . "已经被注册了" ;
             throw new Exception($error);
+		}
+		// 确认期届存在
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$cohortAPI = new CohortAPI() ;
+		$cohortDAO = $cohortAPI->getCohortByName($registerRequest->teamname) ;
+		if($cohortDAO==null) {
+			$error = $registerRequest->teamname . " 期届不存在" ;
+			throw new AppException($error);
 		}
         //注册新用户
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
@@ -75,8 +83,8 @@ class UserAPI {
 		$this->userPhoto->generateDefaultPhoto($userDAO,$userVO) ;
         //活动
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-		$activityController = new ActivityAPI() ;
-		$activityController->handleUserEvent($userDAO, "register") ;
+		$activityAPI = new ActivityAPI() ;
+		$activityAPI->handleUserEvent($userDAO, "register") ;
         //发送确认邮件
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$mailerAPI = new MailerAPI() ;
@@ -137,13 +145,9 @@ class UserAPI {
 	}
 }
 
-$api = new UserAPI() ;
-$userVOList = $api->getAllUsers() ;
-$index = 1 ;
-foreach($userVOList as $userVO) {
-	echo $index . "--" . $userVO->email . "--" . 
-		 $userVO->username . "--" . 
-	     $userVO->getFirstTeam() . PHP_EOL ;
-	$index = $index + 1 ;
-}
-
+// $userAPI = new UserAPI() ;
+// $userDAO = $userAPI->getUserbyEmail("panwei@storien.com") ;
+// $userVO = $userDAO->getVO() ;
+// $teams = $userDAO->getTeams() ;
+// var_dump($userVO) ;
+// var_dump($teams) ;

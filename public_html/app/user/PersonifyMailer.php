@@ -30,7 +30,6 @@ require_once (dirname(dirname(__FILE__))."/util/MailDAO.php");
 class MailerAPI {
 	var $mailer;
 	public function __construct() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->mailer = new PHPMailer();
 	}
 	public function getMailer() {
@@ -39,8 +38,7 @@ class MailerAPI {
 		$mailer->From = "panwei@storien.com" ;
 		return $mailer ;
 	}
-	function GetAbsoluteURLFolder()
-	{
+	function GetAbsoluteURLFolder() {
 		$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
 		$scriptFolder .= $this->getHost() . dirname(dirname(dirname($this->getURI())));
 		return $scriptFolder;
@@ -75,10 +73,8 @@ class MailerAPI {
 		$mailer = $this->getMailer() ;
 		$mailDAO = new MailDAO("email/registration.xml") ;
 		$mailDAO->load() ;
-		Logger::log(__FILE__,__LINE__,$userObject->email) ;
 		$mailer->AddAddress($userObject->email);
 		$mailer->Subject = $mailDAO->getText("subject") ;
-		Logger::log(__FILE__,__LINE__,$mailer->From) ;
 		$username = $userObject->username ;
 		$confirmUrl = $this->GetAbsoluteURLFolder().'experience.php#pgWelcomeConfirmation?code='.$userObject->guid;
 		$body = $mailDAO->getText("body") ;
@@ -87,8 +83,6 @@ class MailerAPI {
 		$body = str_replace("@sender",$mailer->From,$body) ;
 		$mailer->Body = $body ;
 		
-		Logger::log(__FILE__,__LINE__,$mailer->Subject) ;
-		Logger::log(__FILE__,__LINE__,$mailer->Body) ;
 		if(!$mailer->Send()) {
 			Logger::log(__FILE__,__LINE__,"Registration Mailer Failed.") ;
 			return false;

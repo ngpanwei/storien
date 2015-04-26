@@ -22,18 +22,17 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+header('Content-type: text/html; charset=UTF-8');
 require_once("UserDAO.php");
 require_once("UserAPI.php");
 require_once("UserPhoto.php");
 require_once("PersonifyMailer.php");
 require_once(dirname(dirname(__FILE__))."/activity/ActivityAPI.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
-header('Content-type: text/html; charset=UTF-8');
 
 Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;
 Logger::setMode("file") ;
-
 Logger::log(__FILE__,__LINE__,"register") ;
 
 class RegistrationHandler {
@@ -41,7 +40,6 @@ class RegistrationHandler {
         $this->vo = new ResultVO() ;
 	}
 	function validateFormData() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if(isset($_POST["teamname"])==false)
 			return false ;
 		if(isset($_POST["username"])==false)
@@ -55,7 +53,6 @@ class RegistrationHandler {
 		return true ;		
 	}    
 	function getFormData() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		if($this->validateFormData()==false) {
 			return null ;
 		}
@@ -68,7 +65,6 @@ class RegistrationHandler {
 		return $request ;
 	}		
 	function processForm() {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$request = $this->getFormData() ;
 		if($request==null) {
 			$vo = new ResultVO() ;
@@ -77,12 +73,10 @@ class RegistrationHandler {
 			echo json_encode($vo);
 			return ;
 		}
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->process($request) ;
 	}
 	function process($request) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
-        
         try {
             $handler = new UserAPI() ;
             $userVO = $handler->register($request) ;
