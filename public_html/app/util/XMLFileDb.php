@@ -228,6 +228,8 @@ class XMLFileDb {
 	 * @return unknown
 	 */
 	public function getRoot($key) {
+		if($this->xmlRoot==null)
+			return null ;
 		$rootElement = new XMLNode($this->xmlRoot) ;
 		return $rootElement->get($key) ;
 	}

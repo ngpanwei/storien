@@ -22,6 +22,7 @@
  *  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+
 require_once("UserDAO.php");
 require_once("UserPhoto.php");
 require_once("PersonifyMailer.php");
@@ -131,7 +132,7 @@ class UserAPI {
      * @param obj $request
      * @return obj
      */
-    function getUserbyEmail($email) {	
+    function getUserbyEmail($email) {
 		$this->userDb->loadAll() ;
 		$user = $this->userDb->getUserByEmail($email) ;
 		return $user ;

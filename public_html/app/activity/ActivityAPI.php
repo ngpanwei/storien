@@ -40,7 +40,7 @@ class ActivityAPI {
 		$user = getUserByEmail($email) ;
 		return handleUserEvent($user,$event) ;
 	}
-	public function createActivityFromContent($activityDb,$contentDAO) {
+	protected function createActivityFromContent($activityDb,$contentDAO) {
 		$title = $contentDAO->getProperty("title") ;
 		$kind = $contentDAO->getProperty("kind") ;
 		$xml = $contentDAO->getContentXML() ;
@@ -96,6 +96,18 @@ class ActivityAPI {
 		$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
 		return $activityDAO ;
 	}
+	public function getActivityByTitle($userGuid,$title) {
+		$activityDb = new ActivityDb($userGuid) ;
+		$activityDb->loadAll() ;
+		$fileDbs = $activityDb->db->getAllFiles() ;
+		foreach($fileDbs as $fileDb) {
+			$fileTitle = $fileDb->getRoot("title") ;
+			if($title==$fileTitle) {
+				return new ActivityDAO($fileDb) ;
+			}
+		}
+		return null ;
+	}
 	public function getActivityByCreation($userGuid,$creation) {
  		$activityDb = new ActivityDb($userGuid) ;
  		$activityDAO = $activityDb->getActivityByCreation($creation) ;
@@ -117,3 +129,4 @@ class ActivityAPI {
  		return $activityDAO ;
 	}
 }
+

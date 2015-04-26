@@ -110,8 +110,9 @@ class ActivityDb {
 	public static function loadFilter($activityFileDb) {
 		$keyValue = $activityFileDb->getRoot("deleted") ;
 		if($keyValue!=null) {
-			if($keyValue=="true")
+			if($keyValue=="true") {
 				return false ;
+			}
 			return true ; // continue processing
 		}
 		return true ;
