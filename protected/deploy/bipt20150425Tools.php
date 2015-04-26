@@ -23,30 +23,36 @@ class CohortTool {
 		$userAPI = new UserAPI() ;
 		$userVOList = $userAPI->getAllUsers() ;
 		$index = 1 ;
-		$count = 0 ;
+		$studentCount = 0 ; $gitCount = 0 ;
 		foreach($userVOList as $userVO) {
 			$userEmail = $userVO->email ;
-			$studentCode = $this->getStudentCode($userVO->email,"提供学好") ;
+			$studentCode = $this->getActivityData($userVO->email,"提供学好") ;
+			$gitRepo = $this->getActivityData($userVO->email,"git repository链接") ;
 			if(strlen($studentCode)>1) {
-				$count = $count + 1; 
+				$studentCount = $studentCount + 1; 
+			}
+			if(strlen($gitRepo)>1) {
+				$gitCount = $gitCount + 1; 
 			}
 			echo $index . "--" .
 				 $userVO->guid . "--" . 
 				 $userVO->email . "--" .
 				 $userVO->username . "--" .
 				 $userVO->getFirstTeam() . "--" .
-				 $studentCode . 
+				 $studentCode . "--" .
+				 $gitRepo .
 				 PHP_EOL ;
 			$index = $index + 1 ;
 		}
-		Logger::log(__FILE__,__LINE__,$count) ;
+		Logger::log(__FILE__,__LINE__,$studentCount) ;
+		Logger::log(__FILE__,__LINE__,$gitCount) ;
 	}
-	public function getStudentCode($email) {
+	public function getActivityData($email,$key) {
 		$userAPI = new UserAPI() ;
 		$userDAO = $userAPI->getUserbyEmail($email) ;
 		$userGuid = $userDAO->getProperty("guid") ;
 		$activityAPI = new ActivityAPI() ;
-		$activityDAO = $activityAPI->getActivityByTitle($userGuid, "提供学好") ;
+		$activityDAO = $activityAPI->getActivityByTitle($userGuid, $key) ;
 		if($activityDAO==null) {
 			return "" ;
 		}
@@ -56,10 +62,15 @@ class CohortTool {
 		} catch (Exception $e) {
 			$studenCode = "" ;
 		}
-		if(strlen($studentCode)>6) {
-			$studentCode = substr($studentCode,-6) ;
+		if($key=="提供学好") {
+			if(strlen($studentCode)>6) {
+				$studentCode = substr($studentCode,-6) ;
+			}
+			$userDAO->xmlFileDb->setKeyText("BIPT-StudentCode",$studentCode) ;
 		}
-		$userDAO->xmlFileDb->setKeyText("BIPT-StudentCode",$studentCode) ;
+		if($key=="git repository链接") {
+					$userDAO->xmlFileDb->setKeyText("BIPT-StudentGit",$studentCode) ;
+		}
 		$userDAO->flush() ;
 		return $studentCode ;
 	}
