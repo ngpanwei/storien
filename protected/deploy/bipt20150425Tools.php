@@ -23,16 +23,23 @@ class CohortTool {
 		$userAPI = new UserAPI() ;
 		$userVOList = $userAPI->getAllUsers() ;
 		$index = 1 ;
+		$count = 0 ;
 		foreach($userVOList as $userVO) {
 			$userEmail = $userVO->email ;
 			$studentCode = $this->getStudentCode($userVO->email,"提供学好") ;
-			echo $index . "--" . $userVO->email . "--" .
+			if(strlen($studentCode)>1) {
+				$count = $count + 1; 
+			}
+			echo $index . "--" .
+				 $userVO->guid . "--" . 
+				 $userVO->email . "--" .
 				 $userVO->username . "--" .
 				 $userVO->getFirstTeam() . "--" .
 				 $studentCode . 
 				 PHP_EOL ;
 			$index = $index + 1 ;
 		}
+		Logger::log(__FILE__,__LINE__,$count) ;
 	}
 	public function getStudentCode($email) {
 		$userAPI = new UserAPI() ;
@@ -43,11 +50,17 @@ class CohortTool {
 		if($activityDAO==null) {
 			return "" ;
 		}
+		$studentCode = "" ;
 		try {
 			$studentCode = $activityDAO->getText("story") ;
 		} catch (Exception $e) {
 			$studenCode = "" ;
 		}
+		if(strlen($studentCode)>6) {
+			$studentCode = substr($studentCode,-6) ;
+		}
+		$userDAO->xmlFileDb->setKeyText("BIPT-StudentCode",$studentCode) ;
+		$userDAO->flush() ;
 		return $studentCode ;
 	}
 }
