@@ -5,6 +5,11 @@ require_once(dirname(dirname(__FILE__))."/util/Config.php");
 class UserPhoto {
 	public function __construct() {
 	}
+	public function erasePhoto($userDAO) {
+		$photoPath = $userDAO->getProperty("photoPath") ;
+		$destPath = Config::getPublicPath()  . "/". $photoPath ;
+		unlink($destPath) ;
+	}
 	public function getPhotoPath(&$userDAO,&$userVO) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$photoPath = $userDAO->getProperty("photoPath") ;		

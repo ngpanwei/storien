@@ -137,6 +137,15 @@ class UserAPI {
 		$user = $this->userDb->getUserByEmail($email) ;
 		return $user ;
 	}
+	public function eraseUser(&$userDAO) {
+		$userId = $userDAO->getProperty("guid") ;
+		Logger::log(__FILE__,__LINE__,"delete :".$userId) ;
+		$userPhoto = new UserPhoto() ;
+		$userPhoto->erasePhoto($userDAO) ;
+		$activityDb = new ActivityDb($userId) ;
+		$activityDb->erase() ;
+		$userDAO->erase() ;
+	}
 	function getAllUsers($options) {
 		$this->userDb->loadAll() ;
 		$userVOList = $this->userDb->getAllUsers($options) ;

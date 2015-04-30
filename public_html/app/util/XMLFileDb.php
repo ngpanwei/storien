@@ -208,7 +208,7 @@ class XMLFileDb {
 	 * Erase this file.
 	 */
 	public function erase() {
-		return ulink($this->filename) ;
+		return unlink($this->filename) ;
 	}
 	/**
 	 * Private function to write XML file as utf-8.

@@ -107,6 +107,10 @@ class ActivityDb {
 	public function loadAll() {
 		$this->db->loadAll("creation","ActivityDb::loadFilter") ;
 	}
+	public function erase() {
+		$this->db->deleteAll() ;
+		rmdir($this->dir) ;
+	}
 	public static function loadFilter($activityFileDb) {
 		$keyValue = $activityFileDb->getRoot("deleted") ;
 		if($keyValue!=null) {

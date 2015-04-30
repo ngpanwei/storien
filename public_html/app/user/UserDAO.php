@@ -67,6 +67,9 @@ class User {
 	public function flush() {
 		$this->xmlFileDb->flush() ;
 	}
+	public function erase() {
+		$this->xmlFileDb->erase() ;
+	}
 	public function getVO() {
 		$vo = new UserVO ;
 		$vo->guid = $this->getProperty("guid") ;
