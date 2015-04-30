@@ -1,23 +1,26 @@
 <?php
 require_once(dirname(dirname(dirname(__FILE__)))."/public_html/app/util/Logger.php");
-Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
-
+require_once(dirname(dirname(dirname(__FILE__)))."/public_html/app/util/CSV.php");
 require_once(dirname(dirname(dirname(__FILE__)))."/public_html/app/user/UserAPI.php");
 
+Logger::log(__FILE__,__LINE__,"cohort") ;
+Logger::setPrefix(dirname(dirname(dirname(__FILE__)))) ;
 
-$teams = array() ;
-$teams['BIPT-01组'] = "fanzhuang@bipt.edu.cn" ;
-$teams['BIPT-02组'] = "744298827@qq.com" ;
-$teams['BIPT-03组'] = "hmf2014@sina.com" ;
-$teams['BIPT-05组'] = "jzw0726@qq.com" ;
-$teams['BIPT-06组'] = "zhaojialun12345@163.com" ;
-$teams['BIPT-07组'] = "254582669@qq.com" ;
-$teams['BIPT-08组'] = "973476942@qq.com" ;
-$teams['BIPT-09组'] = "1454018358@qq.com" ;
-$teams['BIPT-10组'] = "892372685@qq.com" ;
-$teams['BIPT-11组'] = "chenyianne@126.com" ;
-$teams['BIPT-12组'] = "653424884@qq.com" ;
-
+class BIPT20150425DAO {
+	var $filename ;
+	var $xmlFileDb ;
+	public function __construct($filename) {
+		$this->filename = $filename ;
+		$this->xmlFileDb = new XMLFileDb($filename) ;
+		$this->xmlFileDb->load() ;
+	}
+	public function extractTable($id,$primaryKey) {
+		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
+		$string = $this->xmlFileDb->getKeyText($id) ;
+		return new CSVDataTable($string,$primaryKey) ;
+	}
+	
+}
 class CohortTool {
 	public function processUsers() {
 		$userAPI = new UserAPI() ;
@@ -69,7 +72,7 @@ class CohortTool {
 			$userDAO->xmlFileDb->setKeyText("BIPT-StudentCode",$studentCode) ;
 		}
 		if($key=="git repository链接") {
-					$userDAO->xmlFileDb->setKeyText("BIPT-StudentGit",$studentCode) ;
+			$userDAO->xmlFileDb->setKeyText("BIPT-StudentGit",$studentCode) ;
 		}
 		$userDAO->flush() ;
 		return $studentCode ;
@@ -77,11 +80,22 @@ class CohortTool {
 }
 
 try {
-	Logger::log(__FILE__,__LINE__,"BIPT-Tools") ;
-	$toolAPI = new CohortTool() ;
-	Logger::log(__FILE__,__LINE__,"BIPT-Tools") ;
-	$toolAPI->processUsers() ;
-	Logger::log(__FILE__,__LINE__,"BIPT-Tools") ;
+// 	$toolAPI = new CohortTool() ;
+	Logger::log(__FILE__,__LINE__,"BIPT") ;
+	$filename = dirname(__FILE__) . "/bipt20150425.xml" ;
+	$biptDAO = new BIPT20150425DAO($filename) ;
+	$dataTable = $biptDAO->extractTable("students", "Email") ;
+	$rows = $dataTable->rows ;
+	$filename = dirname(__FILE__) . "/bipt20150425.xml" ;
+	foreach($rows as $key=>$row) {
+		Logger::log(__FILE__,__LINE__,$key) ;
+		foreach($row as $index=>$col) {
+			echo "[" .$dataTable->keys[$index] . "==". trim($col) . "]"  ;
+		}
+		echo PHP_EOL ;
+	}
+	
+	// $toolAPI->processUsers() ;
 } catch (Exception $e) {
 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
 }

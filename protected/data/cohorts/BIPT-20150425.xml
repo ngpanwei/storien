@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <div guid="BIPT-20150425" name="BIPT-20150425">
+	<div id="settings">
+	   <div name="学号" />
+	   <div name="git账号" />
+	</div>
 	<div id="events">
 		<div id="events.register">
 		    <div path="2015-04-25/start/01-welcome.xml" />

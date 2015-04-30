@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="storien" default="packaging" basedir=".">
+	<target name="packaging" description="packaging all">
+		<jar destfile="all.zip" description="Pack everything">
+			<zipfileset dir="public_html" />
+		</jar>
+    </target>
+</project>
