@@ -27,6 +27,7 @@ require_once("UserAPI.php");
 require_once("UserPhoto.php");
 require_once(dirname(dirname(__FILE__))."/util/ValueObject.php");
 header('Content-type: text/html; charset=UTF-8');
+header("Access-Control-Allow-Origin: *");
 
 Logger::enable(true) ;
 Logger::setFilename(dirname(__FILE__)."/log.txt") ;

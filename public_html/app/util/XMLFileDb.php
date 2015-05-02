@@ -308,6 +308,16 @@ class XMLFileDb {
 		$rootElement = new XMLNode($this->xmlRoot) ;
 		return $rootElement->getElementById($elementId) ;
 	}
+	public function remove($elementId) {
+		$node = $this->get($elementId) ;
+		if($node==null)
+			return ;
+		$element = $node->xmlElement ;
+		$parent = $element->parentNode ;
+		if($parent==null)
+			return ;
+		$parent->removeChild($element) ;
+	}
 	/**
 	 * Create a list of elements
 	 * @param unknown $elementId
@@ -340,6 +350,20 @@ class XMLFileDb {
 		$namedNode = $node->getNamedChild($name) ;
 		return $namedNode ;
 	}
+	public function removeListItem($elementId,$name) {
+		$namedNode = $this->getListItem($elementId,$name) ;
+		if(namedNode==null)
+			return ;
+		$element = $namedNode->xmlElement ;
+		$parent = $element->parentNode ;
+		if($parent==null)
+			return ;
+		$parent->removeChild($element) ;
+	}
+	public function getListItemValue($elementId,$name) {
+		$node = $this->getListItem($elementId, $name) ;
+		return $node->get("value") ;
+	}
 	public function addListItem($elementId,$name) {
 		$node = $this->createElement($elementId) ;
 		$namedNode = $node->getNamedChild($name) ;
@@ -349,6 +373,10 @@ class XMLFileDb {
 			return new XMLNode($childElement) ;
 		}
 		return $namedNode ;
+	}
+	public function addListItemValue($elementId,$name,$value) {
+		$node = $this->addListItem($elementId,$name) ;
+		$node->set("value", $value) ;
 	}
 	public function getList($elementId) {
 		$element = $this->get($elementId) ;
@@ -448,4 +476,46 @@ class XMLDirDb {
 	}
 }
 
+class BaseFileDAO {
+	var $xmlFileDb ;
+	public function __construct($xmlFileDb) {
+		$this->xmlFileDb = $xmlFileDb ;
+	}
+	public function setRecord($key,$keyValues) {
+		$this->xmlFileDb->set($key,$keyValues) ;
+	}
+	public function get($key) {
+		return $this->xmlFileDb->get($key) ;
+	}
+	public function remove($key) {
+		return $this->xmlFileDb->remove($key) ;
+	}
+	public function setList($key,$values) {
+		$this->xmlFileDb->setList($key,$values) ;
+	}
+	public function setProperty($key,$value) {
+		$this->xmlFileDb->setRoot($key,$value) ;
+	}
+	public function getProperty($key) {
+		return $this->xmlFileDb->getRoot($key) ;
+	}
+	public function addListItem($elementId,$name) {
+		return $this->xmlFileDb->addListItem($elementId,$name) ;
+	}
+	public function addListItemValue($elementId,$name,$value) {
+		return $this->xmlFileDb->addListItemValue($elementId,$name,$value) ;
+	}
+	public function getListItem($elementId,$name) {
+		return $this->xmlFileDb->getListItem($elementId,$name) ;
+	}
+	public function removeListItem($elementId,$name) {
+		$this->xmlFileDb->removeListItem($elementId,$name) ;
+	}
+	public function flush() {
+		$this->xmlFileDb->flush() ;
+	}
+	public function erase() {
+		$this->xmlFileDb->erase() ;
+	}		
+}
 ?>

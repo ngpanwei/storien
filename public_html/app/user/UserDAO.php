@@ -44,32 +44,8 @@ class UserVO {
 	}
 }
 
-class User {
-	var $xmlFileDb ;
-	public function __construct($xmlFileDb) {
-		$this->xmlFileDb = $xmlFileDb ;
-	}
-	public function setRecord($key,$keyValues) {
-	    $this->xmlFileDb->set($key,$keyValues) ;
-	}
-	public function get($key) {
-		return $this->xmlFileDb->get($key) ;
-	}
-	public function setList($key,$values) {
-		$this->xmlFileDb->setList($key,$values) ;
-	}
-	public function setProperty($key,$value) {
-	    $this->xmlFileDb->setRoot($key,$value) ;
-	}
-	public function getProperty($key) {
-		return $this->xmlFileDb->getRoot($key) ;
-	}
-	public function flush() {
-		$this->xmlFileDb->flush() ;
-	}
-	public function erase() {
-		$this->xmlFileDb->erase() ;
-	}
+class User extends BaseFileDAO {
+
 	public function getVO() {
 		$vo = new UserVO ;
 		$vo->guid = $this->getProperty("guid") ;
@@ -90,6 +66,7 @@ class User {
 		return $this->xmlFileDb->getList("cohorts") ;
 	}
 }
+
 class UserDb {
 	var $dir ;
 	var $db ;
