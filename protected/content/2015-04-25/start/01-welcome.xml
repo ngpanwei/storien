@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div title="欢迎加入敏捷课程" kind="Info">
+   <div id="content">
+    <p>你好，欢迎加入到敏捷课程。也欢迎你用这个网站。
+    本网站是新建的，大部分功能还没完善，测试也不太充分。
+    我们还在持续的改进当中。若有问题的话，请反馈给panwei@storien.com。</p>
+    <p>我们这个课程的设计专注在体验，不是老师说，学生听的课程。
+    我们注重实战的经验，所以这个课程主要都是联系。你们将会有很多机会编程（主要是Javascript），
+    从当中学习如何在一个开发团队敏捷运作</p>
+    <p>你们会接触到许多工具。在课程开始之前，你们必须在你们的机器（笔记本）安装一些软件：</p>
+    <ul>
+       <li>Eclipse编程和开发环境。请访问<a href="https://eclipse.org/downloads/packages/eclipse-php-developers/lunasr2">Eclipse官网</a>下载。 </li>
+       <li>Firefox火狐游览器。为了统一我们的运行环境，请大家安装火狐。</li>
+       <li>Git代码管理工具。你必须下载git命令行客户端。<a href="http://git-scm.com/downloads">http://git-scm.com/downloads</a></li>
+       <li>Github开源代码库。请到：<a href="https://github.com/">https://github.com/</a>注册一个个人账号。你的个人练习之后必须提交到github。</li>
+       <li>storien: 在<a href="www.storien.com">storien.com</a>注册一个账号</li>
+    </ul>
+   </div>
+</div>

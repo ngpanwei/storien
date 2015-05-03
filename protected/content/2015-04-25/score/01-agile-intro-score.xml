@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div title="2015-04-25-课程参与分数" kind="Info">
+	<div id="content">
+		<p>敏捷强调团队的协作和互动。第一天课程的游戏鼓励成员的互动，协作和参与。团队的积极和参与给分</p>
+	
+<table data-role='table' id='agile-intro' data-column-btn-text='选择显示列' data-mode='columntoggle' class='ui-responsive table-stroke'>
+<thead><tr><th data-priority='0'>组</th><th data-priority='1'>猜拳游戏</th><th data-priority='2'>协作游戏</th><th data-priority='3'>协作回顾</th><th data-priority='4'>总分</th>
+</tr></thead>
+<tbody><tr><td>BIPT-01组</td><td>12</td><td>26</td><td>6</td><td>44</td></tr>
+<tr><td>BIPT-02组</td><td>10</td><td>22</td><td>6</td><td>38</td></tr>
+<tr><td>BIPT-03组</td><td>11</td><td>22</td><td>6</td><td>39</td></tr>
+<tr><td>BIPT-05组</td><td>9</td><td>20</td><td>6</td><td>35</td></tr>
+<tr><td>BIPT-06组</td><td>8</td><td>26</td><td>6</td><td>40</td></tr>
+<tr><td>BIPT-07组</td><td>10</td><td>22</td><td>6</td><td>38</td></tr>
+<tr><td>BIPT-08组</td><td>8</td><td>22</td><td>3</td><td>33</td></tr>
+<tr><td>BIPT-09组</td><td>8</td><td>22</td><td>3</td><td>33</td></tr>
+<tr><td>BIPT-10组</td><td>9</td><td>22</td><td>3</td><td>34</td></tr>
+<tr><td>BIPT-11组</td><td>7</td><td>22</td><td>6</td><td>35</td></tr>
+<tr><td>BIPT-12组</td><td>11</td><td>22</td><td>6</td><td>39</td></tr>
+</tbody></table>
+	</div>
+</div>

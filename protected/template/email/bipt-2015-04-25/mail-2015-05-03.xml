@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div id="mail-2015-05-03">
+	<div id="subject">请查看你们团队的分数和排行</div>
+	<div id="body">
+<![CDATA[
+@username学生@groupName的成员,你好， 
+
+各团队踊跃积极的尝试敏捷的运作。第一周的团队得分已经记录。
+请登入 http://www.storien.com 查看。
+
+登入时请用：
+邮箱：@email
+密码：@password
+
+各位请在第二周继续坚持！
+
+另外，在我的记录，你的
+学号：@studentCode
+git账号：@gitAccount
+git三角形练习链接：@gitLessonUrl
+如果不正确的话，请通知你的组长，然后组长通知我。
+
+谢谢
+ -- 黄博士
+ 
+]]>
+	</div>
+</div>

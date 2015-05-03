@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div title="敏捷迭代运作－第一周" kind="Info">
+   <div id="content">
+		<p>敏捷强调纪律，各成员认真的做事，并跟踪工作相的状态。以下是第一迭代Sprint的纪律分数。</p>
+		<table data-role='table' id='spint1' data-column-btn-text='选择显示列'
+			data-mode='columntoggle' class='ui-responsive table-stroke'>
+			<thead>
+				<tr>
+					<th data-priority='0'>组</th>
+					<th data-priority='1'>27/4/15</th>
+					<th data-priority='2'>28/4/15</th>
+					<th data-priority='3'>29/4/15</th>
+					<th data-priority='4'>30/4/15</th>
+					<th data-priority='5'>总分</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>BIPT-01组</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					<td>1</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-02组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-03组</td>
+					<td>0</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>BIPT-05组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-06组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>4</td>
+				</tr>
+				<tr>
+					<td>BIPT-07组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-08组</td>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+					<td>1</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>BIPT-09组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>1</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-10组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td>BIPT-11组</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>0</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>BIPT-12组</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+					<td>1</td>
+					<td>2</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>备注：这个Sprint的参与纪律是由比重的。比重待定。</p>
+
+   </div>
+</div>
