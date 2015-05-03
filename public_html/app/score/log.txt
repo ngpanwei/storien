@@ -1,0 +1,5 @@
+[2015-05-01-01-48-40][::1][/Users/ngpanwei/git/storien/public_html/app/score/TrackScore.php::12-->score]
+[2015-05-01-01-48-40][::1][/Users/ngpanwei/git/storien/public_html/app/score/TrackScore.php::46-->score]
+[2015-05-01-01-48-40][::1][/Users/ngpanwei/git/storien/public_html/app/score/TrackScore.php::38-->process]
+[2015-05-01-01-53-51][::1][/Users/ngpanwei/git/storien/public_html/app/score/TrackScore.php::12-->score]
+[2015-05-01-01-53-51][::1][/Users/ngpanwei/git/storien/public_html/app/score/TrackScore.php::47-->score]
