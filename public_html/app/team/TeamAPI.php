@@ -27,8 +27,10 @@ require_once (dirname(dirname(__FILE__))."/user/UserAPI.php");
 require_once (dirname(dirname(__FILE__))."/cohort/CohortAPI.php");
 
 class TeamAPI {
+	public function getTeam($teamName) {
+		
+	}
 	public function createTeam($teamName,$cohortName) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$cohortAPI = new CohortAPI() ;
 		$cohortDAO = $cohortAPI->getCohortByName($cohortName) ;
 		if($cohortDAO==null) {
@@ -55,7 +57,7 @@ class TeamAPI {
 		$teamDb = new TeamDb() ;
 		$teamDb->loadAll() ;
 		$teamDAO = $teamDb->getTeamByName($teamname) ;
-		if($userDAO==null) {
+		if($teamDAO==null) {
 			throw new Exception("团队 ".$teamname." 不存在。") ;
 		}
 		$userGuid = $userDAO->getProperty("guid") ;
@@ -87,14 +89,14 @@ class TeamAPI {
 	}
 }
 
-try {
-	Logger::log(__FILE__,__LINE__,"teamAPI") ;
-	$teamAPI = new TeamAPI() ;
-	$teamDAO = $teamAPI->createTeam("BIPT-01组","BIPT-20150425") ;
-	$teamAPI->addUserEmailToTeam("fanzhuang@bipt.edu.cn","BIPT-01组") ;
-	$teamAPI->setEmailRole("BIPT-01组","fanzhuang@bipt.edu.cn","leader") ;
-	Logger::log(__FILE__,__LINE__,"teamAPI") ;
-} catch (Exception $e) {
-	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
-}
+// try {
+// 	Logger::log(__FILE__,__LINE__,"teamAPI") ;
+// 	$teamAPI = new TeamAPI() ;
+// 	$teamDAO = $teamAPI->createTeam("BIPT-01组","BIPT-20150425") ;
+// 	$teamAPI->addUserEmailToTeam("fanzhuang@bipt.edu.cn","BIPT-01组") ;
+// 	$teamAPI->setEmailRole("BIPT-01组","fanzhuang@bipt.edu.cn","leader") ;
+// 	Logger::log(__FILE__,__LINE__,"teamAPI") ;
+// } catch (Exception $e) {
+// 	Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+// }
 

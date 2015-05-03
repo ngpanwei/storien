@@ -364,6 +364,18 @@ class XMLFileDb {
 		$node = $this->getListItem($elementId, $name) ;
 		return $node->get("value") ;
 	}
+	public function addListChildItem($elementId,$childId) {
+		$node = $this->createElement($elementId) ;
+		$childNode = $node->getElementById($childId) ;
+		if($childNode==null) {
+			$domElement = $node->xmlElement ;
+			$childElement = $this->xmlDoc->createElement("div","") ;
+			$childElement->setAttribute("id", $childId) ;
+			$domElement->appendChild($childElement);
+			$childNode = new XMLNode($childElement) ;
+		}
+		return $childNode ;
+	}
 	public function addListItem($elementId,$name) {
 		$node = $this->createElement($elementId) ;
 		$namedNode = $node->getNamedChild($name) ;
@@ -377,6 +389,10 @@ class XMLFileDb {
 	public function addListItemValue($elementId,$name,$value) {
 		$node = $this->addListItem($elementId,$name) ;
 		$node->set("value", $value) ;
+	}
+	public function addListItemKeyValue($elementId,$name,$key,$value) {
+		$node = $this->addListItem($elementId,$name) ;
+		$node->set($key, $value) ;
 	}
 	public function getList($elementId) {
 		$element = $this->get($elementId) ;
@@ -407,7 +423,8 @@ class XMLDirDb {
 		$files = scandir($this->dir);
 		foreach($files as $filename) {
 			if(strpos($filename,'.xml')!==false) {
-				unlink($this->dir."/".$filename) ;
+				$path = $this->dir."/".$filename ;
+				unlink($path) ;
 			}
 		}
 	}
@@ -502,11 +519,20 @@ class BaseFileDAO {
 	public function addListItem($elementId,$name) {
 		return $this->xmlFileDb->addListItem($elementId,$name) ;
 	}
+	public function addListChildItem($elementId,$childId) {
+		return $this->xmlFileDb->addListChildItem($elementId,$childId) ;
+	}
 	public function addListItemValue($elementId,$name,$value) {
 		return $this->xmlFileDb->addListItemValue($elementId,$name,$value) ;
 	}
+	public function addListItemKeyValue($elementId,$name,$key,$value) {
+		return $this->xmlFileDb->addListItemKeyValue($elementId,$name,$key,$value) ;
+	}
 	public function getListItem($elementId,$name) {
 		return $this->xmlFileDb->getListItem($elementId,$name) ;
+	}
+	public function getListItemValue($elementId,$name) {
+		return $this->xmlFileDb->getListItemValue($elementId,$name) ;
 	}
 	public function removeListItem($elementId,$name) {
 		$this->xmlFileDb->removeListItem($elementId,$name) ;

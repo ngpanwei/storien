@@ -52,12 +52,13 @@ class ActivityAPI {
 		$activityDAO->setContentXML($xml) ;
 		return $activityDAO ;
 	}
+	public function eraseActivity($userDAO) {
+ 		$userId = $userDAO->getProperty("guid") ;
+ 		$activityDb = new ActivityDb($userId) ;
+ 		$activityDb->erase() ;
+	}
 	public function handleUserEvent($userDAO,$event) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityList = array() ;
-		if($event!="register") {
-            return $activityList ;
-		}
  		$userId = $userDAO->getProperty("guid") ;
  		$activityDb = new ActivityDb($userId) ;
  		$activityDb->init() ;
@@ -66,7 +67,7 @@ class ActivityAPI {
  		foreach($contentList as $contentDAO) {
  			$activityDAO = $this->createActivityFromContent($activityDb,$contentDAO) ;
  			$activityDAO->flush() ;
-  			$activityVO = $activityDAO->getVO() ;
+ 			$activityVO = $activityDAO->getVO() ;
   			array_push($activityList,$activityVO) ;
  		}
  		return $activityList;
@@ -81,10 +82,8 @@ class ActivityAPI {
 				continue ;
 			foreach($contentElements as $contentElement) {
 				$path = $contentElement->get("path") ;
-				Logger::log(__FILE__,__LINE__,$path) ;
 				$contentDAO = $contentAPI->getContentFromPath($path) ;
 				array_push($contentList,$contentDAO) ;
-				Logger::log(__FILE__,__LINE__,$path) ;
 			}
 		}
 		return $contentList ;

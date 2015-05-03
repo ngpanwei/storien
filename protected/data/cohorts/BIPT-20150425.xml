@@ -7,8 +7,10 @@
 	<div id="events">
 		<div id="events.register">
 		    <div path="2015-04-25/start/01-welcome.xml" />
-		    <div path="2015-04-25/start/02-student-code.xml" />
-		    <div path="2015-04-25/start/03-git-repo.xml" />
+		</div>
+		<div id="events.score1">
+		    <div path="2015-04-25/score/01-agile-intro-score.xml" />
+		    <div path="2015-04-25/score/02-sprint1-score.xml" />
 		</div>
 	</div>
 </div>

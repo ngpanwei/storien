@@ -35,9 +35,8 @@ function is_iterable($var) {
 	);
 }
 
-class ContentDAO {
+class ContentDAO extends BaseFileDAO {
 	var $contentName ;
-	var $xmlFileDb ;
 	public function __construct($contentName) {
 		$this->contentName = $contentName ;
 	}
@@ -48,9 +47,6 @@ class ContentDAO {
 	}
 	public function getContentRoot() {
 		return dirname(dirname(dirname(dirname(__FILE__))))."/protected/content" ;
-	}
-	public function getProperty($key) {
-		return $this->xmlFileDb->getRoot($key) ;
 	}
 	public function getContentXML() {
 		$node = $this->xmlFileDb->get("content") ;

@@ -63,7 +63,6 @@ class ActivityDAO {
 		return $this->xmlFileDb->getRoot($key) ;
 	}
 	public function setContentXML($xml) {
-		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->xmlFileDb->setXML("content",$xml) ;
 	}
 	public function flush() {
@@ -102,7 +101,6 @@ class ActivityDb {
 	}
 	public function init() {
 		mkdir($this->dir) ;
-		$this->db->deleteAll() ;
 	}
 	public function loadAll() {
 		$this->db->loadAll("creation","ActivityDb::loadFilter") ;

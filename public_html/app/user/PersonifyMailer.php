@@ -58,7 +58,7 @@ class MailerAPI {
 		}
 	}	
 	public function sendTestMail() {
-		$mailer = getMailer() ;
+		$mailer = $this->getMailer() ;
 		$mailer->Subject = "测试邮件" ;
 		$mailer->Body ="这是个测试邮件." ;
 		if(!$mailer->Send()) {

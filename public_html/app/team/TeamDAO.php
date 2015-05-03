@@ -34,14 +34,7 @@ class TeamVO {
 	var $teamname ;
 }
 
-class TeamDAO {
-	var $xmlFileDb ;
-	public function __construct($xmlFileDb) {
-		$this->xmlFileDb = $xmlFileDb ;
-	}
-	public function get($key) {
-		return $this->xmlFileDb->get($key) ;
-	}
+class TeamDAO extends BaseFileDAO {
 	public function getContentElements($eventPath) {
 		$eventElement = $this->get($eventPath) ;
 		if($eventElement==null) {
@@ -49,15 +42,6 @@ class TeamDAO {
 		}
 		$contentElements = $eventElement->getChildElements() ;
 		return $contentElements;
-	}
-	public function setProperty($key,$value) {
-	    $this->xmlFileDb->setRoot($key,$value) ;
-	}
-	public function getProperty($key) {
-		return $this->xmlFileDb->getRoot($key) ;
-	}
-	public function flush() {
-		$this->xmlFileDb->flush() ;
 	}
 	public function addMember($userGuid,$username) {
 		$node = $this->xmlFileDb->addListItem("members",$userGuid) ; 
