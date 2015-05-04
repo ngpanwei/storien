@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<div title="quiz-01-01" kind="Story">
+   <div id="content">
+    <p>有个程序员执行git clone来获取github的一个代码库。
+    这代码库只有三个文件a.js,b.js,c.js。
+    他删除了b.js,然后在本体加了一个文件d.js，并通过git add通知git。
+    之后他直接git push origin master提交代码变更到github。请问，github库将会有哪些文件
+    </p>
+    <p>(1) a.js, b.js, c.js, d.js</p>
+    <p>(2) a.js, b.js, c.js</p>
+    <p>(3) a.js, c.js, d.js</p>
+    <p>(4) a.js, c.js</p>
+   </div>
+</div>

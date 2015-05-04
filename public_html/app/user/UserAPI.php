@@ -73,7 +73,9 @@ class UserAPI {
 			$error = $registerRequest->cohortName . " 期届不存在" ;
 			throw new AppException($error);
 		}
-        //注册新用户和生成默认图像
+		$theCohortName = $cohortDAO->getProperty("name") ;
+		Logger::log(__FILE__,__LINE__,$theCohortName) ;
+		//注册新用户和生成默认图像
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$userDAO = $this->createNewUser($registerRequest) ;
         //活动
@@ -98,7 +100,7 @@ class UserAPI {
 		$userDAO = $this->userDb->createUser($request->email) ;
 		$userDAO->setProperty("username", $request->username) ;
 		$userDAO->setProperty("password", $request->password) ;
-		$userDAO->addListItem("cohorts","BIPT-20150425") ;
+		$userDAO->addListItem("cohorts",$request->cohortName) ;
 		$userVO = $userDAO->getVO() ;
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$this->userPhoto->generateDefaultPhoto($userDAO,$userVO) ;

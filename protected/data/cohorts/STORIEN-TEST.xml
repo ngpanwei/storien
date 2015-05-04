@@ -1,18 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<div guid="BIPT-20150425" name="BIPT-20150425">
+<?xml version="1.0" encoding="utf-8"?>
+<div guid="STORIEN-TEST" name="STORIEN-TEST">
 	<div id="settings">
 	   <div name="学号" />
 	   <div name="git账号" />
 	</div>
 	<div id="events">
 		<div id="events.register">
-		    <div path="2015-04-25/start/01-welcome.xml" />
-		</div>
-		<div id="events.score1">
-		    <div path="2015-04-25/score/01-agile-intro-score.xml" />
-		    <div path="2015-04-25/score/02-sprint1-score.xml" />
-		</div>
-		<div id="events.quiz1">
 		    <div path="2015-04-25/quiz/quiz1/01-question.xml" />
 		    <div path="2015-04-25/quiz/quiz1/02-question.xml" />
 		    <div path="2015-04-25/quiz/quiz1/03-question.xml" />

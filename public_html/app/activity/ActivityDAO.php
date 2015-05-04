@@ -100,7 +100,11 @@ class ActivityDb {
 		$this->db = new XMLDirDb($this->dir) ;
 	}
 	public function init() {
-		mkdir($this->dir) ;
+		try {
+			mkdir($this->dir) ;
+		} catch(Exception $e) {
+			Logger::log(__FILE__,__LINE__,$e->getMessage()) ;
+		}
 	}
 	public function loadAll() {
 		$this->db->loadAll("creation","ActivityDb::loadFilter") ;

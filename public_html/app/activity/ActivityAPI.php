@@ -82,6 +82,7 @@ class ActivityAPI {
 				continue ;
 			foreach($contentElements as $contentElement) {
 				$path = $contentElement->get("path") ;
+				Logger::log(__FILE__,__LINE__,$path) ;
 				$contentDAO = $contentAPI->getContentFromPath($path) ;
 				array_push($contentList,$contentDAO) ;
 			}

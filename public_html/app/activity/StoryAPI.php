@@ -37,6 +37,14 @@ class StoryAPI {
 		$activityDAO->flush() ;
 		return $activityDAO ;
 	}
+	public function getDateStr() {
+		$format = 'Y-m-d-H-i-s-u' ;
+		$t = microtime(true);
+		$micro = sprintf("%06d",($t - floor($t)) * 1000000);
+		$d = new DateTime( date('Y-m-d H:i:s.'.$micro, $t) );
+		$dateStr = $d->format($format) ;
+		return $dateStr ;
+	}
 	public function updateStory($userGuid,$activityGuid,$storyText) {
 		Logger::log(__FILE__,__LINE__,__FUNCTION__) ;
 		$activityAPI = new ActivityAPI() ;
@@ -44,6 +52,8 @@ class StoryAPI {
 		$activityDAO->setText("story", $storyText) ;
 		Logger::log(__FILE__,__LINE__,$activityDAO->getText("story")) ;
 		$activityDAO->setProperty("status","done") ;
+		$dateStr = $this->getDateStr() ;
+		$activityDAO->setProperty("updateTime",$dateStr) ;
 		$activityDAO->flush() ;
 		return $activityDAO ;
 	}
